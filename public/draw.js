@@ -8,6 +8,9 @@ function clearCanvas() {
     context.fillRect(0, 0, canvas.width, canvas.height); // Canvas全体を塗りつぶす
 }
 
+window.onload = ()=>{
+    clearCanvas();
+};
 
 // マウスボタンが押されたとき
 canvas.addEventListener('mousedown', startDrawing);
@@ -35,3 +38,19 @@ function draw(event) {
     context.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
     context.stroke();
 }
+
+// 色ラジオボタンが変更されたときの処理
+const colorRadios = document.querySelectorAll('input[type="radio"][name="color"]');
+colorRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+        const selectedColor = document.querySelector('input[name="color"]:checked').value;
+        context.strokeStyle = selectedColor; // 選択した色を描画の色に設定
+    });
+});
+
+// 太さが変更されたときの処理
+const penWeight = document.getElementById("penWeight");
+penWeight.addEventListener('input',()=>{
+    context.lineWidth = Number.parseInt(penWeight.value);
+});
+
