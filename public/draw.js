@@ -8,10 +8,6 @@ function clearCanvas() {
     context.fillRect(0, 0, canvas.width, canvas.height); // Canvas全体を塗りつぶす
 }
 
-window.onload = ()=>{
-    clearCanvas();
-};
-
 // マウスボタンが押されたとき
 canvas.addEventListener('mousedown', startDrawing);
 
@@ -50,7 +46,27 @@ colorRadios.forEach(radio => {
 
 // 太さが変更されたときの処理
 const penWeight = document.getElementById("penWeight");
-penWeight.addEventListener('input',()=>{
+penWeight.addEventListener('input', changeWeight);
+function changeWeight() {
     context.lineWidth = Number.parseInt(penWeight.value);
-});
+};
 
+//クリア
+document.getElementById("clearCanvas").onclick = clearCanvas;
+
+//出力
+document.getElementById("outputCanvas").onclick = ()=>{
+    const data = canvas.toDataURL("image/png", 1);
+    //console.log(date);
+
+    //仮でダウンロード
+    const a = document.createElement("a");
+    a.href = data
+    a.download = "image.png";
+    a.click();
+};
+
+window.onload = ()=>{
+    clearCanvas();
+    changeWeight();
+};

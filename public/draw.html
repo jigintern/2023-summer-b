@@ -10,23 +10,29 @@
         }
     </style>
 
-    <script type="module" src="./draw.js" defer></script>
+    <script type="module" src="./draw.js" ></script>
   </head>
   <body>
     <canvas id="canvas" width="800" height="600"></canvas>
     <div>
         color<br>
-        <input type="radio" id="colorRed" name="color" value="red">
+        <input type="radio" id="colorRed" name="color" value="red" />
         <label for="colorRed">Red</label><br>
-        <input type="radio" id="colorBlue" name="color" value="blue">
+        <input type="radio" id="colorBlue" name="color" value="blue" />
         <label for="colorBlue">Blue</label><br>
-        <input type="radio" id="colorGreen" name="color" value="green">
+        <input type="radio" id="colorGreen" name="color" value="green" />
         <label for="colorGreen">Green</label><br>
-        <input type="radio" id="colorBlack" name="color" value="black" checked>
+        <input type="radio" id="colorBlack" name="color" value="black" checked />
         <label for="colorBlack">Black</label><br>
+        <input type="radio" id="colorWhite" name="color" value="white" />
+        <label for="colorBlack">White</label><br>
 
         penWeight<br>
         <input type="range" id="penWeight" min="1" max="10" value="2" />
+        <br>
+        <input type="button" id="clearCanvas" value="clear canvas"/>
+        <br>
+        <input type="button" id="outputCanvas" value="output" />
     </div>
   </body>
 </html>
