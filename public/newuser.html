@@ -4,71 +4,68 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DID Login Sample</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <title>新規登録</title>
+    <link rel="stylesheet" href="./css/newuser.css" />
 </head>
 
 <body>
-    <div style="background-color: skyblue; display: flex; padding: 16px">
-        <a style="color: white" href="login.html"> ログイン </a>
-    </div>
-    <section class="section">
-        <div class="container">
-            <h1 class="title has-text-centered">DID Login Sample</h1>
-            <h3 class="subtitle has-text-centered">新規登録</h3>
-            <form id="form">
-                <div class="container mb-4">
-                    <p id="error" class="has-text-danger"></p>
-                </div>
+    <header>
+        <a href="index.html" class="header-link">
+            <img src="./img/logo01.png" alt="Logo">
+            <p>スケッチャラボ</p>
+        </a>
+    </header>
 
-                <div class="field">
-                    <label class="label">名前</label>
-                    <div class="control">
-                        <input class="input" type="text" id="name" placeholder="名前を入力してください" />
+    <section class="registration-section">
+        <!-- ここに新しい親コンテナを追加します -->
+        <div class="registration-wrapper">
+            <div class="registration-container">
+                <h1 class="registration-title">新規登録</h1>
+                <form id="form">
+                    <div class="container mb-4">
+                        <p id="error" class="has-text-danger"></p>
                     </div>
-                </div>
 
-                <div class="field">
-                    <label class="label">DID</label>
-                    <div class="control">
-                        <input class="input" type="text" id="did" placeholder="DID" disabled />
+                    <div class="field">
+                        <label class="label">名前</label>
+                        <div class="control">
+                            <input class="input" type="text" id="name" placeholder="名前を入力してください" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="field">
-                    <label class="label">パスワード</label>
-                    <div class="control">
-                        <input class="input" type="text" id="password" placeholder="パスワード" disabled />
+                    <div class="field">
+                        <label class="label">DID</label>
+                        <div class="control">
+                            <input class="input" type="text" id="did" placeholder="DID" disabled />
+                        </div>
                     </div>
-                </div>
 
-                <div class="field">
-                    <label class="label">電子署名</label>
-                    <div class="control">
-                        <textarea class="textarea" id="sign" placeholder="Signature" disabled></textarea>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button class="button is-link" id="submit">登録</button>
+                        </div>
+                        <div class="control">
+                            <button class="button is-primary" id="saveBtn">
+                                DIDとパスワードを保存
+                            </button>
+                        </div>
                     </div>
+                </form>
+            </div>
+            <div class="field">
+                <div class="btn-center">
+                    <a href="login.html">
+                        <button class="log-sc-btn">ログイン画面へ</button>
+                    </a>
                 </div>
-
-                <div class="field">
-                    <label class="label">message</label>
-                    <div class="control">
-                        <input class="input" type="text" id="message" placeholder="message" disabled />
-                    </div>
-                </div>
-
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button class="button is-link" id="submit">登録</button>
-                    </div>
-                    <div class="control">
-                        <button class="button is-primary" id="saveBtn">
-                            DIDとパスワードを保存
-                        </button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </section>
+
+    <footer>
+        <img src="./img/logo02-tr.png" alt="Logo2">
+        <p>バグバスターズ</p>
+    </footer>
 
     <script type="module">
         import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
@@ -87,9 +84,9 @@
 
             // Formに反映
             document.getElementById("did").value = did;
-            document.getElementById("password").value = password;
-            document.getElementById("sign").value = sign;
-            document.getElementById("message").value = message;
+            // document.getElementById("password").value = password;
+            // document.getElementById("sign").value = sign;
+            // document.getElementById("message").value = message;
 
             try {
                 const resp = await fetch("/newuser", {
@@ -119,9 +116,12 @@
             }
         };
 
-        document.getElementById("saveBtn").onclick = async () => {
-            const did = document.getElementById("did").value;
-            const password = document.getElementById("password").value;
+        document.getElementById("saveBtn").onclick = async (event) => {
+            event.preventDefault();
+            // const did = document.getElementById("did").value;
+            const did = localStorage.getItem("did");
+            // const password = document.getElementById("password").value;
+            const password = localStorage.getItem("password");
             DIDAuth.savePem(did, password);
         };
 
