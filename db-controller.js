@@ -57,6 +57,11 @@ export async function getPost(id) {
 }
 
 export async function delPost(id) {
-  //　DBから投稿を削除
+  // DBから投稿を削除
   await client.execute(`delete from posts where id = ?;`, [id]);
+}
+
+export async function fixPost(id, title, text_contents) {
+  // DBの投稿を更新
+  await client.execute(`update posts set title = ?, text_contents = ? where id = ?;`, [title, text_contents, id]);
 }

@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </form>
-            <form id="resubmitpost">
+            <form id="fixpost">
                 <div class="field">
                     <label class="label">title</label>
                     <input class="input" type="text" id="re-title" />
@@ -170,11 +170,50 @@
                 // サーバーに送信
                 const res = await fetch("/getpost?id=" + post_id);
                 const json = await res.json();
-                console.log(json,json.title)
+                console.log(json,json.title);
 
                 //結果を編集欄に反映
                 document.getElementById("re-title").value = json.title;
                 document.getElementById("re-text-contents").value = json.text_contents;
+            });
+
+            //再投稿
+            //title, text-contentsを更新
+            //ひとまず時間の変更は無し
+            document.getElementById("fixpost").addEventListener("submit", async (event)=>{
+                event.preventDefault();
+                const id = document.getElementById("re-post-id").value
+                const title = document.getElementById("re-title").value;
+                const text_contents = document.getElementById("re-text-contents").value;
+                
+                // サーバーに送信
+                const path = "/fixpost";
+                const method = "POST";
+
+                try {
+                    const resp = await fetch(path, {
+                        method,
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id,
+                            title,
+                            text_contents,
+                        }),
+                    });
+
+                    // サーバーから成功ステータスが返ってこないときの処理
+                    if (!resp.ok) {
+                        const errMsg = await resp.text();
+                        document.getElementById("error").innerText = "エラー：" + errMsg;
+                        return;
+                    }
+
+                    // レスポンスが正常のときの処理
+                    console.log("編集できました")
+
+                } catch (err) {
+                    document.getElementById("error").innerText = err.message;
+                }
             });
     </script>
 </body>
