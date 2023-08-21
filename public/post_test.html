@@ -15,12 +15,12 @@
     <section class="section">
         <div class="container">
             <h1 class="title has-text-centered">Post test Sample</h1>
+            <div class="container mb-4">
+                <p id="error" class="has-text-danger"></p>
+            </div>
+
             <h3 class="subtitle has-text-centered">新規投稿</h3>
             <form id="submitpsot">
-                <div class="container mb-4">
-                    <p id="error" class="has-text-danger"></p>
-                </div>
-
                 <div class="field">
                     <label class="label">user id</label>
                     <input class="input" type="number" id="post-user-id" value="5" />
@@ -30,7 +30,6 @@
                     <input class="input" type="text" id="imgpath" value="null"/>
                     <label class="label">text contents</label>
                     <input class="input" type="text" id="text-contents" value="this is a test post" />
-
                 </div>
 
                 <div class="field">
@@ -40,8 +39,8 @@
                 </div>
             </form>
 
-            <h3 class="subtitle has-text-centered">投稿取得</h3>
-            <form id="getpost" >
+            <h3 class="subtitle has-text-centered">投稿削除</h3>
+            <form id="delpost" >
                 <div class="field">
                     <label class="label">Post ID</label>
                     <div class="control">
@@ -50,14 +49,37 @@
                 </div>
                 <div class="field">
                     <div class="control">
+                        <button class="button is-link">削除</button>
+                    </div>
+                </div>
+            </form>
+
+            
+            <h3 class="subtitle has-text-centered">投稿編集</h3>
+            <form id="getpost">
+                <div class="field">
+                    <label class="label">post id</label>
+                    <input class="input" type="number" id="re-post-id" />
+                    <div id="get-post-error" class="has-text-danger"></div>
+                </div>
+                <div class="field">
+                    <div class="control">
                         <button class="button is-link">取得</button>
                     </div>
                 </div>
-                <div class="container mb-4">
-                    <h3 id="status" class="has-text-info"></h3>
-                    <p id="posted-title" class="has-text-black"></p>
-                    <p id="posted-user-id" class="has-text-black"></p>
-                    <p id="posted-date" class="has-text-black"></p>
+            </form>
+            <form id="fixpost">
+                <div class="field">
+                    <label class="label">title</label>
+                    <input class="input" type="text" id="re-title" />
+                    <label class="label">text contents</label>
+                    <input class="input" type="text" id="re-text-contents" />
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-link">再投稿</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -65,7 +87,6 @@
 
     <script type="module">
         //新規投稿
-
         document
             .getElementById("submitpsot")
             .addEventListener("submit", async (event) => {
@@ -100,6 +121,106 @@
 
                     // レスポンスが正常のときの処理
                     console.log("投稿できました")
+
+                } catch (err) {
+                    document.getElementById("error").innerText = err.message;
+                }
+            });
+
+            //投稿削除
+            document
+            .getElementById("delpost")
+            .addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const post_id = document.getElementById("postID").value;
+
+                // サーバーに送信
+                const path = "/delpost";
+                const method = "POST";
+
+                try {
+                    const resp = await fetch(path, {
+                        method,
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id : post_id,
+                        }),
+                    });
+
+                    // サーバーから成功ステータスが返ってこないときの処理
+                    if (!resp.ok) {
+                        const errMsg = await resp.text();
+                        document.getElementById("error").innerText = "エラー：" + errMsg;
+                        return;
+                    }
+
+                    // レスポンスが正常のときの処理
+                    console.log("削除できました")
+
+                } catch (err) {
+                    document.getElementById("error").innerText = err.message;
+                }
+            });
+
+            //投稿取得
+            document.getElementById("getpost").addEventListener("submit", async (event)=>{
+                event.preventDefault();
+                const post_id = document.getElementById("re-post-id").value;
+                
+                // サーバーに送信
+                try {
+                    const resp = await fetch("/getpost?id=" + post_id);
+                    
+                    // サーバーから成功ステータスが返ってこないときの処理
+                    if (!resp.ok) {
+                        const errMsg = await resp.text();
+                        document.getElementById("error").innerText = "エラー：" + errMsg;
+                        return;
+                    }
+
+                    //結果を編集欄に反映
+                    const json = await resp.json();
+                    document.getElementById("re-title").value = json.title;
+                    document.getElementById("re-text-contents").value = json.text_contents;
+
+                } catch (err) {
+                    document.getElementById("error").innerText = err.message;
+                }
+            });
+
+            //再投稿
+            //title, text-contentsを更新
+            //ひとまず時間の変更は無し
+            document.getElementById("fixpost").addEventListener("submit", async (event)=>{
+                event.preventDefault();
+                const id = document.getElementById("re-post-id").value
+                const title = document.getElementById("re-title").value;
+                const text_contents = document.getElementById("re-text-contents").value;
+                
+                // サーバーに送信
+                const path = "/fixpost";
+                const method = "POST";
+
+                try {
+                    const resp = await fetch(path, {
+                        method,
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id,
+                            title,
+                            text_contents,
+                        }),
+                    });
+
+                    // サーバーから成功ステータスが返ってこないときの処理
+                    if (!resp.ok) {
+                        const errMsg = await resp.text();
+                        document.getElementById("error").innerText = "エラー：" + errMsg;
+                        return;
+                    }
+
+                    // レスポンスが正常のときの処理
+                    console.log("編集できました")
 
                 } catch (err) {
                     document.getElementById("error").innerText = err.message;

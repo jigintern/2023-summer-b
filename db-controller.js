@@ -39,10 +39,10 @@ export async function getUser(did) {
   return res;
 }
 
-export async function addPost(posts_user_id, title, imgpath, text_contents, post_date){
+export async function addPost(post_user_id, title, imgpath, text_contents, post_date){
   //　DBに投稿を追加
   await client.execute(`insert into posts (post_user_id, title, imgpath, text_contents, post_date) values (?, ?, ?, ?, ?);`, [
-    posts_user_id,
+    post_user_id,
     title,
     imgpath,
     text_contents,
@@ -50,8 +50,24 @@ export async function addPost(posts_user_id, title, imgpath, text_contents, post
   ]);
 }
 
+export async function isPostExists(id) {
+  // DBからIDで投稿を取得
+  const res = await client.execute(`select count(*) from posts where id = ?;`, [id]);
+  return res.rows[0][res.fields[0].name] === 1;
+}
+
 export async function getPost(id) {
   // DBからIDで投稿を取得
-  const res = await client.execute(`select * from posts where id = ?;`, [id]);
-  return res;
+  const res = await client.query(`select * from posts where id = ?;`, [id]);
+  return res[0];
+}
+
+export async function delPost(id) {
+  // DBから投稿を削除
+  await client.execute(`delete from posts where id = ?;`, [id]);
+}
+
+export async function fixPost(id, title, text_contents) {
+  // DBの投稿を更新
+  await client.execute(`update posts set title = ?, text_contents = ? where id = ?;`, [title, text_contents, id]);
 }
