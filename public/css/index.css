@@ -42,7 +42,7 @@ header button {
     color: white;
     border: none;
     transition: background-color 0.3s;
-    margin-left: -60px;
+    margin-left: -90px;
 }
 
 header button:hover {
@@ -101,7 +101,10 @@ footer p {
 }
 
 .header-link {
-    flex-grow: 1;
+    display: flex;
+    /* 追加: ロゴとテキストを横並びにする */
+    align-items: center;
+    /* 追加: ロゴとテキストを垂直方向の中央に配置 */
     text-decoration: none;
     color: inherit;
 }
@@ -109,7 +112,6 @@ footer p {
 .header-button-link {
     text-decoration: none;
     margin-left: auto;
-    /* ボタンを右側に配置 */
 }
 
 .sidebar-button-link {
@@ -119,7 +121,8 @@ footer p {
     width: 100%;
 }
 
-.header-button-link button,
-.sidebar-button-link button {
-    width: 100%;
+.header-link span {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
 }
