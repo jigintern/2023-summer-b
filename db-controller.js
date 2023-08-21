@@ -58,6 +58,7 @@ export async function isPostExists(id) {
 
 export async function getPost(id) {
   // DBからIDで投稿を取得
+
   const res = await client.query(`select * from posts where id = ?;`, [id]);
   return res[0];
 }
@@ -70,4 +71,9 @@ export async function delPost(id) {
 export async function fixPost(id, title, text_contents) {
   // DBの投稿を更新
   await client.execute(`update posts set title = ?, text_contents = ? where id = ?;`, [title, text_contents, id]);
+}
+
+export async function getPosts_index() {
+  const res = await client.execute(`select * from posts ORDER BY post_date DESC;`);
+  return res;
 }
