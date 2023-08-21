@@ -126,3 +126,34 @@ footer p {
     margin: 0;
     padding: 0;
 }
+
+.sidebar+.posts {
+    margin-left: 220px;
+    /* サイドバーの幅 + マージン分 */
+}
+
+.posts {
+    align-content: start;
+    background-color: #fff;
+    /* 投稿エリアの背景色 */
+    flex-grow: 1;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    /* 子要素が折り返されるようにする */
+}
+
+.post_box {
+    background-color: #ccc;
+    width: calc(35vw - 15px);
+    /* ボックス間の余白を考慮して幅を設定 */
+    height: 35vh;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #aaa;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    /* 下方向の余白を追加 */
+}

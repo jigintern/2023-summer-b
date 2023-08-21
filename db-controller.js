@@ -55,3 +55,8 @@ export async function getPost(id) {
   const res = await client.execute(`select * from posts where id = ?;`, [id]);
   return res;
 }
+
+export async function getPosts_index() {
+  const res = await client.execute(`select * from posts ORDER BY post_date DESC;`);
+  return res;
+}

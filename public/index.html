@@ -6,6 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>サンプルページ</title>
   <link rel="stylesheet" href="./css/index.css">
+  <script>
+    window.onload = async () => {
+      const response = await fetch("/selectall");
+      var array_tmp = await response.text();
+      var array = await JSON.parse(array_tmp);
+      for (var i = 0; i < array.length; i++) {
+        const postsDiv = document.querySelector('.posts');
+        const textElement = document.createElement('div');
+        textElement.textContent = array[i].title + array[i].text_contents;
+        textElement.classList.add('post_box');
+        postsDiv.appendChild(textElement);
+      }
+    };
+  </script>
 </head>
 
 <body>
@@ -27,6 +41,8 @@
     </a>
     <button>posts</button>
     <button>prf</button>
+  </div>
+  <div class="posts">
   </div>
   <footer>
     <img src="./img/logo02-tr.png" alt="Logo2">
