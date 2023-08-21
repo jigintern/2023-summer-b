@@ -28,8 +28,8 @@ export async function checkIfIdExists(did) {
 export async function addDID(did, userName) {
   // DBにDIDとuserNameを追加
   await client.execute(`insert into users (user_name, did) values (?, ?);`, [
-    did,
     userName,
+    did,
   ]);
 }
 

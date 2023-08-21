@@ -7,7 +7,7 @@ serve(async (req) => {
   const pathname = new URL(req.url).pathname;
   console.log(pathname);
 
-  if (req.method === "POST" && pathname === "newuser") {
+  if (req.method === "POST" && pathname === "/newuser") {
     const json = await req.json();
     const userName = json.name;
     const sign = json.sign;
