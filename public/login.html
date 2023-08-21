@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DID Login Sample</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+</head>
+
+<body>
+    <div style="background-color: skyblue; display: flex; padding: 16px">
+        <a style="color: white; margin-right: 16px" href="/newuser.html"> 新規登録 </a>
+    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">DID Login Sample</h1>
+            <h3 class="subtitle has-text-centered">ログイン</h3>
+            <form id="loginForm">
+                <div class="container mb-4">
+                    <p id="error" class="has-text-danger"></p>
+                </div>
+
+                <div class="container mb-4">
+                    <h3 id="status" class="has-text-info"></h3>
+                    <p id="name" class="has-text-black"></p>
+                    <p id="did" class="has-text-black"></p>
+                    <p id="password" class="has-text-black"></p>
+                </div>
+
+                <div class="field">
+                    <label class="label">PEMファイル</label>
+                    <div class="control">
+                        <input class="input" type="file" id="pemFile" accept=".pem" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-link">ログイン</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script type="module">
+        // pemファイルを受け取って、DIDとパスワードを取得
+        import { DIDAuth } from "https://jigintern.github.io/did-login/auth/DIDAuth.js";
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const pemFile = document.getElementById("pemFile").files[0];
+                if (!pemFile) {
+                    document.getElementById("error").innerText =
+                        "ファイルを選択してください。";
+                }
+
+                const [did, password] = await DIDAuth.getDIDAndPasswordFromPem(pemFile);
+
+                // サーバーにユーザー情報を問い合わせる
+                const path = "/login";
+                const method = "POST";
+                // 電子署名とメッセージの作成
+                const [message, sign] = DIDAuth.genMsgAndSign(did, password, path, method);
+
+                // 公開鍵・電子署名をサーバーに渡す
+                try {
+                    const resp = await fetch(path, {
+                        method,
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ did, sign, message }),
+                    });
+
+                    // サーバーから成功ステータスが返ってこないときの処理
+                    if (!resp.ok) {
+                        const errMsg = await resp.text();
+                        document.getElementById("error").innerText = "エラー：" + errMsg;
+                        return;
+                    }
+
+                    // レスポンスが正常ならローカルストレージに保存
+                    const json = await resp.json();
+                    localStorage.setItem("did", did);
+                    localStorage.setItem("password", password);
+                    localStorage.setItem("name", json.user.name);
+
+                    document.getElementById("status").innerText = "ログイン成功";
+                    document.getElementById("name").innerText = json.user.name;
+                    document.getElementById("did").innerText = did;
+                    document.getElementById("password").innerText = password;
+                } catch (err) {
+                    document.getElementById("error").innerText = err.message;
+                }
+            });
+    </script>
+</body>
+
+</html>
