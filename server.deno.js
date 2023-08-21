@@ -1,7 +1,7 @@
 import { serveDir } from "https://deno.land/std@0.180.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
-import { addDID, checkIfIdExists, getUser, addPost, getPost } from './db-controller.js';
+import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost } from './db-controller.js';
 
 serve(async (req) => {
   const pathname = new URL(req.url).pathname;
@@ -84,7 +84,6 @@ serve(async (req) => {
     const imgpath = json.imgpath;
     const text_contents = json.text_contents;
     const post_date = new Date();
-    console.log(post_date);
     await addPost(
       posts_user_id,
       title,
@@ -92,9 +91,25 @@ serve(async (req) => {
       text_contents,
       post_date
     );
-    return new Response("test post ok");
+    console.log("new post",post_date);
+    return new Response("add post ok");
   }
 
+  if (req.method === "POST" && pathname === "/delpost") {
+    const json = await req.json();
+    const post_id = json.id;
+    await delPost(post_id);
+    console.log("del post", post_id);
+    return new Response("del post ok")
+  }
+
+  if (req.method === "GET" && pathname === "/getpost") {
+    const id = new URL(req.url).searchParams.get("id");
+    const post = await getPost(id);
+    return new Response(JSON.stringify(post), {
+      headers: { "Content-Type": "application/json" },
+    });
+}
 
   return serveDir(req, {
     fsRoot: "public",

@@ -52,6 +52,11 @@ export async function addPost(posts_user_id, title, imgpath, text_contents, post
 
 export async function getPost(id) {
   // DBからIDで投稿を取得
-  const res = await client.execute(`select * from posts where id = ?;`, [id]);
-  return res;
+  const res = await client.query(`select * from posts where id = ?;`, [id]);
+  return res[0];
+}
+
+export async function delPost(id) {
+  //　DBから投稿を削除
+  await client.execute(`delete from posts where id = ?;`, [id]);
 }
