@@ -56,14 +56,14 @@ document.getElementById("clearCanvas").onclick = clearCanvas;
 
 //出力
 document.getElementById("outputCanvas").onclick = ()=>{
-    const data = canvas.toDataURL("image/png", 1);
-    //console.log(date);
+    const data = canvas.toDataURL("image/png", 0.5);
+    console.log(data.length,data);
 
     //仮でダウンロード
     const a = document.createElement("a");
     a.href = data
     a.download = "image.png";
-    a.click();
+    //a.click();
 };
 
 window.onload = ()=>{
