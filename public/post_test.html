@@ -168,13 +168,24 @@
                 const post_id = document.getElementById("re-post-id").value;
                 
                 // サーバーに送信
-                const res = await fetch("/getpost?id=" + post_id);
-                const json = await res.json();
-                console.log(json,json.title);
+                try {
+                    const resp = await fetch("/getpost?id=" + post_id);
+                    
+                    // サーバーから成功ステータスが返ってこないときの処理
+                    if (!resp.ok) {
+                        const errMsg = await resp.text();
+                        document.getElementById("error").innerText = "エラー：" + errMsg;
+                        return;
+                    }
 
-                //結果を編集欄に反映
-                document.getElementById("re-title").value = json.title;
-                document.getElementById("re-text-contents").value = json.text_contents;
+                    //結果を編集欄に反映
+                    const json = await resp.json();
+                    document.getElementById("re-title").value = json.title;
+                    document.getElementById("re-text-contents").value = json.text_contents;
+
+                } catch (err) {
+                    document.getElementById("error").innerText = err.message;
+                }
             });
 
             //再投稿
