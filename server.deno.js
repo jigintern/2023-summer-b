@@ -3,6 +3,7 @@ import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
 import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index } from './db-controller.js';
 
+
 serve(async (req) => {
   const pathname = new URL(req.url).pathname;
   console.log(pathname);
@@ -89,7 +90,6 @@ serve(async (req) => {
     const imgpath = json.imgpath;
     const text_contents = json.text_contents;
     const post_date = new Date();
-    console.log(post_date);
     await addPost(
       posts_user_id,
       title,
@@ -97,7 +97,58 @@ serve(async (req) => {
       text_contents,
       post_date
     );
-    return new Response("test post ok");
+    console.log("new post",post_date);
+    return new Response("add post ok");
+  }
+
+  if (req.method === "POST" && pathname === "/delpost") {
+    const json = await req.json();
+    const id = json.id;
+
+    // DBに投稿があるかチェック
+    try {
+      const isExists = await isPostExists(id);
+      if (!isExists) {
+        return new Response("投稿がありません", { status: 400 });
+      }
+      // あればpostを削除
+      await delPost(id);
+      console.log("del post", id);
+      return new Response("del post ok")
+      } catch (e) {
+      return new Response(e.message, { status: 500 });
+    }
+  }
+
+  if (req.method === "GET" && pathname === "/getpost") {
+    const id = new URL(req.url).searchParams.get("id");
+    // DBに投稿があるかチェック
+    try {
+      const isExists = await isPostExists(id);
+      if (!isExists) {
+        return new Response("投稿がありません", { status: 400 });
+      }
+      // あればpostを返す
+      const res = await getPost(id);
+      return new Response(JSON.stringify( res ), {
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (e) {
+      return new Response(e.message, { status: 500 });
+    }
+  }
+
+  if (req.method === "POST" && pathname === "/fixpost") {
+    const json = await req.json();
+    const id = json.id;
+    const title = json.title;
+    const text_contents = json.text_contents;
+    await fixPost(
+      id,
+      title,
+      text_contents,
+    );
+    return new Response("fix post ok");
   }
 
 
