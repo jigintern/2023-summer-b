@@ -1,0 +1,101 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #e5e7e9;
+    color: #3a3a3a;
+}
+
+header,
+footer {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #7ba9e0;
+    /* ヘッダーとフッターの色をさらに薄く */
+    width: 100vw;
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+header img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+header p {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    flex-grow: 1;
+}
+
+header button {
+    padding: 10px 20px;
+    background-color: #7ba9e0;
+    /* ヘッダーの色に合わせる */
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+    margin-left: -60px;
+}
+
+header button:hover {
+    background-color: #5c8ac5;
+    /* ホバー時の色を薄く */
+}
+
+.sidebar {
+    position: fixed;
+    top: 70px;
+    bottom: 40px;
+    left: 0;
+    width: 200px;
+    background-color: #555;
+    /* サイドバーの色を薄く */
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1;
+}
+
+.sidebar button {
+    color: white;
+    background-color: #777;
+    /* サイドバーのボタンを薄く */
+    padding: 10px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: #5c8ac5;
+    /* ホバー時の青を薄く */
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: auto;
+}
+
+footer img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+footer p {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+}
