@@ -1,7 +1,7 @@
 import { serveDir } from "https://deno.land/std@0.180.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
-import { addDID, checkIfIdExists, getUser } from './db-controller.js';
+import { addDID, checkIfIdExists, getUser, addPost, getPost } from './db-controller.js';
 
 serve(async (req) => {
   const pathname = new URL(req.url).pathname;
@@ -75,6 +75,26 @@ serve(async (req) => {
       return new Response(e.message, { status: 500 });
     }
   }
+
+  //Posts
+  if (req.method === "POST" && pathname === "/submitpost") {
+    const json = await req.json();
+    const posts_user_id = json.posts_user_id;
+    const title = json.title;
+    const imgpath = json.imgpath;
+    const text_contents = json.text_contents;
+    const post_date = new Date();
+    console.log(post_date);
+    await addPost(
+      posts_user_id,
+      title,
+      imgpath,
+      text_contents,
+      post_date
+    );
+    return new Response("test post ok");
+  }
+
 
   return serveDir(req, {
     fsRoot: "public",

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post test sample</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+</head>
+
+<body>
+    <div style="background-color: skyblue; display: flex; padding: 16px">
+        <a style="color: white; margin-right: 16px" href="/newuser.html"> 新規登録 </a>
+    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Post test Sample</h1>
+            <h3 class="subtitle has-text-centered">新規投稿</h3>
+            <form id="submitpsot">
+                <div class="container mb-4">
+                    <p id="error" class="has-text-danger"></p>
+                </div>
+
+                <div class="field">
+                    <label class="label">user id</label>
+                    <input class="input" type="number" id="post-user-id" value="5" />
+                    <label class="label">title</label>
+                    <input class="input" type="text" id="title" value="tst post"/>
+                    <label class="label">imgpath</label>
+                    <input class="input" type="text" id="imgpath" value="null"/>
+                    <label class="label">text contents</label>
+                    <input class="input" type="text" id="text-contents" value="this is a test post" />
+
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-link">投稿</button>
+                    </div>
+                </div>
+            </form>
+
+            <h3 class="subtitle has-text-centered">投稿取得</h3>
+            <form id="getpost" >
+                <div class="field">
+                    <label class="label">Post ID</label>
+                    <div class="control">
+                        <input class="input" type="number" id="postID" />
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-link">取得</button>
+                    </div>
+                </div>
+                <div class="container mb-4">
+                    <h3 id="status" class="has-text-info"></h3>
+                    <p id="posted-title" class="has-text-black"></p>
+                    <p id="posted-user-id" class="has-text-black"></p>
+                    <p id="posted-date" class="has-text-black"></p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script type="module">
+        //新規投稿
+
+        document
+            .getElementById("submitpsot")
+            .addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const posts_user_id = document.getElementById("post-user-id").value;
+                const title = document.getElementById("title").value;
+                const imgpath = document.getElementById("imgpath").value;
+                const text_contents = document.getElementById("text-contents").value;
+
+                // サーバーに送信
+                const path = "/submitpost";
+                const method = "POST";
+
+                try {
+                    const resp = await fetch(path, {
+                        method,
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            posts_user_id,
+                            title,
+                            imgpath,
+                            text_contents,
+                        }),
+                    });
+
+                    // サーバーから成功ステータスが返ってこないときの処理
+                    if (!resp.ok) {
+                        const errMsg = await resp.text();
+                        document.getElementById("error").innerText = "エラー：" + errMsg;
+                        return;
+                    }
+
+                    // レスポンスが正常のときの処理
+                    console.log("投稿できました")
+
+                } catch (err) {
+                    document.getElementById("error").innerText = err.message;
+                }
+            });
+    </script>
+</body>
+
+</html>
