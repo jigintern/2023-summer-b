@@ -4,45 +4,57 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DID Login Sample</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <title>Loginページ</title>
+    <link rel="stylesheet" href="./css/login.css" />
 </head>
 
 <body>
-    <div style="background-color: skyblue; display: flex; padding: 16px">
-        <a style="color: white; margin-right: 16px" href="newuser.html"> 新規登録 </a>
-    </div>
-    <section class="section">
-        <div class="container">
-            <h1 class="title has-text-centered">DID Login Sample</h1>
-            <h3 class="subtitle has-text-centered">ログイン</h3>
-            <form id="loginForm">
-                <div class="container mb-4">
-                    <p id="error" class="has-text-danger"></p>
-                </div>
+    <header>
+        <a href="index.html" class="header-link">
+            <img src="./img/logo01.png" alt="Logo">
+            <p>スケッチャラボ</p>
+        </a>
+    </header>
 
-                <div class="container mb-4">
-                    <h3 id="status" class="has-text-info"></h3>
-                    <p id="name" class="has-text-black"></p>
-                    <p id="did" class="has-text-black"></p>
-                    <p id="password" class="has-text-black"></p>
-                </div>
-
-                <div class="field">
-                    <label class="label">PEMファイル</label>
-                    <div class="control">
-                        <input class="input" type="file" id="pemFile" accept=".pem" />
+    <main>
+        <section class="login-section">
+            <div class="login-container">
+                <h1 class="title">ログイン</h1>
+                <form id="loginForm">
+                    <div class="status-container">
+                        <p id="error" class="status-message error"></p>
+                        <h3 id="status" class="status-message info"></h3>
+                        <p id="name" class="status-message"></p>
+                        <p id="did" class="status-message"></p>
+                        <p id="password" class="status-message"></p>
                     </div>
-                </div>
 
-                <div class="field">
-                    <div class="control">
-                        <button class="button is-link">ログイン</button>
+                    <div class="field">
+                        <label class="label">PEMファイル</label>
+                        <div class="control">
+                            <input class="input" type="file" id="pemFile" accept=".pem" />
+                        </div>
                     </div>
-                </div>
-            </form>
+
+                    <div class="field">
+                        <div class="control">
+                            <button class="button primary">ログイン</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <div class="field">
+            <div class="control">
+                <button class="log-sc-btn" onclick="location.href='newuser.html';">新規登録</button>
+            </div>
         </div>
-    </section>
+    </main>
+
+    <footer>
+        <img src="./img/logo02-tr.png" alt="Logo2">
+        <p>バグバスターズ</p>
+    </footer>
 
     <script type="module">
         // pemファイルを受け取って、DIDとパスワードを取得
