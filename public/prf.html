@@ -7,55 +7,11 @@
     <title>サンプルページ</title>
     <link rel="stylesheet" href="./css/layout.css">
     <link rel="stylesheet" href="./css/prf.css">
+    <script src="./authDID.js"></script>
     <script>
-        async function authDID(event) {
-            event.preventDefault();
-            var did = ""
-            did = localStorage.getItem("did");
-            if (did === null) {
-                window.location.href = "./login.html";
-                return;
-            }
-            try {
-                const resp = await fetch("/authdid", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        did,
-                    }),
-                })
-
-                if (!resp.ok) {
-                    const errMsg = await resp.text();
-                    console.log(errMsg);
-                    return;
-                }
-
-                await resp.text().then((data) => {
-                    const result = data;
-                    if (result === "true") {
-                        return;
-                    }
-                    else {
-                        window.location.href = "./login.html";
-                        return;
-                    }
-                },
-                    (err) => {
-                        console.log(err)
-                        return;
-                    }
-                )
-            }
-            catch (err) {
-                console.log(err);
-                return;
-            }
-        };
-
         window.onload = async (event) => {
+            authDID(event);
             event.preventDefault();
-            authDID();
             var did = "";
             did = localStorage.getItem("did")
             const prf_result = await fetch("/getprf", {
@@ -87,9 +43,15 @@
         <button>Login</button>
     </header>
     <div class="sidebar">
-        <button>home</button>
-        <button>posts</button>
-        <button>prf</button>
+        <a href="index.html" class="sidebar-button-link">
+            <button>home</button>
+        </a>
+        <a href="newpost.html" class="sidebar-button-link">
+            <button>posts</button>
+        </a>
+        <a href="prf.html" class="sidebar-button-link">
+            <button>prf</button>
+        </a>
     </div>
     <!-- ここから内容 -->
     <h1>プロフィール</h1>
