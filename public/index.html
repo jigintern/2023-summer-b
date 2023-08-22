@@ -7,17 +7,43 @@
   <title>絵日記一覧</title>
   <link rel="stylesheet" href="./css/index.css">
   <script>
-    window.onload = async () => {
+    async function Initialize() {
       const response = await fetch("/selectall");
       var array_tmp = await response.text();
       var array = await JSON.parse(array_tmp);
       for (var i = 0; i < array.length; i++) {
+        create_postbox(array[i]);
+      }
+    };
+
+    function create_postbox(array) {
+      console.log(array.imgpath)
+      if (array.imgpath === "null") {
         const postsDiv = document.querySelector('.posts');
         const textElement = document.createElement('div');
-        textElement.textContent = array[i].title + array[i].text_contents;
+        textElement.textContent = array.title + array.text_contents;
         textElement.classList.add('post_box');
         postsDiv.appendChild(textElement);
       }
+      else {
+        const postsDiv = document.querySelector('.posts');
+        const textElement = document.createElement('div');
+        textElement.textContent = array.title + array.text_contents;
+        textElement.classList.add('post_box');
+        const imagediv = document.createElement('div');
+        var imageElement = document.createElement('img');
+        imageElement.src = "data:image/png;" + array.imgpath;
+        imageElement.alt = array.title; // オプション：画像が読み込めない場合の代替テキスト
+        imageElement.width = 300; // オプション：画像の幅
+        imageElement.height = 200; // オプション：画像の高さ
+        imagediv.appendChild(imageElement);
+        textElement.appendChild(imagediv);
+        postsDiv.appendChild(textElement);
+      }
+    };
+
+    window.onload = async () => {
+      Initialize();
     };
   </script>
 </head>
@@ -26,7 +52,7 @@
   <header>
     <!-- ロゴとテキストを一つの<a>タグ内に配置 -->
     <a href="index.html" class="header-link">
-      <img src="./img/logo01.png" alt="Logo">
+      <img src="./img/SL_logo.png" alt="Logo">
       <p>スケッチャラボ</p>
     </a>
     <!-- ログインボタンのリンク -->
@@ -39,8 +65,17 @@
     <a href="index.html" class="sidebar-button-link">
       <button>home</button>
     </a>
-    <button>posts</button>
-    <button>prf</button>
+    <a href="newpost.html" class="sidebar-button-link">
+      <button>posts</button>
+    </a>
+    <a href="prf.html" class="sidebar-button-link">
+      <button>prf</button>
+    </a>
+  </div>
+  <div class="search_box">
+    <input type="text" placeholder="検索..." id="search_value">
+    <button id="search">検索</button>
+    <button id="search_reset">検索リセット</button>
   </div>
   <div class="posts">
   </div>
@@ -48,6 +83,47 @@
     <img src="./img/logo02-tr.png" alt="Logo2">
     <p>バグバスターズ</p>
   </footer>
+  <script type="module">
+    document.getElementById("search").onclick = async () => {
+      const search_value = document.getElementById("search_value").value;
+      if (search_value === "") {
+        return
+      }
+      try {
+        const resp = await fetch("/search?search_value=" + search_value);
+
+        // サーバーから成功ステータスが返ってこないときの処理
+        if (!resp.ok) {
+          const errMsg = await resp.text();
+          console.log(errMsg);
+          return;
+        }
+
+        var searched_array_tmp = await resp.text();
+        var searched_array = await JSON.parse(searched_array_tmp);
+        console.log(searched_array);
+        const targetDiv = document.querySelector('.posts');
+        targetDiv.innerHTML = "";
+        if (searched_array.length === 0) {
+          targetDiv.innerHTML = search_value + "に合致する作品名はありませんでした。";
+          return;
+        }
+        for (var i = 0; i < searched_array.length; i++) {
+          create_postbox(searched_array[i])
+        }
+
+      } catch (err) {
+        console.log(err.message);
+      }
+
+    };
+
+    document.getElementById("search_reset").onclick = async () => {
+      const targetDiv = document.querySelector('.posts');
+      targetDiv.innerHTML = "";
+      Initialize();
+    };
+  </script>
 </body>
 
 </html>

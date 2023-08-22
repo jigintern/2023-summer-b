@@ -8,9 +8,7 @@ body {
     background-color: #e5e7e9;
     color: #3a3a3a;
     padding-top: 70px;
-    /* ヘッダーの高さ分のスペースを追加 */
     padding-bottom: 40px;
-    /* フッターの高さ分のスペースを追加 */
 }
 
 header {
