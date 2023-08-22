@@ -1,7 +1,7 @@
 import { serveDir } from "https://deno.land/std@0.180.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
-import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index } from './db-controller.js';
+import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name } from './db-controller.js';
 
 
 serve(async (req) => {
@@ -151,6 +151,14 @@ serve(async (req) => {
     return new Response("fix post ok");
   }
 
+  if (req.method === "GET" && pathname === "/search") {
+    const currentURL = req.url;
+    const URLParams = new URLSearchParams(currentURL.split("?")[1]);
+    var search_value = "";
+    search_value = URLParams.get("search_value");
+    const res = await searchPosts_name(search_value);
+    return new Response(await JSON.stringify(res.rows));
+  }
 
   return serveDir(req, {
     fsRoot: "public",

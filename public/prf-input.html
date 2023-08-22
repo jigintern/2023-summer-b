@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロフ入力</title>
+    <link rel="stylesheet" href="./css/prf-input.css">
+    <link rel="stylesheet" href="./css/layout.css">
+</head>
+
+<body>
+    <header>
+        <img src="./img/SL_logo.png" alt="Logo">
+        <p>スケッチャラボ</p>
+        <button>Login</button>
+    </header>
+    <div class="sidebar">
+        <button id="homeButton">home</button>
+        <button id="newpostButton">posts</button>
+        <button id="prfButton">prf</button>
+    </div>
+    <!-- ここから内容 -->
+    <section>
+        <div class="profile-form">
+            <h1>プロフィール入力</h1>
+            <form id="profileForm">
+                <label for="nickname">ニックネーム:</label>
+                <input type="text" id="nickname" name="nickname" required>
+
+                <label for="introduction">自己紹介:</label>
+                <textarea id="introduction" name="introduction" rows="4" required></textarea>
+
+                <button type="submit">保存</button>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <img src="./img/logo02-tr.png" alt="Logo2">
+        <p>バグバスターズ</p>
+    </footer>
+    <script>
+        // サイドバーボタン
+        // homeButton
+        var homeButton = document.getElementById("homeButton");
+        homeButton.addEventListener("click", function () {
+            window.location.href = "index.html";
+        });
+
+        // newpostButton
+        var newpostButton = document.getElementById("newpostButton");
+        newpostButton.addEventListener("click", function () {
+            window.location.href = "newpost.html";
+        });
+
+        // prfButton
+        var prfButton = document.getElementById("prfButton");
+        prfButton.addEventListener("click", function () {
+            window.location.href = "prf.html";
+        });
+
+    </script>
+</body>
+
+</html>
