@@ -7,17 +7,22 @@ body {
     min-height: 100vh;
     background-color: #e5e7e9;
     color: #3a3a3a;
+    padding-top: 70px;
+    /* ヘッダーの高さ分のスペースを追加 */
+    padding-bottom: 40px;
+    /* フッターの高さ分のスペースを追加 */
 }
 
-header,
-footer {
+header {
     display: flex;
     align-items: center;
     padding: 10px 20px;
     background-color: #7ba9e0;
-    /* ヘッダーとフッターの色をさらに薄く */
     width: 100vw;
-    position: relative;
+    position: fixed;
+    /* ヘッダーを固定 */
+    top: 0;
+    left: 0;
     z-index: 2;
     box-sizing: border-box;
 }
@@ -38,7 +43,6 @@ header p {
 header button {
     padding: 10px 20px;
     background-color: #7ba9e0;
-    /* ヘッダーの色に合わせる */
     color: white;
     border: none;
     transition: background-color 0.3s;
@@ -47,17 +51,17 @@ header button {
 
 header button:hover {
     background-color: #5c8ac5;
-    /* ホバー時の色を薄く */
 }
 
 .sidebar {
     position: fixed;
-    top: 70px;
-    bottom: 40px;
+    top: 65px;
+    /* ヘッダーの高さ + 10pxの余白 */
+    bottom: 58px;
+    /* フッターの高さ + 10pxの余白 */
     left: 0;
     width: 200px;
     background-color: #555;
-    /* サイドバーの色を薄く */
     padding: 10px 0;
     display: flex;
     flex-direction: column;
@@ -68,7 +72,6 @@ header button:hover {
 .sidebar button {
     color: white;
     background-color: #777;
-    /* サイドバーのボタンを薄く */
     padding: 10px;
     border: none;
     width: 100%;
@@ -78,14 +81,22 @@ header button:hover {
 
 .sidebar button:hover {
     background-color: #5c8ac5;
-    /* ホバー時の青を薄く */
 }
 
 footer {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-top: auto;
+    position: fixed;
+    /* フッターを固定 */
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    /* フッターを画面全体に拡張 */
+    background-color: #7ba9e0;
+    /* フッターの背景色を追加 */
+    padding: 10px 20px;
+    box-sizing: border-box;
 }
 
 footer img {
