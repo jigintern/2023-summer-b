@@ -57,13 +57,13 @@ header button:hover {
     left: 0;
     width: 200px;
     background-color: #555;
-    /* サイドバーの色を薄く */
     padding: 10px 0;
     display: flex;
     flex-direction: column;
     gap: 15px;
     z-index: 1;
 }
+
 
 .sidebar button {
     color: white;
@@ -135,10 +135,8 @@ footer p {
 .posts {
     align-content: start;
     background-color: #fff;
-    /* 投稿エリアの背景色 */
     flex-grow: 1;
     margin: 10px;
-    padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-wrap: wrap;
@@ -153,7 +151,42 @@ footer p {
     box-sizing: border-box;
     padding: 10px;
     border: 1px solid #aaa;
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin: 20px;
     /* 下方向の余白を追加 */
+}
+
+.search_box {
+    height: 10%;
+    background-color: #f2f2f2;
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    /* Flexbox を使用 */
+    align-items: center;
+    /* 垂直方向の中央揃え */
+    justify-content: center;
+    /* 水平方向の中央揃え */
+}
+
+.search_box input {
+    padding: 5px;
+    margin-right: 10px;
+    /* input とボタンの間隔を追加 */
+}
+
+.search_box button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.posts,
+.search_box {
+    width: 75vw;
+    margin-left: auto;
+    margin-right: 0;
 }
