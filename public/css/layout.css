@@ -1,0 +1,110 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #e5e7e9;
+    color: #3a3a3a;
+    padding-top: 70px;
+    padding-bottom: 40px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #7ba9e0;
+    width: 100vw;
+    position: fixed;
+    /* ヘッダーを固定 */
+    top: 0;
+    left: 0;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+header img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+header p {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    flex-grow: 1;
+}
+
+header button {
+    padding: 10px 20px;
+    background-color: #7ba9e0;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+    margin-left: -60px;
+}
+
+header button:hover {
+    background-color: #5c8ac5;
+}
+
+.sidebar {
+    position: fixed;
+    top: 65px;
+    /* ヘッダーの高さ + 10pxの余白 */
+    bottom: 58px;
+    /* フッターの高さ + 10pxの余白 */
+    left: 0;
+    width: 200px;
+    background-color: #555;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1;
+}
+
+.sidebar button {
+    color: white;
+    background-color: #777;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: #5c8ac5;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    /* フッターを固定 */
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    /* フッターを画面全体に拡張 */
+    background-color: #7ba9e0;
+    /* フッターの背景色を追加 */
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+footer img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+footer p {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+}
