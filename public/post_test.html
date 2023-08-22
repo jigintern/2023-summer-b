@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Post test sample</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <script type="module" src="./draw.js" ></script>
+
 </head>
 
 <body>
@@ -26,8 +28,33 @@
                     <input class="input" type="number" id="post-user-id" value="5" />
                     <label class="label">title</label>
                     <input class="input" type="text" id="title" value="tst post"/>
-                    <label class="label">imgpath</label>
-                    <input class="input" type="text" id="imgpath" value="null"/>
+
+                    <div>
+                        <canvas id="canvas" width="300" height="200" style="border: solid 1px black;"></canvas>
+                    </div>
+                    <div>
+                        color<br>
+                        <input type="radio" id="colorRed" name="color" value="red" />
+                        <label for="colorRed">Red</label><br>
+                        <input type="radio" id="colorBlue" name="color" value="blue" />
+                        <label for="colorBlue">Blue</label><br>
+                        <input type="radio" id="colorGreen" name="color" value="green" />
+                        <label for="colorGreen">Green</label><br>
+                        <input type="radio" id="colorBlack" name="color" value="black" checked />
+                        <label for="colorBlack">Black</label><br>
+                        <input type="radio" id="colorWhite" name="color" value="white" />
+                        <label for="colorBlack">White</label><br>
+                
+                        penWeight<br>
+                        <input type="range" id="penWeight" min="1" max="10" value="2" />
+                        <br>
+                        <input type="button" id="clearCanvas" value="clear canvas" />
+                        <input type="button" id="outputCanvas" value="output" disabled />
+                        <br>
+                        <label class="label">imgpath</label>
+                        <input class="input" type="text" id="imgpath" value="" disabled/>
+                    </div>
+
                     <label class="label">text contents</label>
                     <input class="input" type="text" id="text-contents" value="this is a test post" />
                 </div>
@@ -70,6 +97,8 @@
             </form>
             <form id="fixpost">
                 <div class="field">
+                    <label class="label">img</label>
+                    <img id="posted-img" />
                     <label class="label">title</label>
                     <input class="input" type="text" id="re-title" />
                     <label class="label">text contents</label>
@@ -86,6 +115,12 @@
     </section>
 
     <script type="module">
+              
+        function canvasToBase64() {
+            return document.getElementById('canvas').toDataURL("image/png", 0.5);
+        }
+        
+
         //新規投稿
         document
             .getElementById("submitpsot")
@@ -93,7 +128,8 @@
                 event.preventDefault();
                 const posts_user_id = document.getElementById("post-user-id").value;
                 const title = document.getElementById("title").value;
-                const imgpath = document.getElementById("imgpath").value;
+                const imgpath = canvasToBase64();
+                document.getElementById("imgpath").value = imgpath;
                 const text_contents = document.getElementById("text-contents").value;
 
                 // サーバーに送信
@@ -182,6 +218,9 @@
                     const json = await resp.json();
                     document.getElementById("re-title").value = json.title;
                     document.getElementById("re-text-contents").value = json.text_contents;
+
+                    //絵を表示
+                    document.getElementById("posted-img").src = "data:image/png;" + json.imgpath;
 
                 } catch (err) {
                     document.getElementById("error").innerText = err.message;
