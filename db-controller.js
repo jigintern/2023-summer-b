@@ -82,3 +82,8 @@ export async function searchPosts_name(search_value) {
   const res = await client.execute(`SELECT * FROM posts WHERE title LIKE ?;`, [`%${search_value}%`]);
   return res;
 }
+
+export async function changeprf(did, name, intro) {
+  const id = await client.execute('SELECT id FROM users WHERE did = ?', [did]);
+  await client.execute('UPDATE users SET user_name = ?, self_intro = ? WHERE id = ?', [name, intro, id.rows[0].id]);
+}
