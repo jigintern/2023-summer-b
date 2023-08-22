@@ -151,13 +151,14 @@ serve(async (req) => {
     return new Response("fix post ok");
   }
 
-  if (req.method === "POST" && pathname === "/search") {
-    const json = await req.json();
-    const search_value = json.search_value;
+  if (req.method === "GET" && pathname === "/search") {
+    const currentURL = req.url;
+    const URLParams = new URLSearchParams(currentURL.split("?")[1]);
+    var search_value = "";
+    search_value = URLParams.get("search_value");
     const res = await searchPosts_name(search_value);
     return new Response(await JSON.stringify(res.rows));
   }
-
 
   return serveDir(req, {
     fsRoot: "public",

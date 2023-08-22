@@ -64,13 +64,7 @@
         return
       }
       try {
-        const resp = await fetch("/search", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            search_value
-          }),
-        });
+        const resp = await fetch("/search?search_value=" + search_value);
 
         // サーバーから成功ステータスが返ってこないときの処理
         if (!resp.ok) {
