@@ -7,6 +7,18 @@
     <title>プロフ入力</title>
     <link rel="stylesheet" href="./css/prf-input.css">
     <link rel="stylesheet" href="./css/layout.css">
+    <script>
+        window.onload = async (event) => {
+            event.preventDefault();
+            var did = ""
+            did = localStorage.getItem("did");
+            console.log(did)
+            if (did === null) {
+                window.location.href = "./login.html";
+                return;
+            }
+        };
+    </script>
 </head>
 
 <body>
@@ -31,7 +43,7 @@
                 <label for="introduction">自己紹介:</label>
                 <textarea id="introduction" name="introduction" rows="4" required></textarea>
 
-                <button type="submit">保存</button>
+                <button id="submit">保存</button>
             </form>
         </div>
     </section>
@@ -39,7 +51,7 @@
         <img src="./img/logo02-tr.png" alt="Logo2">
         <p>バグバスターズ</p>
     </footer>
-    <script>
+    <script type="module">
         // サイドバーボタン
         // homeButton
         var homeButton = document.getElementById("homeButton");
@@ -58,6 +70,44 @@
         prfButton.addEventListener("click", function () {
             window.location.href = "prf.html";
         });
+
+        document.getElementById("submit").onclick = async (event) => {
+            event.preventDefault();
+            if (document.getElementById("nickname") === "" || document.getElementById("introduction") === "") {
+                alert("入力されていない項目があります。");
+                return;
+            }
+
+            var did = "";
+            did = localStorage.getItem("did");
+            const name = document.getElementById("nickname").value;
+            const intro = document.getElementById("introduction").value;
+
+            try {
+                const resp = await fetch("/changeprf", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        did,
+                        name,
+                        intro,
+                    }),
+                });
+
+                if (!resp.ok) {
+                    const errMsg = await resp.text();
+                    console.log(errMsg);
+                    return;
+                }
+
+                alert("投稿完了！");
+                return;
+            }
+            catch (err) {
+                console.log(err);
+            }
+
+        };
 
     </script>
 </body>
