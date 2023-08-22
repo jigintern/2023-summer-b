@@ -1,0 +1,231 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #e5e7e9;
+    color: #3a3a3a;
+}
+
+header,
+footer {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #7ba9e0;
+    /* ヘッダーとフッターの色をさらに薄く */
+    width: 100vw;
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+header img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+header p {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    flex-grow: 1;
+}
+
+header button {
+    padding: 10px 20px;
+    background-color: #7ba9e0;
+    /* ヘッダーの色に合わせる */
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+    margin-left: -60px;
+}
+
+header button:hover {
+    background-color: #5c8ac5;
+    /* ホバー時の色を薄く */
+}
+
+.sidebar {
+    position: fixed;
+    top: 70px;
+    bottom: 40px;
+    left: 0;
+    width: 200px;
+    background-color: #555;
+    /* サイドバーの色を薄く */
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1;
+}
+
+.sidebar button {
+    color: white;
+    background-color: #777;
+    /* サイドバーのボタンを薄く */
+    padding: 10px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: #5c8ac5;
+    /* ホバー時の青を薄く */
+}
+
+/* ここから中身 */
+.section {
+    text-align: center;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: auto;
+}
+
+footer img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+footer p {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+}
+
+
+
+
+.custom-radio {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 中央揃えのためのスタイル */
+}
+
+.custom-radio label {
+    display: flex;
+    align-items: center;
+    gap: 0 .3em;
+    position: relative;
+    max-width: 150px;
+    margin-bottom: .4em;
+    padding: .3em .5em;
+    border: 1px solid #347db2;
+    border-radius: 20px;
+    background-color: #347db226;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, border-width 0.2s;
+}
+
+.custom-radio input[type="radio"]:checked+label {
+    background-color: #1e4d8b;
+    /* 濃い背景色 */
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-width: 3px;
+    /* 増加したボーダーの太さ */
+    outline: 2px solid #FFD700;
+    /* 新しいアウトライン */
+}
+
+.custom-radio label::before,
+.custom-radio input[type="radio"]:checked+label::after {
+    border-radius: 50%;
+    content: '';
+}
+
+.custom-radio label::before {
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+}
+
+.custom-radio input[type="radio"]:checked+label::after {
+    position: absolute;
+    top: 50%;
+    left: calc(6px + .5em);
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background-color: #347db2;
+}
+
+.custom-radio input[type="radio"] {
+    display: none;
+}
+
+.custom-radio label[for="colorRed"] {
+    border-color: red;
+    background-color: rgba(255, 0, 0, 0.1);
+    /* 薄い赤 */
+}
+
+.custom-radio input[type="radio"]:checked+label[for="colorRed"] {
+    background-color: red;
+    color: #fff;
+    outline: 2px solid #FFD700;
+}
+
+.custom-radio label[for="colorBlue"] {
+    border-color: blue;
+    background-color: rgba(0, 0, 255, 0.1);
+    /* 薄い青 */
+}
+
+.custom-radio input[type="radio"]:checked+label[for="colorBlue"] {
+    background-color: blue;
+    color: #fff;
+    outline: 2px solid #FFD700;
+}
+
+.custom-radio label[for="colorGreen"] {
+    border-color: green;
+    background-color: rgba(0, 255, 0, 0.1);
+    /* 薄い緑 */
+}
+
+.custom-radio input[type="radio"]:checked+label[for="colorGreen"] {
+    background-color: green;
+    color: #fff;
+    outline: 2px solid #FFD700;
+}
+
+.custom-radio label[for="colorBlack"] {
+    border-color: black;
+    background-color: rgba(0, 0, 0, 0.1);
+    /* 薄い黒 */
+}
+
+.custom-radio input[type="radio"]:checked+label[for="colorBlack"] {
+    background-color: black;
+    color: #fff;
+    outline: 2px solid #FFD700;
+}
+
+.custom-radio label[for="colorWhite"] {
+    border-color: white;
+    background-color: rgba(255, 255, 255, 0.3);
+    /* 薄い白（少し濃い目に調整） */
+    color: black;
+}
+
+.custom-radio input[type="radio"]:checked+label[for="colorWhite"] {
+    background-color: white;
+    color: black;
+    outline: 2px solid #FFD700;
+}
