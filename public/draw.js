@@ -21,7 +21,8 @@ canvas.addEventListener('mousemove', draw);
 function startDrawing(event) {
     isDrawing = true;
     context.beginPath();
-    context.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+    const point = getCanvasXY(event);
+    context.moveTo(point.x, point.y);
 }
 
 function stopDrawing() {
@@ -31,7 +32,12 @@ function stopDrawing() {
 
 function draw(event) {
     if (!isDrawing) return;
+    const point = getCanvasXY(event);
+    context.lineTo(point.x, point.y );
+    context.stroke();
+}
 
+function getCanvasXY(event){
     const rect = event.target.getBoundingClientRect();
 
     // ブラウザ上での座標を求める
@@ -45,9 +51,7 @@ function draw(event) {
     // ブラウザ上でのクリック座標をキャンバス上に変換
     const   canvasX = Math.floor( viewX / scaleWidth ),
             canvasY = Math.floor( viewY / scaleHeight );
-
-    context.lineTo(canvasX, canvasY );
-    context.stroke();
+    return {x: canvasX, y: canvasY};
 }
 
 // 色ラジオボタンが変更されたときの処理
@@ -57,6 +61,11 @@ colorRadios.forEach(radio => {
         const selectedColor = document.querySelector('input[name="color"]:checked').value;
         context.strokeStyle = selectedColor; // 選択した色を描画の色に設定
     });
+});
+
+const colorInput = document.getElementById("color");
+colorInput.addEventListener("input", ()=>{
+    context.strokeStyle = colorInput.value;
 });
 
 // 太さが変更されたときの処理
