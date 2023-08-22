@@ -7,7 +7,7 @@
   <title>絵日記一覧</title>
   <link rel="stylesheet" href="./css/index.css">
   <script>
-    window.onload = async () => {
+    async function Initialize() {
       const response = await fetch("/selectall");
       var array_tmp = await response.text();
       var array = await JSON.parse(array_tmp);
@@ -19,6 +19,10 @@
         postsDiv.appendChild(textElement);
       }
     };
+
+    window.onload = async () => {
+      Initialize();
+    };
   </script>
 </head>
 
@@ -26,7 +30,7 @@
   <header>
     <!-- ロゴとテキストを一つの<a>タグ内に配置 -->
     <a href="index.html" class="header-link">
-      <img src="./img/logo01.png" alt="Logo">
+      <img src="./img/SL_logo.png" alt="Logo">
       <p>スケッチャラボ</p>
     </a>
     <!-- ログインボタンのリンク -->
@@ -42,12 +46,64 @@
     <button>posts</button>
     <button>prf</button>
   </div>
+  <div class="search_box">
+    <input type="text" placeholder="検索..." id="search_value">
+    <button id="search">検索</button>
+    <button id="search_reset">検索リセット</button>
+  </div>
   <div class="posts">
   </div>
   <footer>
     <img src="./img/logo02-tr.png" alt="Logo2">
     <p>バグバスターズ</p>
   </footer>
+  <script type="module">
+    document.getElementById("search").onclick = async () => {
+      const search_value = document.getElementById("search_value").value;
+      if (search_value === "") {
+        return
+      }
+      try {
+        const resp = await fetch("/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            search_value
+          }),
+        });
+
+        // サーバーから成功ステータスが返ってこないときの処理
+        if (!resp.ok) {
+          const errMsg = await resp.text();
+          console.log(errMsg);
+          return;
+        }
+
+        var searched_array_tmp = await resp.text();
+        var searched_array = await JSON.parse(searched_array_tmp);
+        console.log(searched_array);
+        const targetDiv = document.querySelector('.posts');
+        targetDiv.innerHTML = "";
+        for (var i = 0; i < searched_array.length; i++) {
+          const postsDiv = document.querySelector('.posts');
+          const textElement = document.createElement('div');
+          textElement.textContent = searched_array[i].title + searched_array[i].text_contents;
+          textElement.classList.add('post_box');
+          postsDiv.appendChild(textElement);
+        }
+
+      } catch (err) {
+        console.log(err.message);
+      }
+
+    };
+
+    document.getElementById("search_reset").onclick = async () => {
+      const targetDiv = document.querySelector('.posts');
+      targetDiv.innerHTML = "";
+      Initialize();
+    };
+  </script>
 </body>
 
 </html>
