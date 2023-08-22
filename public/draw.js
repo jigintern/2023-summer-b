@@ -21,7 +21,8 @@ canvas.addEventListener('mousemove', draw);
 function startDrawing(event) {
     isDrawing = true;
     context.beginPath();
-    context.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+    const rect = event.target.getBoundingClientRect()
+    context.moveTo(event.clientX - rect.offsetLeft, event.clientY - rect.offsetTop);
 }
 
 function stopDrawing() {
@@ -31,7 +32,22 @@ function stopDrawing() {
 
 function draw(event) {
     if (!isDrawing) return;
-    context.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+
+    const rect = event.target.getBoundingClientRect();
+
+    // ブラウザ上での座標を求める
+    const   viewX = event.clientX - rect.left,
+            viewY = event.clientY - rect.top;
+
+    // 表示サイズとキャンバスの実サイズの比率を求める
+    const   scaleWidth =  canvas.clientWidth / canvas.width,
+            scaleHeight =  canvas.clientHeight / canvas.height;
+
+    // ブラウザ上でのクリック座標をキャンバス上に変換
+    const   canvasX = Math.floor( viewX / scaleWidth ),
+            canvasY = Math.floor( viewY / scaleHeight );
+
+    context.lineTo(canvasX, canvasY );
     context.stroke();
 }
 
