@@ -29,7 +29,8 @@ window.addEventListener("load", async (event)=>{
 
         //結果を編集欄に反映
         const json = await resp.json();
-        document.getElementById("title").value = json.title;
+        let title = json.title.replace("[編集済み]","");
+        document.getElementById("title").value = title;
         document.getElementById("text-contents").value = json.text_contents;
 
         //絵を表示
@@ -47,7 +48,7 @@ document.getElementById("fixpost").addEventListener("submit", async (event)=>{
     submit_btn.disabled = true;
     const did = localStorage.getItem("did");
     const id = post_id
-    const title = document.getElementById("title").value + "[再投稿]";
+    const title = document.getElementById("title").value + "[編集済み]";
     const text_contents = document.getElementById("text-contents").value;
     
     // サーバーに送信
