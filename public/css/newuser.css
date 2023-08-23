@@ -9,53 +9,6 @@ body {
     color: #3a3a3a;
 }
 
-header,
-footer {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #7ba9e0;
-    box-sizing: border-box;
-}
-
-header img,
-footer img {
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
-}
-
-header p {
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
-    flex-grow: 1;
-}
-
-header button {
-    padding: 10px 20px;
-    background-color: #7ba9e0;
-    color: white;
-    border: none;
-    transition: background-color 0.3s;
-}
-
-header button:hover {
-    background-color: #5c8ac5;
-}
-
-.header-link,
-.header-button-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-}
-
-.header-button-link {
-    margin-left: auto;
-}
-
 .registration-section {
     flex-grow: 1;
     display: flex;
@@ -68,6 +21,7 @@ header button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -130px;
     width: 80%;
     max-width: 600px;
 }
@@ -132,23 +86,4 @@ header button:hover {
 .button.is-link:hover,
 .button.is-primary:hover {
     background-color: #0056b3;
-}
-
-footer {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: auto;
-}
-
-footer img {
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
-}
-
-footer p {
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
 }

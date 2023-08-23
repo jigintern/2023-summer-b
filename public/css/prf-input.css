@@ -19,5 +19,14 @@ button:hover {
     display: flex !important;
     flex-direction: column;
     align-items: center;
+    margin-top: 160px;
     padding: 20px;
+}
+
+.input {
+    text-align: center;
+}
+
+.input-in {
+    margin-top: 10px;
 }

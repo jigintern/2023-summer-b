@@ -8,7 +8,9 @@ body {
     background-color: #e5e7e9;
     color: #3a3a3a;
     padding-top: 70px;
+    /* ヘッダーの高さ分のスペースを追加 */
     padding-bottom: 40px;
+    /* フッターの高さ分のスペースを追加 */
 }
 
 header {
@@ -44,11 +46,23 @@ header button {
     color: white;
     border: none;
     transition: background-color 0.3s;
-    margin-left: -60px;
+    margin-right: 40px;
 }
 
 header button:hover {
     background-color: #5c8ac5;
+}
+
+.header-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-button-link {
+    text-decoration: none;
+    margin-left: auto;
 }
 
 .sidebar {
