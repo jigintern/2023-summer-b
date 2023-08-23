@@ -6,8 +6,9 @@
     justify-content: center;
 }
 
-
-
+.login {
+    margin-left: auto;
+}
 
 
 .draw-area {
@@ -17,6 +18,7 @@
     align-items: center;
     position: relative;
 }
+
 .toolbox {
     box-sizing: border-box;
     height: 400px;
@@ -26,11 +28,13 @@
     margin-top: 150px;
     text-align: start;
 }
+
 .toolbox input[type="radio"] {
     accent-color: blue;
     inline-size: 1.5em;
     block-size: 1.5em;
 }
+
 .toolbox label {
     padding: 0.1em 1em;
     width: 5em;
