@@ -23,6 +23,11 @@
     position: relative;
 }
 
+#canvas-wrap {
+    width: 600px;
+    height: 400px;
+}
+
 .toolbox {
     box-sizing: border-box;
     height: 400px;
