@@ -8,37 +8,11 @@
     <link rel="stylesheet" href="./css/layout.css">
     <link rel="stylesheet" href="./css/prf.css">
     <script src="./js/authDID.js"></script>
+    <script src="./js/create_postbox.js"></script>
     <script>
-        function create_postbox(array) {
-            console.log(array.imgpath)
-            if (array.imgpath === "null") {
-                const postsDiv = document.querySelector('.posts');
-                const textElement = document.createElement('div');
-                textElement.textContent = array.title + array.text_contents;
-                textElement.classList.add('post_box');
-                postsDiv.appendChild(textElement);
-            }
-            else {
-                const postsDiv = document.querySelector('.posts');
-                const textElement = document.createElement('div');
-                textElement.textContent = array.title + array.text_contents;
-                textElement.classList.add('post_box');
-                const imagediv = document.createElement('div');
-                var imageElement = document.createElement('img');
-                imageElement.src = "data:image/png;" + array.imgpath;
-                imageElement.alt = array.title; // オプション：画像が読み込めない場合の代替テキスト
-                imageElement.width = 300; // オプション：画像の幅
-                imageElement.height = 200; // オプション：画像の高さ
-                imagediv.appendChild(imageElement);
-                textElement.appendChild(imagediv);
-                postsDiv.appendChild(textElement);
-            }
-        };
-
         window.onload = async (event) => {
             event.preventDefault();
             localStorage.setItem("previous_screen", window.location.href);
-            authDID(event);
             var did = "";
             did = localStorage.getItem("did")
             const prf_result = await fetch("/getprf", {
@@ -49,19 +23,13 @@
                 }),
             })
 
-            prf_result.text().then((data) => {
-                const prf = JSON.parse(data);
-                document.getElementById("user_name").innerText += prf[0].user_name;
-                document.getElementById("self-intro").innerText += prf[0].self_intro;
-                localStorage.setItem("id", prf[0].id)
-            }, (err) => {
-                console.log(err)
-                return;
-            }
-            )
+            const prf = await prf_result.json();
+            document.getElementById("user_name").innerText += prf[0].user_name;
+            document.getElementById("self-intro").innerText += prf[0].self_intro;
+            localStorage.setItem("id", prf[0].id);
 
-            const id = await localStorage.getItem("id");
-            console.log(id)
+            var id = localStorage.getItem("id");
+            console.log(id);
 
             const prfposts = await fetch("/prfposts", {
                 method: "POST",
@@ -69,7 +37,7 @@
                 body: JSON.stringify({
                     id,
                 }),
-            })
+            });
 
             // localStorage.removeItem("id");
             var prfposts_tmp = await prfposts.text();
@@ -92,9 +60,14 @@
 
 <body>
     <header>
-        <img src="./img/SL_logo.png" alt="Logo">
-        <p>スケッチャラボ</p>
-        <button>Login</button>
+        <a href="index.html" class="header-link">
+            <img src="./img/SL_logo.png" alt="Logo">
+            <p>スケッチャラボ</p>
+        </a>
+        <!-- ログインボタンのリンク -->
+        <a href="login.html" class="header-button-link">
+            <button>Login</button>
+        </a>
     </header>
     <div class="sidebar">
         <a href="index.html" class="sidebar-button-link">

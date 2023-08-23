@@ -24,6 +24,11 @@ h1 {
     /* 子要素が折り返されるようにする */
 }
 
+.posts a {
+    color: black;
+    text-decoration: none;
+}
+
 .post_box {
     background-color: #ccc;
     width: calc(35vw - 15px);
