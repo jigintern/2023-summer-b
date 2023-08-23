@@ -4,58 +4,16 @@ function canvasToBase64() {
 
 const submit_btn = document.getElementById("submit-btn");
 
-//新規投稿
-document
-.getElementById("submitpsot")
-.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    submit_btn.disabled = true;
-
-    const did = localStorage.getItem("did");
-    let title = document.getElementById("title").value;
-    if (title.length <= 0){title = "no title";}
-    const imgpath = canvasToBase64();
-    const text_contents = document.getElementById("text-contents").value;
-
-    // サーバーに送信
-    const path = "/submitpost";
-    const method = "POST";
-
-    try {
-        const resp = await fetch(path, {
-            method,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                did,
-                id,
-                title,
-                imgpath,
-                text_contents,
-            }),
-        });
-
-        // サーバーから成功ステータスが返ってこないときの処理
-        if (!resp.ok) {
-            const errMsg = await resp.text();
-            document.getElementById("error").innerText = "エラー：" + errMsg;
-            submit_btn.disabled = false;
-            return;
-        }
-
-        // レスポンスが正常のときの処理
-        console.log("投稿できました");
-        //ホームに戻る
-        window.location.href = "./index.html";
-
-    } catch (err) {
-        document.getElementById("error").innerText = err.message;
-    }
-});
-
 //投稿取得
-document.getElementById("getpost").addEventListener("submit", async (event)=>{
+window.addEventListener("load", async (event)=>{
     event.preventDefault();
-    const post_id = document.getElementById("re-post-id").value;
+    // URLParamsを取得
+    const url = new URL(window.location.href);
+    const post_id = url.searchParams.get("id");
+    if(!post_id){
+        console.error('no id in URL');
+        return;
+    }
     
     // サーバーに送信
     try {
@@ -70,8 +28,8 @@ document.getElementById("getpost").addEventListener("submit", async (event)=>{
 
         //結果を編集欄に反映
         const json = await resp.json();
-        document.getElementById("re-title").value = json.title;
-        document.getElementById("re-text-contents").value = json.text_contents;
+        document.getElementById("title").value = json.title;
+        document.getElementById("text-contents").value = json.text_contents;
 
         //絵を表示
         document.getElementById("posted-img").src = "data:image/png;" + json.imgpath;
