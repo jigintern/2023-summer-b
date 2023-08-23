@@ -21,6 +21,7 @@ function create_postbox(array) {
       imageElement.alt = array.title; // オプション：画像が読み込めない場合の代替テキスト
       imageElement.width = 300; // オプション：画像の幅
       imageElement.height = 200; // オプション：画像の高さ
+      imageElement.classList.add('post-img');
       const linkElement = document.createElement('a');
       linkElement.href = "./post_view.html?id=" + array.id;
       imagediv.appendChild(imageElement);

@@ -6,22 +6,15 @@ h1 {
     text-align: center;
 }
 
-.sidebar+.posts {
-    margin-left: 220px;
-    /* サイドバーの幅 + マージン分 */
-}
-
 .posts {
     align-content: start;
-    flex-grow: 1;
     margin: 10px;
     margin-top: auto;
     display: flex;
     flex-wrap: wrap;
     width: 75vw;
     margin-left: auto;
-    margin-right: 0;
-    /* 子要素が折り返されるようにする */
+    margin-right: 80px;
 }
 
 .posts a {
@@ -30,13 +23,38 @@ h1 {
 }
 
 .post_box {
-    background-color: #ccc;
     width: calc(35vw - 15px);
-    /* ボックス間の余白を考慮して幅を設定 */
     height: 35vh;
+    border: 2px;
     box-sizing: border-box;
     padding: 10px;
-    border: 1px solid #aaa;
     margin: 20px;
-    /* 下方向の余白を追加 */
+}
+
+.show-box {
+    margin-left: -100px;
+}
+
+.post-img {
+    width: 70%;
+    height: auto;
+}
+
+@media screen and (max-width: 750px) {
+
+    .show-box {
+        margin-left: 1%;
+    }
+
+    .post_box {
+        margin-left: 40px;
+        width: 250px;
+        margin-bottom: -50px;
+    }
+
+    .post-img {
+        width: 100%;
+        height: auto;
+    }
+
 }

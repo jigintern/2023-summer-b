@@ -5,7 +5,6 @@ main {
     align-items: center;
     flex-direction: column;
     margin-top: -200px;
-    /* 50px 上に移動する場合 */
 }
 
 .login-section {
