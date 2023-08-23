@@ -1,5 +1,5 @@
 "use strict"
-
+//p5.js
 function setup() {
     let canvas = createCanvas(600, 400);
     const canvas_wrap = document.getElementById("canvas-wrap");
@@ -20,6 +20,7 @@ function draw() {
     tool.draw();
 }
 
+//on load
 window.addEventListener("load", ()=>{
     //スマホのスクロールを無効化
     const canvas = document.getElementById('canvas-wrap');
@@ -32,15 +33,29 @@ window.addEventListener("load", ()=>{
 
     //tool
     tool = new Tool();
+
+
+    // undo redu
+    document.getElementById("undo").addEventListener("click", ()=>{
+        delline.push(lines.pop())
+    });
+    document.getElementById("redo").addEventListener("click", ()=>{
+        lines.push(delline.pop());        
+    });
 });
 
 
 let lines = [];
+let delline = [];
 let isDrawing = false;
 let nowline = null;
 let tool = null;
 
 function touchStarted() {
+    if(mouseX < 0 || mouseY < 0 || mouseX > width || mouseY > height){
+        console.log("out of canvs");
+        return;
+    }
     isDrawing = true;
     const l = new Line(tool.type, tool.color, tool.width);
     lines.push(l);
