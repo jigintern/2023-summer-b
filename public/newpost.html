@@ -5,20 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>サンプルページ</title>
-    <link rel="stylesheet" href="./css/newpost.css">
+    <link>
+    <link rel="stylesheet" href="./css/newpost.css" />
     <script type="module" src="draw.js"></script>
     <script type="module" src="./js/newpost.js"></script>
-    <script type="module" src="./js/authDID.js"></script>
+    <script src="./js/authDID.js"></script>
     <script>
-        window.addEventListener("load", async (event) => {
-            event.preventDefault();
-            var did = ""
-            did = localStorage.getItem("did");
-            console.log(did)
-            if (did === null) {
-                window.location.href = "./login.html";
-                return;
-            }
+        window.addEventListener("load", (e)=>{
+            authDID(e);
         });
     </script>
 </head>
