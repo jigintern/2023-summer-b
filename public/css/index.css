@@ -22,33 +22,25 @@
 }
 
 .post_box {
-    background-color: #ccc;
     width: calc(35vw - 15px);
     height: 35vh;
     box-sizing: border-box;
     padding: 10px;
-    border: 1px solid #aaa;
     margin: 20px;
 }
 
 .search_box {
     height: 10%;
-    background-color: #f2f2f2;
     padding: 10px;
     box-sizing: border-box;
-    border-bottom: 1px solid #ccc;
     display: flex;
-    /* Flexbox を使用 */
     align-items: center;
-    /* 垂直方向の中央揃え */
     justify-content: center;
-    /* 水平方向の中央揃え */
 }
 
 .search_box input {
     padding: 5px;
     margin-right: 10px;
-    /* input とボタンの間隔を追加 */
 }
 
 .search_box button {

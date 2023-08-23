@@ -2,70 +2,69 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>投稿編集</title>
-    <link>
-    <link rel="stylesheet" href="./css/layout.css" />
-    <link rel="stylesheet" href="./css/newpost.css" />
-    <script type="module" src="./js/repost.js"></script>
-    <script src="./js/authDID.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>投稿編集</title>
+  <link>
+  <link rel="stylesheet" href="./css/layout.css" />
+  <link rel="stylesheet" href="./css/newpost.css" />
+  <script type="module" src="./js/repost.js"></script>
+  <script src="./js/authDID.js"></script>
 </head>
 
 <header>
-    <!-- ロゴとテキストを一つの<a>タグ内に配置 -->
-    <a href="index.html" class="header-link">
-      <img src="./img/SL_logo.png" alt="Logo">
-      <p>スケッチャラボ</p>
-    </a>
-    <!-- ログインボタンのリンク -->
-    <a href="login.html" class="header-button-link">
-      <button>Login</button>
-    </a>
-    </header>
-    <div class="sidebar">
-        <!-- サイドバーのhomeボタンにindex.htmlへのリンクを追加 -->
-        <a href="index.html" class="sidebar-button-link">
-          <button>home</button>
-        </a>
-        <a href="newpost.html" class="sidebar-button-link">
-          <button>posts</button>
-        </a>
-        <a href="prf.html" class="sidebar-button-link">
-          <button>prf</button>
-        </a>
-    </div>
-    <!-- ここから内容 -->
-    <section class="section">
-        <div id="main">
-            <h1>投稿編集</h1>
-            <form id="fixpost">
-                <!-- タイトル -->
-                <div>
-                    <label class="label">タイトル</label><br>
-                    <input class="input" type="text" id="title" required />+[編集済み]
-                </div>
-                <!-- お絵かき -->
-                <img  id="posted-img" width="600" height="400"/>
-    
-                <!-- 日記textbox -->
-                <div>
-                    <label class="label">本文</label>
-                    <br>
-                    <textarea id="text-contents"></textarea>
-                </div>
-                
-                <button class="button primary" id="submit-btn">再投稿</button>
-                <p id="error"></p>
-            </form>    
-        </div>
+  <!-- ロゴとテキストを一つの<a>タグ内に配置 -->
+  <a href="index.html" class="header-link">
+    <img src="./img/SL_logo.png" alt="Logo">
+    <p>スケッチャラボ</p>
+  </a>
+  <!-- ログインボタンのリンク -->
+  <a href="login.html" class="header-button-link">
+    <button>Login</button>
+  </a>
+</header>
+<div class="sidebar">
+  <a href="index.html" class="sidebar-button-link">
+    <button>ホーム</button>
+  </a>
+  <a href="newpost.html" class="sidebar-button-link">
+    <button>絵日記を書く</button>
+  </a>
+  <a href="prf.html" class="sidebar-button-link">
+    <button>プロフィール</button>
+  </a>
+</div>
+<!-- ここから内容 -->
+<section class="section">
+  <div id="main">
+    <h1>投稿編集</h1>
+    <form id="fixpost">
+      <!-- タイトル -->
+      <div>
+        <label class="label">タイトル</label><br>
+        <input class="input" type="text" id="title" required />+[編集済み]
+      </div>
+      <!-- お絵かき -->
+      <img id="posted-img" width="600" height="400" />
 
-    </section>
+      <!-- 日記textbox -->
+      <div>
+        <label class="label">本文</label>
+        <br>
+        <textarea id="text-contents"></textarea>
+      </div>
 
-    <footer>
-        <img src="./img/logo02-tr.png" alt="Logo2">
-        <p>バグバスターズ</p>
-    </footer>
+      <button class="button primary" id="submit-btn">再投稿</button>
+      <p id="error"></p>
+    </form>
+  </div>
+
+</section>
+
+<footer>
+  <img src="./img/logo02-tr.png" alt="Logo2">
+  <p>バグバスターズ</p>
+</footer>
 </body>
 
 </html>
