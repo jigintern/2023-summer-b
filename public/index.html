@@ -7,6 +7,7 @@
   <title>絵日記一覧</title>
   <link rel="stylesheet" href="./css/layout.css" />
   <link rel="stylesheet" href="./css/index.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="./js/create_postbox.js"></script>
   <script src="./js/authlogin.js"></script>
   <script>
@@ -36,16 +37,29 @@
     <div class="login"></div>
   </header>
   <div class="sidebar">
-    <!-- サイドバーのhomeボタンにindex.htmlへのリンクを追加 -->
     <a href="index.html" class="sidebar-button-link">
-      <button>home</button>
+      <button>ホーム</button>
     </a>
     <a href="newpost.html" class="sidebar-button-link">
-      <button>posts</button>
+      <button>絵日記を書く</button>
     </a>
     <a href="prf.html" class="sidebar-button-link">
-      <button>prf</button>
+      <button>プロフィール</button>
     </a>
+  </div>
+
+  <div class="hamburger-menu">
+    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+    <label for="menu-toggle" class="menu-icon">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </label>
+    <div class="menu">
+      <a href="index.html">ホーム</a>
+      <a href="newpost.html">絵日記を書く</a>
+      <a href="prf.html">プロフィール</a>
+    </div>
   </div>
   <div class="search_box">
     <input type="text" placeholder="検索..." id="search_value">
