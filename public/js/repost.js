@@ -3,13 +3,14 @@ function canvasToBase64() {
 }
 
 const submit_btn = document.getElementById("submit-btn");
+let post_id = null;
 
 //投稿取得
 window.addEventListener("load", async (event)=>{
     event.preventDefault();
     // URLParamsを取得
     const url = new URL(window.location.href);
-    const post_id = url.searchParams.get("id");
+    post_id = url.searchParams.get("id");
     if(!post_id){
         console.error('no id in URL');
         return;
@@ -41,14 +42,13 @@ window.addEventListener("load", async (event)=>{
 
 //再投稿
 //title, text-contentsを更新
-//ひとまず時間の変更は無し
 document.getElementById("fixpost").addEventListener("submit", async (event)=>{
     event.preventDefault();
     submit_btn.disabled = true;
     const did = localStorage.getItem("did");
-    const id = document.getElementById("re-post-id").value;
-    const title = document.getElementById("re-title").value + "[再投稿]";
-    const text_contents = document.getElementById("re-text-contents").value;
+    const id = post_id
+    const title = document.getElementById("title").value + "[再投稿]";
+    const text_contents = document.getElementById("text-contents").value;
     
     // サーバーに送信
     const path = "/fixpost";
@@ -76,6 +76,7 @@ document.getElementById("fixpost").addEventListener("submit", async (event)=>{
 
         // レスポンスが正常のときの処理
         console.log("編集できました");
+        window.location.href = "./post_view?id=" + post_id;
 
     } catch (err) {
         document.getElementById("error").innerText = err.message;

@@ -154,7 +154,13 @@ serve(async (req) => {
 
   if (req.method === "POST" && pathname === "/fixpost") {
     const json = await req.json();
+    const did = json.did;
     const id = json.id;
+    const checkPostUser = false;
+    if (!checkPostUser) {
+      return new Response("Mismatch User", { status : 500});
+    }
+    
     const title = json.title;
     const text_contents = json.text_contents;
     await fixPost(
