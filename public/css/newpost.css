@@ -10,6 +10,10 @@
     margin-left: auto;
 }
 
+.timer {
+    margin-left: 20%;
+}
+
 
 .draw-area {
     display: flex;
