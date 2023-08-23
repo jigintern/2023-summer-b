@@ -2,14 +2,18 @@ function canvasToBase64() {
     return document.getElementById('canvas').toDataURL("image/png", 0.5);
 }
 
+const submit_btn = document.getElementById("submit-btn");
 
 //新規投稿
 document
 .getElementById("submitpsot")
 .addEventListener("submit", async (event) => {
     event.preventDefault();
+    submit_btn.disabled = true;
+
     const did = localStorage.getItem("did");
-    const title = document.getElementById("title").value;
+    let title = document.getElementById("title").value;
+    if (title.length <= 0){title = "no title";}
     const imgpath = canvasToBase64();
     const text_contents = document.getElementById("text-contents").value;
 
@@ -33,11 +37,14 @@ document
         if (!resp.ok) {
             const errMsg = await resp.text();
             document.getElementById("error").innerText = "エラー：" + errMsg;
+            submit_btn.disabled = false;
             return;
         }
 
         // レスポンスが正常のときの処理
-        console.log("投稿できました")
+        console.log("投稿できました");
+        //ホームに戻る
+        window.location.href = "./index.html";
 
     } catch (err) {
         document.getElementById("error").innerText = err.message;
