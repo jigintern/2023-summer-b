@@ -1,7 +1,44 @@
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 let isDrawing = false;
+
 let tool = "pen";
+let started = false;
+let timeover = false;
+let totalSeconds;
+let interval; 
+
+function startCountdown(seconds) {
+    started = true;
+    totalSeconds = seconds * 60;
+    interval = setInterval(updateCountdown, 1000);
+}
+
+function updateCountdown() {
+    if (totalSeconds <= 0) {
+        stopCountdown();
+        return;
+    }
+
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const formattedTime = pad(minutes) + ":" + pad(seconds);
+    document.getElementById("time").textContent = formattedTime;
+
+    totalSeconds--;
+}
+
+function pad(num) {
+    return (num < 10) ? "0" + num : num;
+}
+
+function stopCountdown() {
+    timeover = true;
+    clearInterval(interval);
+    document.getElementById("time").textContent = "00:00";
+}
+
 
 // Canvasを白く塗りつぶす
 function clearCanvas() {
@@ -20,6 +57,14 @@ canvas.addEventListener('mouseout', stopDrawing);
 canvas.addEventListener('mousemove', draw);
 
 function startDrawing(event) {
+  
+    if(started === false){
+        startCountdown(3)
+    }
+    if(timeover === true){
+        return;
+    }
+  
     switch (tool){
         case "eraser": 
         context.strokeStyle = "white";
@@ -30,7 +75,7 @@ function startDrawing(event) {
         context.strokeStyle = colorInput.value;
         context.lineWidth = Number.parseInt(penWeight.value);
     }
-    
+
     isDrawing = true;
     context.beginPath();
     const point = getCanvasXY(event);
