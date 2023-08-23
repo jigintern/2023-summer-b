@@ -8,18 +8,13 @@ function setup() {
 }
   
 function draw() {
-    fill(0);
-    rect(0, 0, width, height/2);
-    fill(255);
-    rect(0, height/2, width, height/2);
-    arc(width/2, height/2, 300, 300, PI, TWO_PI);
-    fill(0);
-    arc(width/2, height/2, 300, 300, 0, PI);
-    arc(width/2, height/2, 290, 290, PI, TWO_PI);
-    fill(255);
-    arc(width/2, height/2, 290, 290, 0, PI);
+    background(255);
+    stroke(0);
+    fill(127);
+    circle(mouseX, mouseY,30);
 }
 
+let lines = [];
 
 
 class Point {
