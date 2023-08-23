@@ -65,32 +65,47 @@ class Tool {
         this.eraser = document.getElementById("eraser");
         this.colorpicker = document.getElementById("color");
         this.widthrange = document.getElementById("penWeight");
+
+        this.pen.addEventListener("input", ()=>{
+            this.setType();
+        });
+        this.colorpicker.addEventListener("input", ()=>{
+            this.setColor();
+        });
+        this.widthrange.addEventListener("input", ()=>{
+            this.setWidth();
+        });
+
+        this.type = "pen";
+        this.color = "#000000";
+        this.width = "2";
+
     }
 
-    get type() {
-        if (this.pen.checked){
-            return "pen";
-        } else if (this.eraser.checked) {
-            return "eraser";
+    setType() {
+        if(this.pen.checked) {
+            this.type = "pen";
+        } else if(this.eraser.checked) {
+            this.type = "eraser";
         } else {
-            return "pen";
+            this.type = "pen";
         }
     }
 
-    get color() {
-        if (this.eraser.checked) {
-            return "#ffffff";
+    setColor() {
+        if (this.tool === "eraser") {
+            this.color = "#ffffff";
+        } else {
+            this.color = this.colorpicker.value;
         }
-    
-        return this.colorpicker.value;
     }
 
-    get width() {
+    setWidth() {
         if (this.eraser.checked) {
-            return this.widthrange.value * 3;
+            this.width = this.widthrange.value * 3;
+        } else {
+            this.width = this.widthrange.value;
         }
-    
-        return this.widthrange.value;
     }
 }
 
