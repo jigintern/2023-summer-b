@@ -18,6 +18,7 @@ async function authDID(event) {
         if (!resp.ok) {
             const errMsg = await resp.text();
             console.log(errMsg);
+            window.location.href = "./login.html";
             return;
         }
 
@@ -34,6 +35,7 @@ async function authDID(event) {
         },
             (err) => {
                 console.log(err)
+                window.location.href = "./login.html";
                 return;
             }
         )
