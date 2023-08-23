@@ -1,37 +1,24 @@
-.login {
-    margin-left: auto;
-}
-
-.sidebar+.post {
-    margin-left: 220px;
-}
-
 .post {
     align-content: start;
     flex-grow: 1;
-    margin: 10px;
-    margin-top: auto;
-    display: flex;
+    text-align: center;
     flex-wrap: wrap;
     width: 75vw;
     margin-left: auto;
     margin-right: 0;
 }
 
-.image_area {
-    max-width: 600px;
-    width: 100%;
+.post-box {
+    display: flex;
+    flex-direction: column;
 }
 
-#text_contents {
-    width: 100%;
+.title {
+    font-size: x-large;
+    font-weight: bold;
 }
 
-#post_edit_btn_area {
-    margin: 1em;
-}
-
-.btn {
-    margin: 0 10px;
-
+.post-img {
+    width: 75%;
+    height: auto;
 }

@@ -19,9 +19,8 @@ window.addEventListener("load", async (event) => {
     const imageElement = document.createElement('img');
     imageElement.src = "data:image/png;" + result.imgpath;
     imageElement.alt = result.title; // オプション：画像が読み込めない場合の代替テキスト
-    imageElement.style.width = "70vw"; // オプション：画像の幅
-    imageElement.style.height = "auto"; // オプション：画像の高さ
-    
+    imageElement.classList.add('post-img');
+
     //add HTML
     imagediv.appendChild(imageElement);
     textElement.appendChild(imagediv);
