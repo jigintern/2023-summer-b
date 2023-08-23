@@ -9,6 +9,10 @@ body {
     color: #3a3a3a;
 }
 
+.login {
+    margin-left: auto;
+}
+
 .registration-section {
     flex-grow: 1;
     display: flex;
