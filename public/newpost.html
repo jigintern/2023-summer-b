@@ -20,6 +20,9 @@
             <img src="./img/SL_logo.png" alt="Logo">
             <p>スケッチャラボ</p>
         </a>
+
+        <p class="timer">残り時間: <span id="time">--:--</span></p>
+
         <div class="login"></div>
     </header>
     <div class="sidebar">
@@ -55,7 +58,7 @@
 
                 <!-- 日記textbox -->
                 <div>
-                    <label class="label">本文</label>
+                    <label class="label">日記</label>
                     <br>
                     <textarea id="text-contents"></textarea>
                 </div>
@@ -70,27 +73,19 @@
             <!-- tool box -->
             <div class="toolbox">
                 色
-                <label>
-                    <input type="color" name="favorite_color" id="color">
-                </label>
-                <!--                 <input type="radio" id="colorRed" name="color" value="red" />
-                <label for="colorRed">赤</label><br>
-                <input type="radio" id="colorBlue" name="color" value="blue" />
-                <label for="colorBlue">青</label><br>
-                <input type="radio" id="colorGreen" name="color" value="green" />
-                <label for="colorGreen">緑</label><br>
-                <input type="radio" id="colorBlack" name="color" value="black" checked />
-                <label for="colorBlack">黒</label><br>
-                <input type="radio" id="colorWhite" name="color" value="white" />
-                <label for="colorWhite">白</label><br>
- -->
+                <label><input type="color" name="favorite_color" id="color">
+                </label><br>
+                <input type="radio" id="pen" name="tool" value="pen" checked />
+                <label for="pen">ペン</label><br>
+                <input type="radio" id="eraser" name="tool" value="eraser" />
+                <label for="eraser">消しゴム</label><br>
+
                 <br>
                 太さ<br>
                 <input type="range" id="penWeight" min="1" max="15" value="2" />
                 <br><br>
                 <input type="button" id="clearCanvas" value="すべて消す" />
                 <br>
-                <input type="button" id="outputCanvas" value="画像出力" />
             </div>
         </div>
 
