@@ -87,3 +87,8 @@ export async function changeprf(did, name, intro) {
   const id = await client.execute('SELECT id FROM users WHERE did = ?', [did]);
   await client.execute('UPDATE users SET user_name = ?, self_intro = ? WHERE id = ?', [name, intro, id.rows[0].id]);
 }
+
+export async function getPosts_userid(user_id) {
+  const res = await client.execute(`select * from posts WHERE post_user_id = ? ORDER BY post_date DESC;`, [user_id]);
+  return res;
+}
