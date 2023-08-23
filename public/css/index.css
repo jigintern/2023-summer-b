@@ -10,6 +10,13 @@
     flex-wrap: wrap;
 }
 
+.posts a {
+    color: black;
+    /* リンクの色を黒に設定 */
+    text-decoration: none;
+    /* アンダーバーをなくす */
+}
+
 .post_box {
     background-color: #ccc;
     width: calc(35vw - 15px);
