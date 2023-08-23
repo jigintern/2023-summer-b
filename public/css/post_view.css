@@ -17,3 +17,21 @@
     margin-left: auto;
     margin-right: 0;
 }
+
+.image_area {
+    max-width: 600px;
+    width: 100%;
+}
+
+#text_contents {
+    width: 100%;
+}
+
+#post_edit_btn_area {
+    margin: 1em;
+}
+
+.btn {
+    margin: 0 10px;
+
+}

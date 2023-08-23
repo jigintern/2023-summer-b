@@ -118,14 +118,22 @@ serve(async (req) => {
   if (req.method === "POST" && pathname === "/delpost") {
     const json = await req.json();
     const id = json.id;
-
+    const did = json.did;
+    
     // DBに投稿があるかチェック
     try {
       const isExists = await isPostExists(id);
       if (!isExists) {
         return new Response("投稿がありません", { status: 400 });
       }
+      
       // あればpostを削除
+      const post_user_id = (await getPost(id)).post_user_id;
+      const user_id = (await getUser(did)).rows[0].id;
+      if (post_user_id !== user_id) {
+        return new Response("Mismatch User", { status : 500});
+      }
+
       await delPost(id);
       console.log("del post", id);
       return new Response("del post ok")
@@ -158,7 +166,6 @@ serve(async (req) => {
     const id = json.id;
     const post_user_id = (await getPost(id)).post_user_id;
     const user_id = (await getUser(did)).rows[0].id;
-    console.log(post_user_id,user_id);
     if (post_user_id !== user_id) {
       return new Response("Mismatch User", { status : 500});
     }
@@ -202,6 +209,16 @@ serve(async (req) => {
     const id = json.id;
     const res = await getPosts_userid(id);
     return new Response(await JSON.stringify(res.rows));
+  }
+
+  //投稿主とdidが一致するか
+  if (req.method === "POST" && pathname === "/checkPostUser") {
+    const json = await req.json();
+    const did = json.did;
+    const id = json.id;
+    const post_user_id = (await getPost(id)).post_user_id;
+    const user_id = (await getUser(did)).rows[0].id;
+    return new Response(await JSON.stringify({result: post_user_id === user_id}));
   }
 
   return serveDir(req, {
