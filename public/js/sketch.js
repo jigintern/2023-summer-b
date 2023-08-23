@@ -3,19 +3,27 @@
 function setup() {
     let canvas = createCanvas(600, 400);
     const canvas_wrap = document.getElementById("canvas-wrap");
-    canvas.parent(canvas_wrap)
+    canvas.parent(canvas_wrap);
+    frameRate(30);
     canvas.position(0, 0);
 }
   
 function draw() {
     background(255);
+
+    //draw lines
+    for(let l of lines){
+        l.draw();
+    }
+
+    //pointer
     stroke(0);
     fill(127);
     circle(mouseX, mouseY,30);
 }
 
-//スマホのスクロールを無効化
 window.addEventListener("load", ()=>{
+    //スマホのスクロールを無効化
     const canvas = document.getElementById('canvas-wrap');
     canvas.ontouchstart = (event)=> {
         event.preventDefault();
@@ -23,11 +31,68 @@ window.addEventListener("load", ()=>{
     canvas.ontouchmove = (event)=> {
         event.preventDefault();
     };
+
+    //tool
+    tool = new Tool();
 });
 
 
 let lines = [];
+let isDrawing = false;
+let nowline = null;
+let tool = null;
 
+function touchStarted() {
+    isDrawing = true;
+    const l = new Line(tool.type, tool.color, tool.width);
+    lines.push(l);
+    nowline = l;
+}
+function touchMoved() {
+    if (!isDrawing) {
+        return;
+    }
+    nowline.addPoint(mouseX,mouseY);
+}
+function touchEnded() {
+    isDrawing = false;
+    console.log(lines);
+}
+
+class Tool {
+    constructor(){
+        this.pen = document.getElementById("pen");
+        this.eraser = document.getElementById("eraser");
+        this.colorpicker = document.getElementById("color");
+        this.widthrange = document.getElementById("penWeight");
+    }
+
+    get type() {
+        if (this.pen.checked){
+            return "pen";
+        } else if (this.eraser.checked) {
+            return "eraser";
+        } else {
+            return "pen";
+        }
+    }
+
+    get color() {
+        if (this.eraser.checked) {
+            return "#ffffff";
+        }
+    
+        return this.colorpicker.value;
+    }
+
+    get width() {
+        if (this.eraser.checked) {
+            return this.widthrange.value * 3;
+        }
+    
+        return this.widthrange.value;
+    }
+}
 
 class Point {
     constructor(_x = 0, _y = 0){

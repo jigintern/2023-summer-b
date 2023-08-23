@@ -1,5 +1,5 @@
 function canvasToBase64() {
-    return document.getElementById('canvas').toDataURL("image/png", 0.5);
+    return document.getElementById('canvas-wrap').firstElementChild.toDataURL("image/png", 0.5);
 }
 
 const submit_btn = document.getElementById("submit-btn");
