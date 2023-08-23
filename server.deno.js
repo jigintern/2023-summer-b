@@ -13,6 +13,20 @@ serve(async (req) => {
     return new Response(await JSON.stringify(result.rows));
   }
 
+  if (req.method === "POST" && pathname === "/authdid") {
+    const json = await req.json();
+    const did = json.did;
+    const isExists = await checkIfIdExists(did);
+    return new Response(await JSON.stringify(isExists));
+  }
+
+  if (req.method === "POST" && pathname === "/getprf") {
+    const json = await req.json();
+    const did = json.did;
+    const result = await getUser(did);
+    return new Response(await JSON.stringify(result.rows));
+  }
+
   if (req.method === "POST" && pathname === "/newuser") {
     const json = await req.json();
     const userName = json.name;

@@ -7,16 +7,10 @@
     <title>プロフ入力</title>
     <link rel="stylesheet" href="./css/prf-input.css">
     <link rel="stylesheet" href="./css/layout.css">
+    <script src="./authDID.js"></script>
     <script>
         window.onload = async (event) => {
-            event.preventDefault();
-            var did = ""
-            did = localStorage.getItem("did");
-            console.log(did)
-            if (did === null) {
-                window.location.href = "./login.html";
-                return;
-            }
+            authDID(event);
         };
     </script>
 </head>
@@ -28,9 +22,15 @@
         <button>Login</button>
     </header>
     <div class="sidebar">
-        <button id="homeButton">home</button>
-        <button id="newpostButton">posts</button>
-        <button id="prfButton">prf</button>
+        <a href="index.html" class="sidebar-button-link">
+            <button>home</button>
+        </a>
+        <a href="newpost.html" class="sidebar-button-link">
+            <button>posts</button>
+        </a>
+        <a href="prf.html" class="sidebar-button-link">
+            <button>prf</button>
+        </a>
     </div>
     <!-- ここから内容 -->
     <section>
@@ -52,25 +52,6 @@
         <p>バグバスターズ</p>
     </footer>
     <script type="module">
-        // サイドバーボタン
-        // homeButton
-        var homeButton = document.getElementById("homeButton");
-        homeButton.addEventListener("click", function () {
-            window.location.href = "index.html";
-        });
-
-        // newpostButton
-        var newpostButton = document.getElementById("newpostButton");
-        newpostButton.addEventListener("click", function () {
-            window.location.href = "newpost.html";
-        });
-
-        // prfButton
-        var prfButton = document.getElementById("prfButton");
-        prfButton.addEventListener("click", function () {
-            window.location.href = "prf.html";
-        });
-
         document.getElementById("submit").onclick = async (event) => {
             event.preventDefault();
             if (document.getElementById("nickname") === "" || document.getElementById("introduction") === "") {
