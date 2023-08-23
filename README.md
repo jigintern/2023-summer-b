@@ -22,6 +22,10 @@
 
 ## API構成
 
+GET: /selectall postsテーブルからすべてのレコードを取ってくる。
+
+POST: /authdid didをjson形式でPOST。 DBにDIDが存在すればtrueを返す。
+
 POST: /newuser name,sign,did,messageをjson形式でPOST。
 電子署名が正しいかチェックする。 同じdidが存在しないかチェックする。
 上二つが確認出来たらDBにその名前とdidを追加する。

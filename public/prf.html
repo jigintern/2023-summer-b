@@ -7,6 +7,33 @@
     <title>サンプルページ</title>
     <link rel="stylesheet" href="./css/layout.css">
     <link rel="stylesheet" href="./css/prf.css">
+    <script src="./authDID.js"></script>
+    <script>
+        window.onload = async (event) => {
+            authDID(event);
+            event.preventDefault();
+            var did = "";
+            did = localStorage.getItem("did")
+            const prf_result = await fetch("/getprf", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    did,
+                }),
+            })
+
+            prf_result.text().then((data) => {
+                prf = JSON.parse(data)
+                document.getElementById("user_name").innerText += prf[0].user_name;
+                document.getElementById("self-intro").innerText += prf[0].self_intro;
+            }, (err) => {
+                console.log(err)
+            }
+            )
+
+
+        };
+    </script>
 </head>
 
 <body>
@@ -16,16 +43,28 @@
         <button>Login</button>
     </header>
     <div class="sidebar">
-        <button>home</button>
-        <button>posts</button>
-        <button>prf</button>
+        <a href="index.html" class="sidebar-button-link">
+            <button>home</button>
+        </a>
+        <a href="newpost.html" class="sidebar-button-link">
+            <button>posts</button>
+        </a>
+        <a href="prf.html" class="sidebar-button-link">
+            <button>prf</button>
+        </a>
     </div>
     <!-- ここから内容 -->
     <h1>プロフィール</h1>
     <section class="section">
         <!-- アイコンはここ -->
-        <p>ユーザ名：</p>
-        <p>自己紹介：</p>
+        <div id="user_name">
+            <p>ユーザ名：
+            </p>
+        </div>
+        <div id="self-intro">
+            <p>自己紹介：
+            </p>
+        </div>
     </section>
     <footer>
         <img src="./img/logo02-tr.png" alt="Logo2">
