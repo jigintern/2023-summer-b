@@ -17,9 +17,7 @@ function draw() {
     }
 
     //pointer
-    stroke(0);
-    fill(127);
-    circle(mouseX, mouseY,30);
+    tool.draw();
 }
 
 window.addEventListener("load", ()=>{
@@ -69,6 +67,9 @@ class Tool {
         this.pen.addEventListener("input", ()=>{
             this.setType();
         });
+        this.eraser.addEventListener("input", ()=>{
+            this.setType();
+        });
         this.colorpicker.addEventListener("input", ()=>{
             this.setColor();
         });
@@ -87,13 +88,14 @@ class Tool {
             this.type = "pen";
         } else if(this.eraser.checked) {
             this.type = "eraser";
-        } else {
-            this.type = "pen";
         }
+        this.setColor();
+        this.setWidth();
+
     }
 
     setColor() {
-        if (this.tool === "eraser") {
+        if (this.type === "eraser") {
             this.color = "#ffffff";
         } else {
             this.color = this.colorpicker.value;
@@ -101,11 +103,22 @@ class Tool {
     }
 
     setWidth() {
-        if (this.eraser.checked) {
+        if (this.type === "eraser") {
             this.width = this.widthrange.value * 3;
         } else {
             this.width = this.widthrange.value;
         }
+    }
+
+    draw() {
+        if(this.type === "eraser") {
+            stroke("#000000");
+            strokeWeight(1);
+        } else {
+            noStroke();
+        }
+        fill(this.color);
+        circle(mouseX, mouseY, this.width);
     }
 }
 
