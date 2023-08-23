@@ -45,3 +45,7 @@ async function authDID(event) {
         return;
     }
 };
+
+window.addEventListener("load", (e)=>{
+    authDID(e);
+});

@@ -11,23 +11,26 @@
     <script type="module" src="draw.js"></script>
     <script type="module" src="./js/newpost.js"></script>
     <script src="./js/authDID.js"></script>
-    <script>
-        window.addEventListener("load", (e)=>{
-            authDID(e);
-        });
-    </script>
 </head>
 
 <body>
     <header>
-        <img src="./img/SL_logo.png" alt="Logo">
-        <p>スケッチャラボ</p>
-        <button>Login</button>
+        <a href="index.html" class="header-link">
+            <img src="./img/SL_logo.png" alt="Logo">
+            <p>スケッチャラボ</p>
+        </a>
     </header>
     <div class="sidebar">
-        <button>home</button>
-        <button>posts</button>
-        <button>prf</button>
+        <!-- サイドバーのhomeボタンにindex.htmlへのリンクを追加 -->
+        <a href="index.html" class="sidebar-button-link">
+          <button>home</button>
+        </a>
+        <a href="newpost.html" class="sidebar-button-link">
+          <button>posts</button>
+        </a>
+        <a href="prf.html" class="sidebar-button-link">
+          <button>prf</button>
+        </a>
     </div>
     <!-- ここから内容 -->
     <section class="section">
