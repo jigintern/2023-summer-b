@@ -45,6 +45,19 @@
     color: #fff;
 }
 
+.toolbox label[for="pen"],
+#pen {
+    accent-color: black;
+    background-color: black;
+}
+
+.toolbox label[for="eraser"],
+#eraser {
+    accent-color: black;
+    background-color: white;
+    color: black;
+}
+
 .toolbox label[for="colorRed"],
 #colorRed {
     accent-color: red;

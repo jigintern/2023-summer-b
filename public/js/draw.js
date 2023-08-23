@@ -1,6 +1,8 @@
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 let isDrawing = false;
+
+let tool = "pen";
 let started = false;
 let timeover = false;
 let totalSeconds;
@@ -37,6 +39,7 @@ function stopCountdown() {
     document.getElementById("time").textContent = "00:00";
 }
 
+
 // Canvasを白く塗りつぶす
 function clearCanvas() {
     context.fillStyle = 'white'; // 塗りつぶす色を白に設定
@@ -54,12 +57,25 @@ canvas.addEventListener('mouseout', stopDrawing);
 canvas.addEventListener('mousemove', draw);
 
 function startDrawing(event) {
+  
     if(started === false){
         startCountdown(3)
     }
     if(timeover === true){
         return;
     }
+  
+    switch (tool){
+        case "eraser": 
+        context.strokeStyle = "white";
+        context.lineWidth = Number.parseInt(penWeight.value) * 2;
+        break;
+
+        default :
+        context.strokeStyle = colorInput.value;
+        context.lineWidth = Number.parseInt(penWeight.value);
+    }
+
     isDrawing = true;
     context.beginPath();
     const point = getCanvasXY(event);
@@ -95,12 +111,11 @@ function getCanvasXY(event){
     return {x: canvasX, y: canvasY};
 }
 
-// 色ラジオボタンが変更されたときの処理
-const colorRadios = document.querySelectorAll('input[type="radio"][name="color"]');
+// ツール変更
+const colorRadios = document.querySelectorAll('input[type="radio"][name="tool"]');
 colorRadios.forEach(radio => {
     radio.addEventListener('change', () => {
-        const selectedColor = document.querySelector('input[name="color"]:checked').value;
-        context.strokeStyle = selectedColor; // 選択した色を描画の色に設定
+        tool = document.querySelector('input[name="tool"]:checked').value;
     });
 });
 
@@ -118,19 +133,6 @@ function changeWeight() {
 
 //クリア
 document.getElementById("clearCanvas").onclick = clearCanvas;
-
-//出力
-document.getElementById("outputCanvas").onclick = ()=>{
-    const data = canvas.toDataURL("image/png", 0.5);
-    console.log(data.length,data);
-
-    //仮でダウンロード
-    const a = document.createElement("a");
-    a.href = data
-    a.download = "image.png";
-    //a.click();
-};
-
 
 window.addEventListener("load", ()=>{
     clearCanvas();
