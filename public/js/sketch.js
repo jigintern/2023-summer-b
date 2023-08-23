@@ -48,6 +48,11 @@ window.addEventListener("load", ()=>{
         }
         lines.push(delline.pop());        
     });
+
+    //clear
+    document.getElementById("clearCanvas").addEventListener("click", ()=>{
+        lines.push(new Rect("#ffffff",new Point(), width, height));
+    });
 });
 
 
@@ -184,5 +189,20 @@ class Line {
 
             line(p1.x, p1.y, p2.x, p2.y);
         }
+    }
+}
+
+class Rect {
+    constructor(color, point, width, height){
+        this.color = color;
+        this.point = point;
+        this.width = width;
+        this.height = height;
+    }
+
+    draw() {
+        noStroke();
+        fill(this.color);
+        rect(this.point.x, this.point.y, this.width, this.height);
     }
 }
