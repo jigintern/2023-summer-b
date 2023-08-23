@@ -36,8 +36,9 @@
         };
 
         window.onload = async (event) => {
-            authDID(event);
             event.preventDefault();
+            localStorage.setItem("previous_screen", window.location.href);
+            authDID(event);
             var did = "";
             did = localStorage.getItem("did")
             const prf_result = await fetch("/getprf", {
