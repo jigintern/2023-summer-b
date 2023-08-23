@@ -8,7 +8,7 @@
     <link>
     <link rel="stylesheet" href="./css/layout.css" />
     <link rel="stylesheet" href="./css/newpost.css" />
-    <script type="module" src="draw.js"></script>
+    <script type="module" src="./js/draw.js"></script>
     <script type="module" src="./js/newpost.js"></script>
     <script src="./js/authDID.js"></script>
 </head>
@@ -23,13 +23,13 @@
     <div class="sidebar">
         <!-- サイドバーのhomeボタンにindex.htmlへのリンクを追加 -->
         <a href="index.html" class="sidebar-button-link">
-          <button>home</button>
+            <button>home</button>
         </a>
         <a href="newpost.html" class="sidebar-button-link">
-          <button>posts</button>
+            <button>posts</button>
         </a>
         <a href="prf.html" class="sidebar-button-link">
-          <button>prf</button>
+            <button>prf</button>
         </a>
     </div>
     <!-- ここから内容 -->
@@ -44,23 +44,23 @@
                 </div>
                 <!-- お絵かき -->
                 <div class="draw-area">
-    
+
                     <div id="canvas-wrap">
                         <canvas id="canvas" width="600" height="400"></canvas>
                     </div>
-    
+
                 </div>
-    
+
                 <!-- 日記textbox -->
                 <div>
                     <label class="label">本文</label>
                     <br>
                     <textarea id="text-contents"></textarea>
                 </div>
-                
+
                 <button class="button primary" id="submit-btn">投稿</button>
                 <p id="error"></p>
-            </form>    
+            </form>
         </div>
 
 
@@ -71,7 +71,7 @@
                 <label>
                     <input type="color" name="favorite_color" id="color">
                 </label>
-<!--                 <input type="radio" id="colorRed" name="color" value="red" />
+                <!--                 <input type="radio" id="colorRed" name="color" value="red" />
                 <label for="colorRed">赤</label><br>
                 <input type="radio" id="colorBlue" name="color" value="blue" />
                 <label for="colorBlue">青</label><br>
