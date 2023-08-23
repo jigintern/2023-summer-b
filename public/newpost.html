@@ -5,8 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>サンプルページ</title>
-    <link rel="stylesheet" href="./css/newpost.css">
+    <link>
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/newpost.css" />
     <script type="module" src="draw.js"></script>
+    <script type="module" src="./js/newpost.js"></script>
+    <script src="./js/authDID.js"></script>
+    <script>
+        window.addEventListener("load", (e)=>{
+            authDID(e);
+        });
+    </script>
 </head>
 
 <body>
@@ -22,73 +31,64 @@
     </div>
     <!-- ここから内容 -->
     <section class="section">
-        <h1>新規投稿</h1>
-        <form id="submitpsot">
-            <!-- タイトル -->
-            <div>
-                <!-- <label class="label">user id</label>
-                    <input class="input" type="number" id="post-user-id" value="5" />
-                    <label class="label">imgpath</label>
-                    <input class="input" type="text" id="imgpath" value="null" /> -->
-                <label class="label">タイトル</label>
-                <input class="input" type="text" id="title" />
-            </div>
-            <!-- お絵かき -->
-            <div>
-                <canvas id="canvas" width="600" height="400"></canvas>
+        <div id="main">
+            <h1>新規投稿</h1>
+            <form id="submitpsot">
+                <!-- タイトル -->
                 <div>
-                    color<br>
-                    <!-- <input type="radio" id="colorRed" name="color" value="red" />
-                    <label for="colorRed">Red</label><br>
-                    <input type="radio" id="colorBlue" name="color" value="blue" />
-                    <label for="colorBlue">Blue</label><br>
-                    <input type="radio" id="colorGreen" name="color" value="green" />
-                    <label for="colorGreen">Green</label><br>
-                    <input type="radio" id="colorBlack" name="color" value="black" checked />
-                    <label for="colorBlack">Black</label><br>
-                    <input type="radio" id="colorWhite" name="color" value="white" />
-                    <label for="colorBlack">White</label><br> -->
-
-                    <fieldset class="custom-radio">
-                        <label for="colorRed">
-                            <input type="radio" id="colorRed" name="color" value="red" />
-                            Red
-                        </label>
-                        <label for="colorBlue">
-                            <input type="radio" id="colorBlue" name="color" value="blue" />
-                            Blue
-                        </label>
-                        <label for="colorGreen">
-                            <input type="radio" id="colorGreen" name="color" value="green" />
-                            Green
-                        </label>
-                        <label for="colorBlack">
-                            <input type="radio" id="colorBlack" name="color" value="black" checked />
-                            Black
-                        </label>
-                        <label for="colorWhite">
-                            <input type="radio" id="colorWhite" name="color" value="white" />
-                            White
-                        </label>
-                    </fieldset>
-
-
-                    penWeight<br>
-                    <input type="range" id="penWeight" min="1" max="10" value="2" />
-                    <br>
-                    <input type="button" id="clearCanvas" value="すべて消す" />
-                    <br>
-                    <input type="button" id="outputCanvas" value="画像出力" />
+                    <label class="label">タイトル</label><br>
+                    <input class="input" type="text" id="title" required />
                 </div>
-            </div>
-            <!-- 日記textbox -->
-            <div>
-                <label class="label">日　記　</label>
-                <input class="input" type="textbox" id="text-contents" />
-            </div>
-        </form>
+                <!-- お絵かき -->
+                <div class="draw-area">
+    
+                    <div id="canvas-wrap">
+                        <canvas id="canvas" width="600" height="400"></canvas>
+                    </div>
+    
+                </div>
+    
+                <!-- 日記textbox -->
+                <div>
+                    <label class="label">本文</label>
+                    <br>
+                    <textarea id="text-contents"></textarea>
+                </div>
+                
+                <button class="button primary" id="submit-btn">投稿</button>
+                <p id="error"></p>
+            </form>    
+        </div>
 
-        <button>投稿</button>
+
+        <div id="right">
+            <!-- tool box -->
+            <div class="toolbox">
+                色
+                <label>
+                    <input type="color" name="favorite_color" id="color">
+                </label>
+<!--                 <input type="radio" id="colorRed" name="color" value="red" />
+                <label for="colorRed">赤</label><br>
+                <input type="radio" id="colorBlue" name="color" value="blue" />
+                <label for="colorBlue">青</label><br>
+                <input type="radio" id="colorGreen" name="color" value="green" />
+                <label for="colorGreen">緑</label><br>
+                <input type="radio" id="colorBlack" name="color" value="black" checked />
+                <label for="colorBlack">黒</label><br>
+                <input type="radio" id="colorWhite" name="color" value="white" />
+                <label for="colorWhite">白</label><br>
+ -->
+                <br>
+                太さ<br>
+                <input type="range" id="penWeight" min="1" max="15" value="2" />
+                <br><br>
+                <input type="button" id="clearCanvas" value="すべて消す" />
+                <br>
+                <input type="button" id="outputCanvas" value="画像出力" />
+            </div>
+        </div>
+
     </section>
 
     <footer>
