@@ -90,7 +90,8 @@ document.getElementById("outputCanvas").onclick = ()=>{
     //a.click();
 };
 
-window.onload = ()=>{
+
+window.addEventListener("load", ()=>{
     clearCanvas();
     changeWeight();
-};
+});
