@@ -37,9 +37,15 @@ window.addEventListener("load", ()=>{
 
     // undo redu
     document.getElementById("undo").addEventListener("click", ()=>{
+        if(lines.length <= 0) {
+            return;
+        }
         delline.push(lines.pop())
     });
     document.getElementById("redo").addEventListener("click", ()=>{
+        if(delline.length <= 0) {
+            return;
+        }
         lines.push(delline.pop());        
     });
 });
@@ -53,7 +59,7 @@ let tool = null;
 
 function touchStarted() {
     if(mouseX < 0 || mouseY < 0 || mouseX > width || mouseY > height){
-        console.log("out of canvs");
+        //console.log("out of canvs");
         return;
     }
     isDrawing = true;
@@ -69,7 +75,6 @@ function touchMoved() {
 }
 function touchEnded() {
     isDrawing = false;
-    console.log(lines);
 }
 
 class Tool {
