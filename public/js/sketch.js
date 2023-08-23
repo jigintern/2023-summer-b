@@ -51,7 +51,7 @@ window.addEventListener("load", ()=>{
 
     //clear
     document.getElementById("clearCanvas").addEventListener("click", ()=>{
-        lines.push(new Rect("#ffffff",new Point(), width, height));
+        lines.push(new Rect(tool.background_color ,new Point(), width, height));
     });
 });
 
@@ -88,6 +88,7 @@ class Tool {
         this.eraser = document.getElementById("eraser");
         this.colorpicker = document.getElementById("color");
         this.widthrange = document.getElementById("penWeight");
+        this.background_colorpicker = document.getElementById("background-color");
 
         this.pen.addEventListener("input", ()=>{
             this.setType();
@@ -101,10 +102,14 @@ class Tool {
         this.widthrange.addEventListener("input", ()=>{
             this.setWidth();
         });
+        this.background_colorpicker.addEventListener("input", ()=>{
+            this.setBackgroundColor();
+        });
 
         this.type = "pen";
         this.color = "#000000";
         this.width = "2";
+        this.background_color = "#ffffff";
 
     }
 
@@ -118,7 +123,6 @@ class Tool {
         this.setWidth();
 
     }
-
     setColor() {
         if (this.type === "eraser") {
             this.color = "#ffffff";
@@ -126,13 +130,15 @@ class Tool {
             this.color = this.colorpicker.value;
         }
     }
-
     setWidth() {
         if (this.type === "eraser") {
             this.width = this.widthrange.value * 3;
         } else {
             this.width = this.widthrange.value;
         }
+    }
+    setBackgroundColor() {
+        this.background_color = this.background_colorpicker.value;
     }
 
     draw() {
