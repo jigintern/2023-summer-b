@@ -37,13 +37,21 @@
         <div class="profile-form">
             <h1>プロフィール入力</h1>
             <form id="profileForm">
-                <label for="nickname">ニックネーム:</label>
-                <input type="text" id="nickname" name="nickname" required>
+                <div class="input">
+                    <div class="input-in">
+                        <label for="nickname">ニックネーム:</label>
+                        <input type="text" id="nickname" name="nickname" required>
+                    </div>
 
-                <label for="introduction">自己紹介:</label>
-                <textarea id="introduction" name="introduction" rows="4" required></textarea>
+                    <div class="input-in">
+                        <label for="introduction">自己紹介:</label>
+                        <textarea id="introduction" name="introduction" rows="4" required></textarea>
+                    </div>
 
-                <button id="submit">保存</button>
+                    <div class="input-in">
+                        <button id="submit">保存</button>
+                    </div>
+                </div>
             </form>
         </div>
     </section>
