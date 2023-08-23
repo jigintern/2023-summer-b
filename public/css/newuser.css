@@ -21,7 +21,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: -130px;
+    /* margin-top: -130px; */
+    margin-top: -100px;
+    padding: 10px;
     width: 80%;
     max-width: 600px;
 }
@@ -86,4 +88,27 @@ body {
 .button.is-link:hover,
 .button.is-primary:hover {
     background-color: #0056b3;
+}
+
+.registration-login {
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+@media screen and (max-width: 750px) {
+    .registration-container {
+        padding: 15px;
+    }
+
+    .button.is-link,
+    .button.is-primary,
+    .log-sc-btn {
+        padding: 10px;
+    }
+
+    .log-sc-btn {
+        width: auto;
+    }
 }

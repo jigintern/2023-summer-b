@@ -16,7 +16,7 @@ body {
 header {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 10px;
     background-color: #7ba9e0;
     width: 100vw;
     position: fixed;
@@ -107,7 +107,7 @@ footer {
     /* フッターを画面全体に拡張 */
     background-color: #7ba9e0;
     /* フッターの背景色を追加 */
-    padding: 10px 20px;
+    padding: 10px;
     box-sizing: border-box;
 }
 
@@ -121,4 +121,28 @@ footer p {
     margin: 0;
     padding: 0;
     font-size: 24px;
+}
+
+@media screen and (max-width: 750px) {
+
+    header,
+    footer {
+        padding: 10px;
+    }
+
+    header img {
+        width: 20px;
+    }
+
+    header p {
+        font-size: 13px;
+    }
+
+    footer img {
+        width: 20px;
+    }
+
+    footer p {
+        font-size: 13px;
+    }
 }
