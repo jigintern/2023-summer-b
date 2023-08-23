@@ -8,17 +8,15 @@
   <link rel="stylesheet" href="./css/layout.css" />
   <link rel="stylesheet" href="./css/index.css">
   <script src="./js/create_postbox.js"></script>
+  <script src="./js/authlogin.js"></script>
   <script>
     async function Initialize() {
       const response = await fetch("/selectall");
-      var array_tmp = await response.text();
-      var array = await JSON.parse(array_tmp);
+      var array = await response.json();
       for (var i = 0; i < array.length; i++) {
         create_postbox(array[i]);
       }
     };
-
-
 
     window.onload = async (event) => {
       event.preventDefault();
@@ -35,10 +33,7 @@
       <img src="./img/SL_logo.png" alt="Logo">
       <p>スケッチャラボ</p>
     </a>
-    <!-- ログインボタンのリンク -->
-    <a href="login.html" class="header-button-link">
-      <button>Login</button>
-    </a>
+    <div class="login"></div>
   </header>
   <div class="sidebar">
     <!-- サイドバーのhomeボタンにindex.htmlへのリンクを追加 -->

@@ -15,6 +15,9 @@
             <img src="./img/SL_logo.png" alt="Logo">
             <p>スケッチャラボ</p>
         </a>
+        <a href="index.html" class="header-button-link">
+            <button>ホームに戻る</button>
+        </a>
     </header>
 
     <main>
@@ -99,11 +102,6 @@
                     localStorage.setItem("did", did);
                     localStorage.setItem("password", password);
                     localStorage.setItem("name", json.user.name);
-
-                    document.getElementById("status").innerText = "ログイン成功";
-                    document.getElementById("name").innerText = json.user.name;
-                    document.getElementById("did").innerText = did;
-                    document.getElementById("password").innerText = password;
                     const backurl = localStorage.getItem("previous_screen");
                     window.location.href = backurl;
                 } catch (err) {
