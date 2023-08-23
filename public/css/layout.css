@@ -65,6 +65,10 @@ header button:hover {
     margin-left: auto;
 }
 
+.hamburger-menu {
+    display: none;
+}
+
 .sidebar {
     position: fixed;
     top: 65px;
@@ -132,6 +136,78 @@ footer p {
 
     header img {
         width: 20px;
+    }
+
+    header button {
+        padding: 10px 20px;
+        background-color: #7ba9e0;
+        color: white;
+        border: none;
+        transition: background-color 0.3s;
+        margin-right: -10px;
+    }
+
+    header button:hover {
+        background-color: #5c8ac5;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .hamburger-menu {
+        position: fixed;
+        top: 65px;
+        left: 0;
+        width: 200px;
+        z-index: 1;
+        display: block;
+    }
+
+    .menu-icon {
+        cursor: pointer;
+        display: inline-block;
+        padding: 5px;
+        position: absolute;
+        z-index: 2;
+        top: -10px;
+    }
+
+    .bar {
+        background-color: #333;
+        display: block;
+        height: 3px;
+        margin: 5px auto;
+        width: 25px;
+    }
+
+    .menu {
+        background-color: rgba(85, 85, 85, 0.7);
+        flex-direction: column;
+        gap: 15px;
+        height: 0;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        transition: height 0.3s ease;
+        width: 120px;
+        z-index: 1;
+    }
+
+    .menu a {
+        color: white;
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    #menu-toggle:checked+.menu-icon+.menu {
+        height: auto;
+        padding: 10px 0;
+    }
+
+    #menu-toggle {
+        display: none;
     }
 
     header p {
