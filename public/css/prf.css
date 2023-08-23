@@ -1,7 +1,5 @@
-h1 {
-    text-align: center;
-}
-
+/* 共通のスタイル */
+h1,
 .section {
     text-align: center;
 }
@@ -9,30 +7,28 @@ h1 {
 .posts {
     align-content: start;
     margin: 10px;
-    margin-top: auto;
+    /* margin-top: auto; */
     display: flex;
     flex-wrap: wrap;
-    width: 75vw;
-    margin-left: auto;
-    margin-right: 80px;
+    width: 100%;
+    /* 75vwから100%に変更 */
+    /* margin-left: auto; */
+    /* margin-right: 80px; */
 }
 
 .posts a {
     color: black;
     text-decoration: none;
+    width: fit-content;
+    height: fit-content;
 }
 
 .post_box {
-    width: calc(35vw - 15px);
-    height: 35vh;
-    border: 2px;
+    width: fit-content;
+    height: fit-content;
     box-sizing: border-box;
     padding: 10px;
-    margin: 20px;
-}
-
-.show-box {
-    margin-left: -100px;
+    margin: auto;
 }
 
 .post-img {
@@ -40,16 +36,31 @@ h1 {
     height: auto;
 }
 
-@media screen and (max-width: 750px) {
+.button.primary {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    width: 30%;
+    padding: 1.2%;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin-left: 35%;
+}
 
+.button.primary:hover {
+    background-color: #0056b3;
+}
+
+@media screen and (max-width: 750px) {
     .show-box {
         margin-left: 1%;
     }
 
     .post_box {
-        margin-left: 40px;
-        width: 250px;
-        margin-bottom: -50px;
+        margin-left: 5%;
+        width: 90%;
+        margin-bottom: auto;
     }
 
     .post-img {
@@ -57,4 +68,7 @@ h1 {
         height: auto;
     }
 
+    .posts {
+        margin-right: auto;
+    }
 }
