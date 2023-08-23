@@ -99,13 +99,13 @@ serve(async (req) => {
   //Posts
   if (req.method === "POST" && pathname === "/submitpost") {
     const json = await req.json();
-    const posts_user_id = json.posts_user_id;
+    const posts_user_id = await getUser(json.did);
     const title = json.title;
     const imgpath = json.imgpath;
     const text_contents = json.text_contents;
     const post_date = new Date();
     await addPost(
-      posts_user_id,
+      posts_user_id.rows[0].id,
       title,
       imgpath,
       text_contents,
