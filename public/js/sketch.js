@@ -125,7 +125,7 @@ class Tool {
     }
     setColor() {
         if (this.type === "eraser") {
-            this.color = "#ffffff";
+            this.color = this.background_color;
         } else {
             this.color = this.colorpicker.value;
         }
@@ -139,6 +139,7 @@ class Tool {
     }
     setBackgroundColor() {
         this.background_color = this.background_colorpicker.value;
+        this.setColor();
     }
 
     draw() {
