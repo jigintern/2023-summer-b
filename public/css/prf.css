@@ -5,3 +5,33 @@ h1 {
 .section {
     text-align: center;
 }
+
+.sidebar+.posts {
+    margin-left: 220px;
+    /* サイドバーの幅 + マージン分 */
+}
+
+.posts {
+    align-content: start;
+    flex-grow: 1;
+    margin: 10px;
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    width: 75vw;
+    margin-left: auto;
+    margin-right: 0;
+    /* 子要素が折り返されるようにする */
+}
+
+.post_box {
+    background-color: #ccc;
+    width: calc(35vw - 15px);
+    /* ボックス間の余白を考慮して幅を設定 */
+    height: 35vh;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #aaa;
+    margin: 20px;
+    /* 下方向の余白を追加 */
+}

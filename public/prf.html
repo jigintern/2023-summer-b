@@ -9,6 +9,32 @@
     <link rel="stylesheet" href="./css/prf.css">
     <script src="./authDID.js"></script>
     <script>
+        function create_postbox(array) {
+            console.log(array.imgpath)
+            if (array.imgpath === "null") {
+                const postsDiv = document.querySelector('.posts');
+                const textElement = document.createElement('div');
+                textElement.textContent = array.title + array.text_contents;
+                textElement.classList.add('post_box');
+                postsDiv.appendChild(textElement);
+            }
+            else {
+                const postsDiv = document.querySelector('.posts');
+                const textElement = document.createElement('div');
+                textElement.textContent = array.title + array.text_contents;
+                textElement.classList.add('post_box');
+                const imagediv = document.createElement('div');
+                var imageElement = document.createElement('img');
+                imageElement.src = "data:image/png;" + array.imgpath;
+                imageElement.alt = array.title; // オプション：画像が読み込めない場合の代替テキスト
+                imageElement.width = 300; // オプション：画像の幅
+                imageElement.height = 200; // オプション：画像の高さ
+                imagediv.appendChild(imageElement);
+                textElement.appendChild(imagediv);
+                postsDiv.appendChild(textElement);
+            }
+        };
+
         window.onload = async (event) => {
             authDID(event);
             event.preventDefault();
@@ -23,13 +49,40 @@
             })
 
             prf_result.text().then((data) => {
-                prf = JSON.parse(data)
+                const prf = JSON.parse(data);
                 document.getElementById("user_name").innerText += prf[0].user_name;
                 document.getElementById("self-intro").innerText += prf[0].self_intro;
+                localStorage.setItem("id", prf[0].id)
             }, (err) => {
                 console.log(err)
+                return;
             }
             )
+
+            const id = await localStorage.getItem("id");
+            console.log(id)
+
+            const prfposts = await fetch("/prfposts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id,
+                }),
+            })
+
+            // localStorage.removeItem("id");
+            var prfposts_tmp = await prfposts.text();
+            var array = await JSON.parse(prfposts_tmp);
+            console.log(array)
+            if (array.length > 0) {
+                for (var i = 0; i < array.length; i++) {
+                    create_postbox(array[i]);
+                }
+            }
+            else {
+                console.log("作品なし");
+                return;
+            }
 
 
         };
@@ -65,6 +118,7 @@
             <p>自己紹介：
             </p>
         </div>
+        <div class="posts"></div>
     </section>
     <footer>
         <img src="./img/logo02-tr.png" alt="Logo2">
