@@ -14,6 +14,18 @@ function draw() {
     circle(mouseX, mouseY,30);
 }
 
+//スマホのスクロールを無効化
+window.addEventListener("load", ()=>{
+    const canvas = document.getElementById('canvas-wrap');
+    canvas.ontouchstart = (event)=> {
+        event.preventDefault();
+    };
+    canvas.ontouchmove = (event)=> {
+        event.preventDefault();
+    };
+});
+
+
 let lines = [];
 
 
