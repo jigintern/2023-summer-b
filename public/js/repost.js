@@ -76,7 +76,7 @@ document.getElementById("fixpost").addEventListener("submit", async (event)=>{
 
         // レスポンスが正常のときの処理
         console.log("編集できました");
-        window.location.href = "./post_view?id=" + post_id;
+        window.location.href = "./post_view.html?id=" + post_id;
 
     } catch (err) {
         document.getElementById("error").innerText = err.message;
