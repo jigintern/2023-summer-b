@@ -302,8 +302,9 @@ serve(async (req) => {
     //check
     const roomid = new Md5().update(did).toString();
     console.log(roomid);
-    if (rooms.has(roomid) || rooms.length > 50){
-      return new Response("部屋を作れません", { status: 400 });
+    //既に部屋を立てている
+    if (rooms.has(roomid)){
+      return new Response(JSON.stringify({roomid}));
     }
     const room = createNewRoom(roomid, did);
 
