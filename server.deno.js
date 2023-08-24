@@ -258,30 +258,23 @@ serve(async (req) => {
     //socket listener
     socket.onopen = () => {
       room.sendStates(socket);
+      room.broadcast_usernames();
     };
     socket.onmessage = (e) => {
       const json = JSON.parse(e.data)
       console.log('socket event:', json.event);
       if (json.event === "push-line"){
         if(json.line){
-          if(json.line.type === "rect"){
-            BGcolor = json.line.color;
-            broadcast_BGcolor();
-          }
-          lines.push(json.line);
+          room.pushline(json.line); 
         }
-        if(lines.length > 100){
-          lines.slice(1,1);
-        }
-        broadcast_lines();
       }
     };
     socket.onerror = (e) => {
       console.log('socket errored:', e)
     };
     socket.onclose = () => {
-      connectedClients.delete(socket.username);
-      broadcast_usernames();
+      room.connectedClients.delete(socket.username);
+      room.broadcast_usernames();
     };
 
     return response;
@@ -340,6 +333,18 @@ class Room {
     this.text_contents = "";
   }
 
+  pushline(l){
+    if(l.type === "rect"){
+      this.BGcolor = l.color;
+      this.broadcast_BGcolor();
+    }
+    this.lines.push(l);
+    if(this.lines.length > 100){
+      this.lines.slice(1,1);
+    }
+    this.broadcast_lines();
+  }
+
   broadcast(message) {
     for (const client of this.connectedClients.values()) {
       client.send(message);
@@ -348,8 +353,8 @@ class Room {
   
   //名前を更新
   broadcast_usernames() {
-    const usernames = [...connectedClients.keys()];
-    broadcast(
+    const usernames = [...this.connectedClients.keys()];
+    this.broadcast(
       JSON.stringify({
         event: "update-users",
         usernames: usernames,
@@ -359,7 +364,7 @@ class Room {
 
   //linesを更新
   broadcast_lines() {
-    broadcast(
+    this.broadcast(
       JSON.stringify({
         event: "update-lines",
         lines: this.lines,
@@ -369,10 +374,10 @@ class Room {
 
   //背景色を更新
   broadcast_BGcolor() {
-    broadcast(
+    this.broadcast(
       JSON.stringify({
         event: "update-BGcolor",
-        color: BGcolor,
+        color: this.BGcolor,
       })
     );
   }
@@ -382,7 +387,7 @@ class Room {
     socket.send(
       JSON.stringify({
         event: "update-states",
-        liens: this.lines,
+        lines: this.lines,
         BGcolor: this.BGcolor,
         title: this.title,
         text_contents: this.text_contents,

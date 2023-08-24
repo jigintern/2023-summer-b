@@ -40,6 +40,7 @@ window.addEventListener("load", ()=>{
 
 
     // undo redu
+    /*
     document.getElementById("undo").addEventListener("click", ()=>{
         if(lines.length <= 0) {
             return;
@@ -52,6 +53,7 @@ window.addEventListener("load", ()=>{
         }
         lines.push(delline.pop());        
     });
+    */
 
     //clear
     document.getElementById("clearCanvas").addEventListener("click", ()=>{
@@ -61,7 +63,7 @@ window.addEventListener("load", ()=>{
 
 
 let lines = [];
-let delline = [];
+//let delline = [];
 let isDrawing = false;
 let nowline = null;
 let tool = null;
