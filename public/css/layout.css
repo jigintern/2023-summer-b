@@ -66,6 +66,7 @@ footer p {
     margin: 0;
     padding: 0;
     font-size: 24px;
+    font-family: 'Yusei Magic', sans-serif;
 }
 
 .header-link,
@@ -85,6 +86,29 @@ footer p {
     border: none;
     transition: background-color 0.3s;
     margin-right: 40px;
+}
+
+.login {
+    margin-left: auto;
+}
+
+.header-ex {
+    margin-left: 1rem;
+}
+
+.header-button {
+    background-color: #7ba9e0;
+    color: white;
+    cursor: pointer;
+    padding: 1.2%;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-size: large;
+}
+
+.header-button:hover {
+    background-color: #0056b3;
 }
 
 .sidebar button {
