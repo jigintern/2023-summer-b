@@ -240,7 +240,7 @@ serve(async (req) => {
 
     //部屋がない
     if(!rooms.has(roomid)){
-      setTimeout(()=>{socket.close(1008, `Username ${username} is already taken`);}, 500);
+      setTimeout(()=>{socket.close(1008, `no room`);}, 500);
       return response;
     }
 
@@ -286,8 +286,8 @@ serve(async (req) => {
       console.log('socket errored:', e)
     };
     socket.onclose = () => {
-      //room.connectedClients.delete(socket.username);
-      //room.broadcast_usernames();
+      room.connectedClients.delete(socket.username);
+      room.broadcast_usernames();
     };
 
     return response;
@@ -299,7 +299,7 @@ serve(async (req) => {
     const did = json.did;
 
     //check
-    const roomid = new Md5((await getUser(did)).rows[0].id).toString();
+    const roomid = new Md5().update(did).toString();
     console.log(roomid);
     if (rooms.has(roomid) || rooms.length > 50){
       return new Response("部屋を作れません", { status: 400 });

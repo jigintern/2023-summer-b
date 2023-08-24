@@ -9,9 +9,13 @@ async function connectSocket(){
     const did = localStorage.getItem("did");
     const url = new URL(window.location.href);
     //console.log(url.host);
+    let pre = "wss";
+    if(url.host === "localhost:8000"){
+        pre = "ws"
+    }
     const roomid =url.searchParams.get("roomid");
     socket = new WebSocket(
-        `wss://${url.host}/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
+        `${pre}://${url.host}/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
     );
     socket.onmessage = (m) => {
         const data = JSON.parse(m.data);
