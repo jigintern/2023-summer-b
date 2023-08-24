@@ -16,9 +16,7 @@
 
 .posts a {
     color: black;
-    /* リンクの色を黒に設定 */
     text-decoration: none;
-    /* アンダーバーをなくす */
 }
 
 .post_box {
@@ -30,7 +28,6 @@
 }
 
 .search_box {
-    height: 10%;
     padding: 10px;
     box-sizing: border-box;
     display: flex;
@@ -57,4 +54,13 @@
     width: 75vw;
     margin-left: auto;
     margin-right: 0;
+}
+
+
+@media screen and (max-width: 750px) {
+
+    .post-img {
+        width: 80%;
+        height: auto;
+    }
 }
