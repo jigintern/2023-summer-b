@@ -9,12 +9,16 @@ function setup() {
 }
   
 function draw() {
+    background(255);
+
     //draw lines
     for(let l of lines){
-        drawObj(l);
+        drawLine(l);
     }
 
-    nowline?.draw();
+    if(nowline){
+        drawLine(nowline);
+    };
 
     //pointer
     tool.draw();
@@ -51,7 +55,7 @@ window.addEventListener("load", ()=>{
 
     //clear
     document.getElementById("clearCanvas").addEventListener("click", ()=>{
-        lines.push(new Rect(tool.background_color ,new Point(), width, height));
+        pushLine(new Rect(tool.background_color ,new Point(), width, height));
     });
 });
 
@@ -76,7 +80,7 @@ function touchMoved() {
     if (!isDrawing) {
         return;
     }
-    nowline.addPoint(mouseX,mouseY);
+    addPointLine(nowline,mouseX,mouseY);
 }
 function touchEnded() {
     if(isDrawing){
@@ -172,35 +176,6 @@ class Line {
         this.width = _width;
         this.points = [];
     }
-
-    addPoint(x,y) {
-        if(y !== undefined) {
-            this.addPoint(new Point(x,y));
-            return;
-        }
-        this.points.push(x);
-    }
-
-    draw() {
-        //色を設定
-        stroke(this.color);
-        //太さを設定
-        strokeWeight(this.width);
-
-        if(this.points.length === 1){
-            const p1 = this.points[0];
-            line(p1.x, p1.y, p1.x, p1.y);
-            return;
-        }
-
-        //線を描画
-        for(let i = 0; i < this.points.length - 1; i++){
-            const p1 = this.points[i];
-            const p2 = this.points[i+1];
-
-            line(p1.x, p1.y, p2.x, p2.y);
-        }
-    }
 }
 function addPointLine(l,x,y) {
     if(y !== undefined) {
@@ -209,7 +184,7 @@ function addPointLine(l,x,y) {
     }
     l.points.push(x);
 }
-function drawObj(l) {
+function drawLine(l) {
     if(l?.type === "rect"){
         noStroke();
         fill(l.color);
@@ -238,16 +213,10 @@ function drawObj(l) {
 
 class Rect {
     constructor(color, point, width, height) {
-        this.type = "rest"
+        this.type = "rect"
         this.color = color;
         this.point = point;
         this.width = width;
         this.height = height;
-    }
-
-    draw() {
-        noStroke();
-        fill(this.color);
-        rect(this.point.x, this.point.y, this.width, this.height);
     }
 }
