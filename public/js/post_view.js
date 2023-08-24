@@ -45,7 +45,12 @@ window.addEventListener("load", async (event) => {
     postuserdiv.appendChild(linkElement);
     document.getElementById("title").innerText = "タイトル：" + result.title;
     document.getElementById("post_date").innerText = "投稿日：" + post_date_fmt;
-    document.getElementById("text_contents").innerText = "日記：\n" + result.text_contents;
+    if (result.text_contents === ""){
+        document.getElementById("text_contents").innerText = "日記：\n書かれていないようです...";
+    }else{
+        document.getElementById("text_contents").innerText = "日記：\n" + result.text_contents;
+    }
+    
     
 });
 
