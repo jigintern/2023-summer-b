@@ -44,6 +44,7 @@ document
         // レスポンスが正常のときの処理
         console.log("投稿できました");
         //ホームに戻る
+        await socket.send(JSON.stringify({event: "end"}));
         window.location.href = "./index.html";
 
     } catch (err) {

@@ -17,6 +17,11 @@ async function connectSocket(){
     socket = new WebSocket(
         `${pre}://${url.host}/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
     );
+    console.log(socket);
+
+    if(!socket.ok){
+        //location.href = "./index.html";
+    }
     socket.onmessage = (m) => {
         const data = JSON.parse(m.data);
         console.log(data);
@@ -56,8 +61,8 @@ async function connectSocket(){
         }
 
         if (data.event === "room-end") {
+            //only owner
             console.log("room end");
-            location.href = "./index.html";
             return;
         }
 
@@ -83,9 +88,6 @@ async function connectSocket(){
             const submitbtn = document.getElementById("submit-btn");
             submitbtn.style.display = "inline-block";
             submitbtn.disabled = false;
-            submitbtn.addEventListener("click", ()=>{
-                socket.send(JSON.stringify({event: "end"}));
-            });
 
             return;
         }

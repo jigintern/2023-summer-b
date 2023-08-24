@@ -56,7 +56,8 @@ window.addEventListener("load", ()=>{
     */
 
     //clear
-    document.getElementById("clearCanvas").addEventListener("click", ()=>{
+    document.getElementById("clearCanvas").addEventListener("click", (event)=>{
+        event.preventDefault();
         pushLine(new Rect(tool.background_color ,new Point(), width, height));
     });
 

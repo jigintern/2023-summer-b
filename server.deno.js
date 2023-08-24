@@ -7,7 +7,7 @@ import { Md5 } from "https://deno.land/std@0.119.0/hash/md5.ts";
 serve(async (req) => {
   const url = new URL(req.url)
   const pathname = url.pathname;
-  console.log(pathname);
+  //console.log(pathname);
 
   if (req.method === "GET" && pathname === "/selectall") {
     const result = await getPosts_index();
@@ -279,6 +279,7 @@ serve(async (req) => {
         room.changeText(json.title, json.text_contents);
         room.broadcast_text();
       }else if(json.event === "end" && isOwner){
+        console.log("end room")
         closeRoom(roomid);
       }
     };
@@ -343,8 +344,10 @@ function createNewRoom(id, ownerdid){
 }
 function closeRoom(roomid){
   const room = rooms.get(roomid);
-  room.close();
-  rooms.delete(roomid);
+  if(room){
+    room.close();
+    rooms.delete(roomid);
+  }
 }
 
 class Room {
@@ -438,7 +441,7 @@ class Room {
 
   close() {
     for (const client of this.connectedClients.values()) {
-      if(client.isOwner) {
+      /*if(client.isOwner) {
         client.send(
           JSON.stringify({
             event: "room-end",
@@ -446,7 +449,8 @@ class Room {
         );
       } else {
         client.close();
-      }
+      }*/
+      client.close();
     }
   }
 }
