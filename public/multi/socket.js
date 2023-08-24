@@ -11,7 +11,7 @@ async function connectSocket(){
     //console.log(url.host);
     const roomid =url.searchParams.get("roomid");
     socket = new WebSocket(
-        `ws://${url.host}/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
+        `wss://${url.host}/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
     );
     socket.onmessage = (m) => {
         const data = JSON.parse(m.data);
