@@ -1,5 +1,4 @@
 function create_postbox(array) {
-    console.log(array.imgpath)
     if (array.imgpath === "null") {
       const postsDiv = document.querySelector('.posts');
       const textElement = document.createElement('div');
