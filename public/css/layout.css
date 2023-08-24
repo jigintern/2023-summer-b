@@ -122,6 +122,8 @@ footer p {
 
     .main-cont {
         height: calc(100vh - 50px - 50px)
+        grid-area: main;
+        overflow-y: auto;
     }
 
     .sidebar {
@@ -136,10 +138,7 @@ footer p {
         z-index: 100;
     }
 
-    main {
-        grid-area: main;
-        overflow-y: auto;
-    }
+
 
     footer {
         grid-area: footer;

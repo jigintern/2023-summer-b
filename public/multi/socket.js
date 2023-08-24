@@ -31,7 +31,7 @@ window.addEventListener("load", (e)=>{
 
     //join
     document.getElementById("join-room").onclick = async ()=> {
-        connectSocket();
+        await connectSocket();
     };
 });
 
@@ -43,7 +43,6 @@ async function connectSocket(){
     socket = new WebSocket(
         `ws://localhost:8000/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
     );
-
     socket.onmessage = (m) => {
         const data = JSON.parse(m.data);
         console.log(data);
@@ -87,7 +86,7 @@ async function connectSocket(){
             return;
         }
 
-        if(data.event === "owner"){
+        if(data.event === "isOwner"){
             //タイトルと本文解放
             document.getElementById("title").disabled = false;
             document.getElementById("text-contents").disabled = false;

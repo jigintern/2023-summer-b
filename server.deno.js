@@ -263,6 +263,9 @@ serve(async (req) => {
     socket.onopen = () => {
       room.sendStates(socket);
       room.broadcast_usernames();
+      if(isOwner){
+        socket.send(JSON.stringify({event: "isOwner"}));
+      }
     };
     socket.onmessage = (e) => {
       const json = JSON.parse(e.data)
@@ -303,7 +306,7 @@ serve(async (req) => {
     }
     const room = createNewRoom(roomid, did);
 
-    return new Response(await JSON.stringify({roomid}));
+    return new Response(JSON.stringify({roomid}));
   }
 
   if (req.method === "POST" && pathname === "/postusername_byid") {
