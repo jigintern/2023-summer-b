@@ -78,6 +78,12 @@ footer p {
 .header-button-link {
     text-decoration: none;
     margin-left: auto;
+    padding: 10px 20px;
+    background-color: #7ba9e0;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+    margin-right: 40px;
 }
 
 .sidebar button {
@@ -169,7 +175,7 @@ footer p {
         padding: 5px;
         position: absolute;
         z-index: 2;
-        top: -10px;
+        top: -20px;
     }
 
     .bar {
