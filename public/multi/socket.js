@@ -14,14 +14,12 @@ async function connectSocket(){
         pre = "ws"
     }
     const roomid =url.searchParams.get("roomid");
+    document.getElementById("roomid").innerText = roomid;
     socket = new WebSocket(
         `${pre}://${url.host}/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
     );
     console.log(socket);
 
-    if(!socket.ok){
-        //location.href = "./index.html";
-    }
     socket.onmessage = (m) => {
         const data = JSON.parse(m.data);
         console.log(data);
