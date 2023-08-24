@@ -79,7 +79,7 @@ export async function getPosts_index() {
 }
 
 export async function searchPosts_name(search_value) {
-  const res = await client.execute(`SELECT * FROM posts WHERE title LIKE ?;`, [`%${search_value}%`]);
+  const res = await client.execute(`SELECT * FROM posts WHERE title LIKE ? ORDER BY post_date DESC;`, [`%${search_value}%`]);
   return res;
 }
 
