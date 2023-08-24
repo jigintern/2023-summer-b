@@ -8,7 +8,8 @@
     <link>
     <link rel="stylesheet" href="./css/layout.css" />
     <link rel="stylesheet" href="./css/newpost.css" />
-    <script type="module" src="./js/draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+    <script src="./js/sketch.js"></script>
     <script type="module" src="./js/newpost.js"></script>
     <script src="./js/authDID.js"></script>
     <script src="./js/authlogin.js"></script>
@@ -50,7 +51,6 @@
                 <div class="draw-area">
 
                     <div id="canvas-wrap">
-                        <canvas id="canvas" width="600" height="400"></canvas>
                     </div>
 
                 </div>
@@ -71,6 +71,10 @@
         <div id="right">
             <!-- tool box -->
             <div class="toolbox">
+                <button id="undo">戻る</button>
+                <button id="redo">進む</button>
+                <br>
+                <br>
                 色
                 <label><input type="color" name="favorite_color" id="color">
                 </label><br>
@@ -83,7 +87,9 @@
                 太さ<br>
                 <input type="range" id="penWeight" min="1" max="15" value="2" />
                 <br><br>
-                <input type="button" id="clearCanvas" value="すべて消す" />
+                背景色
+                <input type="color" id="background-color" value="#ffffff"/>
+                <button id="clearCanvas" >背景色でリセット</button>
                 <br>
             </div>
         </div>
