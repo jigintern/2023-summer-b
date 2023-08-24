@@ -72,6 +72,7 @@ footer p {
 }
 
 .main-cont {
+    grid-area: main;
     height: calc(100vh - 70px - 70px);
     display: flex;
     flex-direction: column;
@@ -90,7 +91,9 @@ footer p {
     }
 
     .main-cont {
-        height: calc(100vh - 60px - 60px);
+        height: calc(100vh - 50px - 50px);
+        grid-area: main;
+        overflow-y: auto;
     }
 
     header {
