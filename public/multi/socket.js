@@ -118,3 +118,13 @@ function pushLine(line) {
       }),
   )
 }
+
+function changeText(title,text_contents) {
+    socket.send(
+        JSON.stringify({
+            event: "change-text",
+            title: title,
+            text_contents: text_contents,
+        })
+    );
+}

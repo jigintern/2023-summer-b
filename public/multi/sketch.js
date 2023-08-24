@@ -59,6 +59,19 @@ window.addEventListener("load", ()=>{
     document.getElementById("clearCanvas").addEventListener("click", ()=>{
         pushLine(new Rect(tool.background_color ,new Point(), width, height));
     });
+
+    //文字入力
+    const title = document.getElementById("title");
+    const text_contents = document.getElementById("text-contents");
+    title.oninput = (event)=> {
+        event.preventDefault();
+        changeText(title.value, text_contents.value);
+    };
+    text_contents.oninput = (event)=> {
+        event.preventDefault();
+        changeText(title.value, text_contents.value);
+    };
+
 });
 
 
