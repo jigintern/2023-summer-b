@@ -92,3 +92,8 @@ export async function getPosts_userid(user_id) {
   const res = await client.execute(`select * from posts WHERE post_user_id = ? ORDER BY post_date DESC;`, [user_id]);
   return res;
 }
+
+export async function postusername_byid(user_id) {
+  const res = await client.execute('select user_name from users WHERE id = ?;', [user_id]);
+  return res;
+}
