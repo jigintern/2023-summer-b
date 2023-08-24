@@ -45,7 +45,6 @@ header {
 footer {
     grid-area: footer;
     display: flex;
-    align-items: center;
     justify-content: flex-end;
     background-color: #7ba9e0;
     padding: 10px;
