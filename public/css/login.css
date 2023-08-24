@@ -56,15 +56,11 @@
 @media screen and (max-width: 750px) {
 
     .login-set {
-        background-color: #ffffff;
-        padding: 10px;
-        border-radius: 8px;
-        margin-top: 10%;
+        margin-top: 40%;
     }
 
+    .login-set,
     .login-set2 {
-        width: 71%;
-        padding: 10px;
-        border-radius: 8px;
+        width: 85%;
     }
 }

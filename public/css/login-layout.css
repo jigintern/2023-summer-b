@@ -7,6 +7,14 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #e5e7e9;
     color: #3a3a3a;
+    display: grid;
+    grid-template-rows: 70px 1fr 70px;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    margin: 0;
+    padding: 0;
 
 }
 
