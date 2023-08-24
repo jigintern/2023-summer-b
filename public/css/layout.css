@@ -8,7 +8,7 @@ body {
     background-color: #e5e7e9;
     color: #3a3a3a;
     display: grid;
-    overflow: hidden;
+    overflow-y: hidden;
     grid-template-rows: 70px 1fr 70px;
     grid-template-columns: 200px 1fr;
     grid-template-areas:
@@ -130,8 +130,6 @@ footer p {
 
     .main-cont {
         height: calc(100vh - 50px - 50px);
-        /* grid-area: main;
-        overflow-y: auto; */
     }
 
     .sidebar {
