@@ -230,12 +230,13 @@ serve(async (req) => {
     return new Response(await JSON.stringify({result: post_user_id === user_id}));
   }
 
-
+  //join room
   //web soket
   if (req.method === "GET" && pathname === "/start_web_socket") {
     const { socket, response } = Deno.upgradeWebSocket(req);
     const username = url.searchParams.get("username");
     const roomid = url.searchParams.get("room");
+    const did = url.searchParams.get("did");
 
     //部屋がない
     if(!rooms.has(roomid)){
@@ -244,18 +245,21 @@ serve(async (req) => {
     }
 
     const room = rooms.get(roomid);
-        
+    
     //user被りをはじく
+    /*
     if (room.connectedClients.has(username)) {
       setTimeout(()=>{socket.close(1008, `Username ${username} is already taken`);}, 500);
       return response;
-    }
+    }*/
 
     //user追加
+    const isOwner = did === room.ownerdid;
+    socket.isOwner = isOwner;
     socket.username = username;
     room.connectedClients.set(username, socket);
 
-    //socket listener
+    //socket listener================================
     socket.onopen = () => {
       room.sendStates(socket);
       room.broadcast_usernames();
@@ -266,7 +270,11 @@ serve(async (req) => {
       if (json.event === "push-line"){
         if(json.line){
           room.pushline(json.line); 
+          room.broadcast_lines();
         }
+      }else if(json.event === "change-text" && isOwner){
+        room.changeText(json.title, json.text_contents);
+        room.broadcast_text();
       }
     };
     socket.onerror = (e) => {
@@ -288,7 +296,7 @@ serve(async (req) => {
     //check
     const roomid = new Md5((await getUser(did)).rows[0].id).toString();
     console.log(roomid);
-    if (rooms.has(roomid)){
+    if (rooms.has(roomid) || rooms.length > 50){
       return new Response("部屋を作れません", { status: 400 });
     }
     const room = createNewRoom(roomid, did);
@@ -325,7 +333,7 @@ async function createNewRoom(id, ownerdid){
 class Room {
   constructor(ownerdid){
     this.connectedClients = new Map();
-    this.owner = ownerdid;
+    this.ownerdid = ownerdid;
 
     this.lines = [];
     this.BGcolor = "#ffffff";
@@ -342,9 +350,14 @@ class Room {
     if(this.lines.length > 100){
       this.lines.slice(1,1);
     }
-    this.broadcast_lines();
   }
 
+  changeText(title, text_contents) {
+    this.title = title;
+    this.text_contents = text_contents;
+  }
+
+  //broadcast============================
   broadcast(message) {
     for (const client of this.connectedClients.values()) {
       client.send(message);
@@ -378,6 +391,17 @@ class Room {
       JSON.stringify({
         event: "update-BGcolor",
         color: this.BGcolor,
+      })
+    );
+  }
+
+  //テキストを更新
+  broadcast_text() {
+    this.broadcast(
+      JSON.stringify({
+        event: "update-text",
+        title: this.title,
+        text_contents: this.text_contents,
       })
     );
   }

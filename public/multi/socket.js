@@ -30,17 +30,18 @@ window.addEventListener("load", (e)=>{
 
 
     //join
-    document.getElementById("join-room").onclick = ()=> {
+    document.getElementById("join-room").onclick = async ()=> {
         connectSocket();
     };
 });
 
 let socket;
-function connectSocket(){
+async function connectSocket(){
     const myUsername = localStorage.getItem("name");
-    const rommid = document.getElementById("roomid").value;
+    const did = localStorage.getItem("did");
+    const roomid = document.getElementById("roomid").value;
     socket = new WebSocket(
-        `ws://localhost:8000/start_web_socket?username=${myUsername}&room=${rommid}`,
+        `ws://localhost:8000/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
     );
 
     socket.onmessage = (m) => {
@@ -67,13 +68,17 @@ function connectSocket(){
             return;
         }
 
+        if (data.event === "update-text") {
+            document.getElementById("title").value = data.title;
+            document.getElementById("text-contents").value = data.text_contents;
+            return;
+        }
+
         if (data.event === "update-states") {       
             lines = data.lines;
-
             tool.setBackgroundColor(data.BGcolor);
-
-            //title
-            //text-contents
+            document.getElementById("title").value = data.title;
+            document.getElementById("text-contents").value = data.text_contents;
             return;
         }
 
