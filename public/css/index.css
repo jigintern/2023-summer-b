@@ -13,10 +13,8 @@
 
 .post_box {
     width: calc(35vw - 15px);
-    height: 35vh;
+    height: 30vh;
     box-sizing: border-box;
-    padding: 10px;
-    margin: 20px;
 }
 
 .search_box {

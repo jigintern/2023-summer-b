@@ -8,6 +8,7 @@ async function authlogin(event){
         linkElement.href = "./login.html";
         linkElement.classList.add("header-button-link");
         const buttonElement = document.createElement("button");
+        buttonElement.classList.add("header-button");
         buttonElement.textContent = "Login";
         linkElement.appendChild(buttonElement);
         targetDiv.appendChild(linkElement);
@@ -26,6 +27,7 @@ async function authlogin(event){
         linkElement.href = "./prf.html?id=" + result[0].id;
         linkElement.classList.add("header-button-link");
         const buttonElement = document.createElement("button");
+        buttonElement.classList.add("header-button");
         buttonElement.textContent = localStorage.getItem("name");
         linkElement.appendChild(buttonElement);
         targetDiv.appendChild(linkElement);
