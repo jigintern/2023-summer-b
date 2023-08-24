@@ -63,4 +63,19 @@ main {
 
 .button.primary:hover {
     background-color: #0056b3;
+<<<<<<< Updated upstream
+=======
+}
+
+@media screen and (max-width: 750px) {
+
+    .login-set {
+        margin-top: 40%;
+    }
+
+    .login-set,
+    .login-set2 {
+        width: 85%;
+    }
+>>>>>>> Stashed changes
 }
