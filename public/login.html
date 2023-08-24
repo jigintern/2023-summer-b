@@ -102,7 +102,10 @@
                     localStorage.setItem("did", did);
                     localStorage.setItem("password", password);
                     localStorage.setItem("name", json.user.name);
-                    const backurl = localStorage.getItem("previous_screen");
+                    var backurl = localStorage.getItem("previous_screen");
+                    if (backurl === null) {
+                        backurl = "./index.html";
+                    }
                     window.location.href = backurl;
                 } catch (err) {
                     document.getElementById("error").innerText = err.message;

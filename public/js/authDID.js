@@ -1,5 +1,6 @@
 async function authDID(event) {
     event.preventDefault();
+    localStorage.setItem("previous_screen", window.location.href);
     var did = ""
     did = localStorage.getItem("did");
     if (did === null) {
