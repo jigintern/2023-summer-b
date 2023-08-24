@@ -123,6 +123,14 @@ h1 {
     color: red;
 }
 
+#roomclose,
+#submit-btn {
+    display: none;
+}
+#room_info {
+    margin: 1em;
+}
+
 @media screen and (max-width: 750px) {
 
     .draw-set {

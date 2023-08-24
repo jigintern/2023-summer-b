@@ -52,6 +52,7 @@ async function connectSocket(){
 
         if (data.event === "room-end") {
             console.log("room end");
+            location.href = "./index.html";
             return;
         }
 
@@ -61,14 +62,22 @@ async function connectSocket(){
             document.getElementById("text-contents").disabled = false;
 
             //ルームを閉じるボタン
-            document.getElementById("roomclose").disabled = false;
-            document.getElementById("roomclose").onclick = ()=>{
+            const clsbtn = document.getElementById("roomclose");
+            clsbtn.style.display = "inline-block";
+            clsbtn.disabled = false;
+            clsbtn.onclick = ()=>{
                 socket.send(
                     JSON.stringify({
                         event: "end",
                     })
                 );
+                //location.href = "./index.html";
             };
+
+            //投稿ボタン
+            const submitbtn = document.getElementById("submit-btn");
+            submitbtn.style.display = "inline-block";
+            submitbtn.disabled = false;
             return;
         }
 
