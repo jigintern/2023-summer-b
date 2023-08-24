@@ -52,6 +52,14 @@
     margin-right: 0;
 }
 
+.pagination {
+    text-align: center;
+    /* 子要素を中央に寄せる */
+}
+
+.pagination-button {
+    margin: 5px;
+}
 
 @media screen and (max-width: 750px) {
 

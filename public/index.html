@@ -11,18 +11,44 @@
   <script src="./js/create_postbox.js"></script>
   <script src="./js/authlogin.js"></script>
   <script>
-    async function Initialize() {
-      const response = await fetch("/selectall");
-      var array = await response.json();
+    async function Create_index(page_number) {
+      const response = await fetch("/getposts_limit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          page_number,
+        }),
+      })
+      const array = await response.json();
       for (var i = 0; i < array.length; i++) {
         create_postbox(array[i]);
       }
     };
 
     window.onload = async (event) => {
-      event.preventDefault();
-      localStorage.setItem("previous_screen", window.location.href);
-      Initialize();
+      const url = new URL(window.location.href);
+      const page_number = url.searchParams.get("page_number");
+      if (page_number === null) {
+        window.location.href = "./index.html?page_number=1";
+        return;
+      }
+      const res = await fetch("/selectall");
+      const result = await res.json();
+      const count = result.length;
+      const totalPages = Math.ceil(count / 20);
+      Create_index(page_number);
+      const paginationDiv = document.querySelector(".pagination");
+
+      for (let page = 1; page <= totalPages; page++) {
+        var paginationElement = document.createElement('button');
+        paginationElement.textContent = page;
+        paginationElement.classList.add('pagination-button')
+        paginationElement.onclick = () => location.href = 'index.html?page_number=' + page;
+        if (page === Number(page_number)) {
+          paginationElement.disabled = true;
+        }
+        paginationDiv.appendChild(paginationElement);
+      }
     };
   </script>
 </head>
@@ -72,6 +98,7 @@
     </div>
     <div class="posts">
     </div>
+    <div class="pagination"></div>
   </div>
 
   <footer>
@@ -116,9 +143,11 @@
     };
 
     document.getElementById("search_reset").onclick = async () => {
+      const url = new URL(window.location.href);
+      const page_number = url.searchParams.get("page_number");
       const targetDiv = document.querySelector('.posts');
       targetDiv.innerHTML = "";
-      Initialize();
+      Create_index(page_number);
     };
   </script>
 </body>
