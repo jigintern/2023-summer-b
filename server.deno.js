@@ -1,7 +1,7 @@
 import { serveDir } from "https://deno.land/std@0.180.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
-import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name, changeprf, getPosts_userid, postusername_byid } from './db-controller.js';
+import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name, changeprf, getPosts_userid, postusername_byid, getUser_id } from './db-controller.js';
 
 
 serve(async (req) => {
@@ -20,10 +20,18 @@ serve(async (req) => {
     return new Response(await JSON.stringify(isExists));
   }
 
-  if (req.method === "POST" && pathname === "/getprf") {
+  if (req.method === "POST" && pathname === "/getprf_did") {
     const json = await req.json();
     const did = json.did;
     const result = await getUser(did);
+    return new Response(await JSON.stringify(result.rows));
+  }
+
+
+  if (req.method === "POST" && pathname === "/getprf_id") {
+    const json = await req.json();
+    const id = json.id;
+    const result = await getUser_id(id);
     return new Response(await JSON.stringify(result.rows));
   }
 

@@ -32,13 +32,18 @@ window.addEventListener("load", async (event) => {
     imageElement.src = "data:image/png;" + result.imgpath;
     imageElement.alt = result.title; // オプション：画像が読み込めない場合の代替テキスト
     imageElement.classList.add('post-img');
-
+    const postuserdiv = document.querySelector('.post_user');
+    const linkElement = document.createElement('a');
+    linkElement.textContent = user_name[0].user_name;
+    linkElement.href = "./prf.html?id=" + result.post_user_id;
+    
     //add HTML
     imagediv.appendChild(imageElement);
     textElement.appendChild(imagediv);
     targetDiv.appendChild(imagediv);
+    postuserdiv.innerText = "作者："
+    postuserdiv.appendChild(linkElement);
     document.getElementById("title").innerText = "タイトル：" + result.title;
-    document.getElementById("post_user").innerText = "作者：" + user_name[0].user_name;
     document.getElementById("post_date").innerText = "投稿日：" + post_date_fmt;
     document.getElementById("text_contents").innerText = "日記：\n" + result.text_contents;
     

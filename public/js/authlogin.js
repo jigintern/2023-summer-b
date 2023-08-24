@@ -13,9 +13,17 @@ async function authlogin(event){
         targetDiv.appendChild(linkElement);
     }
     else {
+        const res = await fetch("/getprf_did", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                did,
+            }),
+        })
+        const result = await res.json();
         const targetDiv = document.querySelector('.login');
         const linkElement = document.createElement("a");
-        linkElement.href = "./prf.html";
+        linkElement.href = "./prf.html?id=" + result[0].id;
         linkElement.classList.add("header-button-link");
         const buttonElement = document.createElement("button");
         buttonElement.textContent = localStorage.getItem("name");

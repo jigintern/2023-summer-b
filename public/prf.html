@@ -14,27 +14,41 @@
         window.onload = async (event) => {
             event.preventDefault();
             localStorage.setItem("previous_screen", window.location.href);
-            var did = "";
-            did = localStorage.getItem("did")
-            const prf_result = await fetch("/getprf", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    did,
-                }),
-            })
+            const did = localStorage.getItem("did")
+            const url = new URL(window.location.href);
+            var id = url.searchParams.get("id");
+            var prf;
+            console.log("id:" + id);
+            console.log("did:" + did);
+            if (id === null) {
+                const prf_result = await fetch("/getprf_did", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        did,
+                    }),
+                })
+                prf = await prf_result.json();
+                window.location.href = "./prf.html?id=" + prf[0].id;
+            }
+            else {
+                const prf_result = await fetch("/getprf_id", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        id,
+                    }),
+                })
+                prf = await prf_result.json();
+            }
 
-            const prf = await prf_result.json();
+
             document.getElementById("user_name").innerText += prf[0].user_name;
             if (prf[0].self_intro === null) {
                 document.getElementById("self-intro").innerText += "まだ書かれていないようです...";
             } else {
                 document.getElementById("self-intro").innerText += prf[0].self_intro;
             }
-            localStorage.setItem("id", prf[0].id);
-
-            var id = localStorage.getItem("id");
-            console.log(id);
 
             const prfposts = await fetch("/prfposts", {
                 method: "POST",
@@ -44,9 +58,7 @@
                 }),
             });
 
-            // localStorage.removeItem("id");
-            var prfposts_tmp = await prfposts.text();
-            var array = await JSON.parse(prfposts_tmp);
+            var array = await prfposts.json()
             console.log(array)
             if (array.length > 0) {
                 for (var i = 0; i < array.length; i++) {
@@ -54,8 +66,18 @@
                 }
             }
             else {
-                console.log("作品なし");
+                document.getElementsByClassName("posts").innerText = "作品はまだないようです...";
                 return;
+            }
+
+            if (did === prf[0].did) {
+                const buttonDiv = document.querySelector(".button_area");
+                const buttonElement = document.createElement("button");
+                buttonElement.textContent = "プロフィール入力画面へ";
+                buttonElement.classList.add("button");
+                buttonElement.classList.add("primary");
+                buttonElement.onclick = "ocation.href='prf-input.html';";
+                buttonDiv.appendChild(buttonElement);
             }
 
 
@@ -113,7 +135,7 @@
             <div class="posts"></div>
         </section>
     </div>
-    <button class="button primary" onclick="location.href='prf-input.html';">プロフィール入力画面へ</button>
+    <div class="button_area"></div>
     <footer>
         <a href="https://sites.google.com/view/bugbusters-member" class="footer-link">
             <img src="./img/logo02-tr.png" alt="Logo2">

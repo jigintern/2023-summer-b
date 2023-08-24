@@ -76,6 +76,15 @@
             const name = document.getElementById("nickname").value;
             const intro = document.getElementById("introduction").value;
 
+            const res = await fetch("/getprf_did", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    did,
+                }),
+            })
+            const result = await res.json();
+
             try {
                 const resp = await fetch("/changeprf", {
                     method: "POST",
@@ -93,8 +102,10 @@
                     return;
                 }
 
+                localStorage.setItem("name", name);
+
                 alert("投稿完了！");
-                window.location.href = "./prf.html";
+                window.location.href = "./prf.html?id=" + result[0].id;
             }
             catch (err) {
                 console.log(err);

@@ -97,3 +97,8 @@ export async function postusername_byid(user_id) {
   const res = await client.execute('select user_name from users WHERE id = ?;', [user_id]);
   return res;
 }
+
+export async function getUser_id(id) {
+  const res = await client.execute('select * from users where id = ?', [id]);
+  return res;
+}
