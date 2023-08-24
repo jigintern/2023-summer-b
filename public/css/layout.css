@@ -8,6 +8,7 @@ body {
     background-color: #e5e7e9;
     color: #3a3a3a;
     display: grid;
+    overflow-y: hidden;
     grid-template-rows: 70px 1fr 70px;
     grid-template-columns: 200px 1fr;
     grid-template-areas:
@@ -100,13 +101,12 @@ footer p {
     background-color: #5c8ac5;
 }
 
-
 .main-cont {
     text-align: center;
     align-items: center;
     height: calc(100vh - 70px - 70px);
     grid-area: main;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 /* これ付けたら縦書きになるよ
@@ -128,9 +128,7 @@ footer p {
     }
 
     .main-cont {
-        height: calc(100vh - 50px - 50px);
-        grid-area: main;
-        overflow-y: auto;
+        height: calc(100svh - 50px - 50px);
     }
 
     .sidebar {
