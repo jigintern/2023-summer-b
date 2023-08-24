@@ -2,7 +2,7 @@ import { serveDir } from "https://deno.land/std@0.180.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
 import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name, changeprf, getPosts_userid, postusername_byid, getUser_id } from './db-controller.js';
-
+import { Md5 } from "https://deno.land/std@0.119.0/hash/md5.ts";
 
 serve(async (req) => {
   const url = new URL(req.url)
@@ -236,20 +236,28 @@ serve(async (req) => {
     const { socket, response } = Deno.upgradeWebSocket(req);
     const username = url.searchParams.get("username");
     const roomid = url.searchParams.get("room");
-    
-    //user被りをはじく
-    if (connectedClients.has(username)) {
+
+    //部屋がない
+    if(!rooms.has(roomid)){
       setTimeout(()=>{socket.close(1008, `Username ${username} is already taken`);}, 500);
       return response;
     }
+
+    const room = rooms.get(roomid);
+        
+    //user被りをはじく
+    if (room.connectedClients.has(username)) {
+      setTimeout(()=>{socket.close(1008, `Username ${username} is already taken`);}, 500);
+      return response;
+    }
+
     //user追加
     socket.username = username;
-    connectedClients.set(username, socket);
-  
+    room.connectedClients.set(username, socket);
+
+    //socket listener
     socket.onopen = () => {
-      broadcast_usernames();
-      broadcast_lines();
-      broadcast_BGcolor();
+      room.sendStates(socket);
     };
     socket.onmessage = (e) => {
       const json = JSON.parse(e.data)
@@ -279,6 +287,22 @@ serve(async (req) => {
     return response;
   }
 
+  //roomを作成
+  if (req.method === "POST" && pathname === "/createroom") {
+    const json = await req.json();
+    const did = json.did;
+
+    //check
+    const roomid = new Md5((await getUser(did)).rows[0].id).toString();
+    console.log(roomid);
+    if (rooms.has(roomid)){
+      return new Response("部屋を作れません", { status: 400 });
+    }
+    const room = createNewRoom(roomid, did);
+
+    return new Response(await JSON.stringify({roomid}));
+  }
+
   if (req.method === "POST" && pathname === "/postusername_byid") {
     const json = await req.json();
     const user_id = json.post_user_id;
@@ -294,9 +318,19 @@ serve(async (req) => {
   });
 });
 
+
+
+//web socket & draw -------------------
+const rooms = new Map();
+
+async function createNewRoom(id, ownerdid){
+  const room = new Room(ownerdid);
+  rooms.set(id,room);
+  return room;
+}
+
 class Room {
-  constructor(id, ownerdid){
-    this.id = id
+  constructor(ownerdid){
     this.connectedClients = new Map();
     this.owner = ownerdid;
 
@@ -342,47 +376,17 @@ class Room {
       })
     );
   }
-}
 
-
-//web socket & draw -------------------
-const connectedClients = new Map();
-const lines = [];
-let BGcolor = "#ffffff";
-
-function broadcast(message) {
-  for (const client of connectedClients.values()) {
-    client.send(message);
+  //新規参加者に状態を送信
+  sendStates(socket) {
+    socket.send(
+      JSON.stringify({
+        event: "update-states",
+        liens: this.lines,
+        BGcolor: this.BGcolor,
+        title: this.title,
+        text_contents: this.text_contents,
+      })
+    );
   }
-}
-
-//名前を更新
-function broadcast_usernames() {
-  const usernames = [...connectedClients.keys()];
-  broadcast(
-    JSON.stringify({
-      event: "update-users",
-      usernames: usernames,
-    }),
-  );
-}
-
-//linesを更新
-function broadcast_lines() {
-  broadcast(
-    JSON.stringify({
-      event: "update-lines",
-      lines: lines,
-    })
-  );
-}
-
-//背景色を更新
-function broadcast_BGcolor() {
-  broadcast(
-    JSON.stringify({
-      event: "update-BGcolor",
-      color: BGcolor,
-    })
-  );
 }
