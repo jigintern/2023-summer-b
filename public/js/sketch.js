@@ -30,6 +30,10 @@ window.addEventListener("load", ()=>{
     canvas.ontouchmove = (event)=> {
         event.preventDefault();
     };
+    //誤submit防止
+    document.getElementById("title").oninput = (event)=>{
+        event.preventDefault();
+    };
 
     //tool
     tool = new Tool();
@@ -50,7 +54,8 @@ window.addEventListener("load", ()=>{
     });
 
     //clear
-    document.getElementById("clearCanvas").addEventListener("click", ()=>{
+    document.getElementById("clearCanvas").addEventListener("click", (event)=>{
+        event.preventDefault();
         lines.push(new Rect(tool.background_color ,new Point(), width, height));
     });
 });
