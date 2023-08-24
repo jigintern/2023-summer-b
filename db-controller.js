@@ -74,12 +74,12 @@ export async function fixPost(id, title, text_contents) {
 }
 
 export async function getPosts_index() {
-  const res = await client.execute(`select * from posts ORDER BY post_date DESC;`);
+  const res = await client.execute(`select id from posts ORDER BY post_date DESC;`);
   return res;
 }
 
 export async function searchPosts_name(search_value) {
-  const res = await client.execute(`SELECT * FROM posts WHERE title LIKE ?;`, [`%${search_value}%`]);
+  const res = await client.execute(`SELECT * FROM posts WHERE title LIKE ? ORDER BY post_date DESC;`, [`%${search_value}%`]);
   return res;
 }
 
@@ -100,5 +100,11 @@ export async function postusername_byid(user_id) {
 
 export async function getUser_id(id) {
   const res = await client.execute('select * from users where id = ?', [id]);
+  return res;
+}
+
+export async function getPosts_limit(page_number) {
+  const limit = (page_number - 1) * 20
+  const res = await client.execute('SELECT * FROM posts ORDER BY post_date DESC LIMIT ?, 20;', [limit]);
   return res;
 }

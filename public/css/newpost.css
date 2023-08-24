@@ -1,19 +1,19 @@
-/* ここから中身 */
-.section {
-    margin: 20px 20px 20px 220px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-}
-
 .login {
     margin-left: auto;
+}
+
+h1 {
+    margin-top: 2%;
 }
 
 .timer {
     margin-left: 20%;
 }
 
+.draw-set {
+    display: flex;
+    justify-content: center;
+}
 
 .draw-area {
     display: flex;
@@ -33,9 +33,8 @@
     height: 400px;
     border: solid 1px #000;
     padding: 10px;
-    margin: 10px;
-    margin-top: 150px;
     text-align: start;
+    margin-left: 5%;
 }
 
 .toolbox input[type="radio"] {
@@ -98,7 +97,6 @@
     width: 600px;
     font-size: x-large;
     min-height: 3em;
-
 }
 
 #title {
@@ -110,11 +108,10 @@
     background-color: #007BFF;
     color: white;
     cursor: pointer;
-    width: 100%;
+    width: 20%;
     padding: 12px;
     border: none;
     border-radius: 4px;
-    transition: background-color 0.3s;
     text-align: center;
 }
 
@@ -124,4 +121,43 @@
 
 #error {
     color: red;
+}
+
+@media screen and (max-width: 750px) {
+
+    .draw-set {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .toolbox {
+        box-sizing: border-box;
+        height: 250px;
+        border: solid 1px #000;
+        padding: 10px;
+        text-align: center;
+        margin: auto;
+    }
+
+    #text-contents {
+        width: 80%;
+        font-size: x-large;
+        min-height: 3em;
+    }
+
+    #posted-img {
+        width: 80%;
+        height: auto;
+    }
+
+    /* inputtextbox */
+    #title {
+        margin: 1%;
+        font-size: large;
+    }
+
+    .title {
+        margin-bottom: 3%;
+    }
+
 }

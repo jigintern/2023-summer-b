@@ -45,7 +45,6 @@ header {
 footer {
     grid-area: footer;
     display: flex;
-    align-items: center;
     justify-content: flex-end;
     background-color: #7ba9e0;
     padding: 10px;
@@ -95,15 +94,28 @@ footer p {
     background-color: #5c8ac5;
 }
 
+
+.main-cont {
+    text-align: center;
+    align-items: center;
+    height: calc(100vh - 70px - 70px);
+    grid-area: main;
+    overflow-y: auto;
+}
+
 @media screen and (max-width: 750px) {
     body {
         display: grid;
-        grid-template-rows: 60px 1fr 60px;
+        grid-template-rows: 50px 1fr 50px;
         grid-template-columns: 1fr;
         grid-template-areas:
             "header"
             "main"
             "footer";
+    }
+
+    .main-cont {
+        height: calc(100vh - 50px - 50px)
     }
 
     .sidebar {
@@ -126,6 +138,7 @@ footer p {
     footer {
         grid-area: footer;
         width: 100%;
+        align-items: center;
         position: sticky;
         bottom: 0;
         z-index: 100;

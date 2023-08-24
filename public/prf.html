@@ -76,7 +76,7 @@
                 buttonElement.textContent = "プロフィール入力画面へ";
                 buttonElement.classList.add("button");
                 buttonElement.classList.add("primary");
-                buttonElement.onclick = "ocation.href='prf-input.html';";
+                buttonElement.onclick = () => location.href = 'prf-input.html';
                 buttonDiv.appendChild(buttonElement);
             }
 
@@ -119,7 +119,7 @@
         </div>
     </div>
 
-    <div class="show-box">
+    <div class="main-cont">
         <!-- ここから内容 -->
         <h1>プロフィール</h1>
         <section class="section">
@@ -136,6 +136,7 @@
 
         </section>
         <div class="button_area"></div>
+
     </div>
     <footer>
         <a href="https://sites.google.com/view/bugbusters-member" class="footer-link">

@@ -1,27 +1,17 @@
-main {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: -200px;
-}
-
-.login-section {
-    width: 80%;
-    max-width: 600px;
+.login-set {
+    width: 40%;
     background-color: #ffffff;
     padding: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin: 20px auto;
+    display: inline-block;
+    margin-top: 10%;
 }
 
-.login-section2 {
-    width: 80%;
-    max-width: 600px;
+.login-set2 {
+    width: 40%;
     padding: 10px;
     border-radius: 8px;
+    display: inline-block;
 }
 
 .title {
@@ -57,10 +47,20 @@ main {
     padding: 12px;
     border: none;
     border-radius: 4px;
-    transition: background-color 0.3s;
-    text-align: center;
 }
 
 .button.primary:hover {
     background-color: #0056b3;
+}
+
+@media screen and (max-width: 750px) {
+
+    .login-set {
+        margin-top: 40%;
+    }
+
+    .login-set,
+    .login-set2 {
+        width: 85%;
+    }
 }
