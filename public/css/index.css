@@ -2,10 +2,6 @@
     margin-left: auto;
 }
 
-.sidebar+.posts {
-    margin-left: 220px;
-}
-
 .posts {
     align-content: start;
     flex-grow: 1;
@@ -67,16 +63,13 @@
         margin: auto;
     }
 
-    .posts {
-        display: block;
-    }
-
     a {
         width: fit-content;
         height: fit-content;
     }
 
     .posts {
+        display: block;
         width: 80%;
         margin: auto;
     }

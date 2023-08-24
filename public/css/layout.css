@@ -95,6 +95,15 @@ footer p {
     background-color: #5c8ac5;
 }
 
+
+.main-cont {
+    text-align: center;
+    align-items: center;
+    height: calc(100vh - 70px - 70px);
+    grid-area: main;
+    overflow-y: auto;
+}
+
 @media screen and (max-width: 750px) {
     body {
         display: grid;
@@ -104,6 +113,10 @@ footer p {
             "header"
             "main"
             "footer";
+    }
+
+    .main-cont {
+        height: calc(100vh - 60px - 60px)
     }
 
     .sidebar {
