@@ -1,18 +1,14 @@
 
 window.addEventListener("load", (e)=>{
-
-
-    //join
-    document.getElementById("join-room").onclick = async ()=> {
-        await connectSocket();
-    };
+    connectSocket();
 });
 
 let socket;
 async function connectSocket(){
     const myUsername = localStorage.getItem("name");
     const did = localStorage.getItem("did");
-    const roomid = document.getElementById("roomid").value;
+    const url = new URL(window.location.href);
+    const roomid =url.searchParams.get("roomid");
     socket = new WebSocket(
         `ws://localhost:8000/start_web_socket?username=${myUsername}&room=${roomid}&did=${did}`,
     );
@@ -73,6 +69,7 @@ async function connectSocket(){
                     })
                 );
             };
+            return;
         }
 
         console.log("unexpected event:", data.event);
