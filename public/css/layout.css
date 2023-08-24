@@ -109,6 +109,13 @@ footer p {
     overflow-y: auto;
 }
 
+/* これ付けたら縦書きになるよ
+#text_contents {
+    margin: auto;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+} */
+
 @media screen and (max-width: 750px) {
     body {
         display: grid;
@@ -121,7 +128,7 @@ footer p {
     }
 
     .main-cont {
-        height: calc(100vh - 50px - 50px)
+        height: calc(100vh - 50px - 50px);
         grid-area: main;
         overflow-y: auto;
     }
@@ -137,8 +144,6 @@ footer p {
         top: 0;
         z-index: 100;
     }
-
-
 
     footer {
         grid-area: footer;
