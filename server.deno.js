@@ -269,20 +269,22 @@ serve(async (req) => {
       console.log('socket event:', json.event);
       if (json.event === "push-line"){
         if(json.line){
-          room.pushline(json.line); 
+          room.pushline(json.line);
           room.broadcast_lines();
         }
       }else if(json.event === "change-text" && isOwner){
         room.changeText(json.title, json.text_contents);
         room.broadcast_text();
+      }else if(json.event === "end" && isOwner){
+        closeRoom(roomid);
       }
     };
     socket.onerror = (e) => {
       console.log('socket errored:', e)
     };
     socket.onclose = () => {
-      room.connectedClients.delete(socket.username);
-      room.broadcast_usernames();
+      //room.connectedClients.delete(socket.username);
+      //room.broadcast_usernames();
     };
 
     return response;
@@ -331,10 +333,15 @@ serve(async (req) => {
 //web socket & draw -------------------
 const rooms = new Map();
 
-async function createNewRoom(id, ownerdid){
+function createNewRoom(id, ownerdid){
   const room = new Room(ownerdid);
   rooms.set(id,room);
   return room;
+}
+function closeRoom(roomid){
+  const room = rooms.get(roomid);
+  room.close();
+  rooms.delete(roomid);
 }
 
 class Room {
@@ -424,5 +431,19 @@ class Room {
         text_contents: this.text_contents,
       })
     );
+  }
+
+  close() {
+    for (const client of this.connectedClients.values()) {
+      if(client.isOwner) {
+        client.send(
+          JSON.stringify({
+            event: "room-end",
+          })
+        );
+      } else {
+        client.close();
+      }
+    }
   }
 }

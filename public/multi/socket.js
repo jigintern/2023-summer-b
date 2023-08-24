@@ -82,6 +82,27 @@ async function connectSocket(){
             return;
         }
 
+        if (data.event === "room-end") {
+            console.log("room end");
+            return;
+        }
+
+        if(data.event === "owner"){
+            //タイトルと本文解放
+            document.getElementById("title").disabled = false;
+            document.getElementById("text-contents").disabled = false;
+
+            //ルームを閉じるボタン
+            document.getElementById("roomclose").disabled = false;
+            document.getElementById("roomclose").onclick = ()=>{
+                socket.send(
+                    JSON.stringify({
+                        event: "end",
+                    })
+                );
+            };
+        }
+
         console.log("unexpected event:", data.event);
     };
 
