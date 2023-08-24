@@ -1,7 +1,7 @@
 import { serveDir } from "https://deno.land/std@0.180.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
-import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name, changeprf, getPosts_userid } from './db-controller.js';
+import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name, changeprf, getPosts_userid, postusername_byid } from './db-controller.js';
 
 
 //web soket -------------------
@@ -292,6 +292,13 @@ serve(async (req) => {
     };
 
     return response;
+  }
+
+  if (req.method === "POST" && pathname === "/postusername_byid") {
+    const json = await req.json();
+    const user_id = json.post_user_id;
+    const user_name = await postusername_byid(user_id);
+    return new Response(await JSON.stringify(user_name.rows));
   }
 
   return serveDir(req, {

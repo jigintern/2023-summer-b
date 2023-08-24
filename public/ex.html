@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>絵日記一覧</title>
+    <!-- UI完成がまだのためコメント -->
+    <!-- <link rel="stylesheet" href="./css/layout.css" /> -->
+    <!-- 存在しないcss・今後実装 -->
+    <!-- <link rel="stylesheet" href="./css/ex.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="header-link">
+            <img src="./img/SL_logo.png" alt="Logo">
+            <p>スケッチャラボ</p>
+        </a>
+        <!-- ここ誰かJsにして -->
+        <a href="ex.html" class="header-ex-link">
+            <button>？</button>
+        </a>
+        <div class="login"></div>
+    </header>
+    <div class="sidebar">
+        <a href="index.html" class="sidebar-button-link">
+            <button>ホーム</button>
+        </a>
+        <a href="newpost.html" class="sidebar-button-link">
+            <button>絵日記を書く</button>
+        </a>
+        <a href="prf.html" class="sidebar-button-link">
+            <button>プロフィール</button>
+        </a>
+    </div>
+
+    <div class="hamburger-menu">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </label>
+        <div class="menu">
+            <a href="index.html">ホーム</a>
+            <a href="newpost.html">絵日記を書く</a>
+            <a href="prf.html">プロフィール</a>
+        </div>
+    </div>
+
+    <!-- ここから内容 -->
+    <h1>アプリ説明</h1>
+    <h2>概要</h2>
+    <p>絵日記を3分でかいて投稿・共有するSNSアプリ</p>
+
+    <h2>ログインの仕方</h2>
+    <ol>
+        <li>新規登録画面へ行く</li>
+        <li>ユーザー名を入れる</li>
+        <li>登録ボタンを押す</li>
+        <li>DIDとパスワードを保存ボタンを押す</li>
+        <li>ログイン画面へ行く</li>
+        <li>ファイルを選択ボタンを押し４で保存したファイルを選択する</li>
+        <li>ログインを押しまず右上にあったloginボタンがユーザー名に代わります</li>
+        <li>右上にあったloginボタンがユーザー名に代わるとログイン成功です</li>
+
+    </ol>
+
+    <h2>ヘッダー機能</h2>
+    <ul>
+        <li>ロゴ・スケッチャラボをタップまたはクリックでホーム画面にもどることができる</li>
+        <li>？ボタンアプリの説明画面に飛ぶことができる</li>
+        <li>loginボタンならログインページに飛ぶことができる <br> 自分のユーザーネームならプロフィール画面に飛ぶ</li>
+    </ul>
+    <h2>サイドバー・ハンバーガーメニューについて</h2>
+    <h3>PCの方はサイドバー</h3>
+    <ul>
+        <li>ホームボタンはホール画面に飛ぶことができる</li>
+        <li>絵日記を書くボタンは新規投稿画面に飛ぶことができる</li>
+        <li>プロフィールボタンはプロフィール画面に飛ぶことができる</li>
+    </ul>
+    <h3>モバイル端末の方</h3>
+    <p>ハンバーガーメニューに格納されているだけで中身はサイドバーと同じ機能です</p>
+    <h2>フッダー機能</h2>
+    <ul>
+        <li>ロゴ・バグバスターズの文字に作成者のまとめサイトに飛ぶリンク（外部リンク）がついている</li>
+    </ul>
+
+    <footer>
+        <a href="https://sites.google.com/view/bugbusters-member" class="footer-link">
+            <img src="./img/logo02-tr.png" alt="Logo2">
+            <p>バグバスターズ</p>
+        </a>
+    </footer>
+    <script type="module">
+        document.getElementById("search").onclick = async () => {
+            const search_value = document.getElementById("search_value").value;
+            if (search_value === "") {
+                return
+            }
+            try {
+                const resp = await fetch("/search?search_value=" + search_value);
+
+                // サーバーから成功ステータスが返ってこないときの処理
+                if (!resp.ok) {
+                    const errMsg = await resp.text();
+                    console.log(errMsg);
+                    return;
+                }
+
+                var searched_array_tmp = await resp.text();
+                var searched_array = await JSON.parse(searched_array_tmp);
+                console.log(searched_array);
+                const targetDiv = document.querySelector('.posts');
+                targetDiv.innerHTML = "";
+                if (searched_array.length === 0) {
+                    targetDiv.innerHTML = search_value + "に合致する作品名はありませんでした。";
+                    return;
+                }
+                for (var i = 0; i < searched_array.length; i++) {
+                    create_postbox(searched_array[i])
+                }
+
+            } catch (err) {
+                console.log(err.message);
+            }
+
+        };
+
+        document.getElementById("search_reset").onclick = async () => {
+            const targetDiv = document.querySelector('.posts');
+            targetDiv.innerHTML = "";
+            Initialize();
+        };
+    </script>
+</body>
+
+</html>

@@ -11,6 +11,18 @@ window.addEventListener("load", async (event) => {
     const fetchURL = "/getpost?id=" + post_id;
     const res = await fetch(fetchURL);
     const result = await res.json();
+    const post_user_id = result.post_user_id;
+    const user_name_res = await fetch("/postusername_byid", {
+        method:"POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            post_user_id
+        }),
+    });
+    const user_name = await user_name_res.json();
+    const post_date = new Date(result.post_date);
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
+    const post_date_fmt = post_date.toLocaleString('ja-JP', options);
     const targetDiv = document.querySelector('.image_area');
     const textElement = document.createElement('div');
     textElement.textContent = "タイトル：" + result.title;
@@ -24,7 +36,10 @@ window.addEventListener("load", async (event) => {
     //add HTML
     imagediv.appendChild(imageElement);
     textElement.appendChild(imagediv);
-    targetDiv.appendChild(textElement);
+    targetDiv.appendChild(imagediv);
+    document.getElementById("title").innerText = "タイトル：" + result.title;
+    document.getElementById("post_user").innerText = "作者：" + user_name[0].user_name;
+    document.getElementById("post_date").innerText = "投稿日：" + post_date_fmt;
     document.getElementById("text_contents").innerText = "日記：\n" + result.text_contents;
     
 });
