@@ -12,8 +12,8 @@
     <script src="/js/authDID.js"></script>
     <script src="/js/authlogin.js"></script>
 
-    <script src="./sketch.js"></script>
-    <script src="./socket.js"></script>
+    <script src="/multi/sketch.js"></script>
+    <script src="/multi/socket.js"></script>
 
 </head>
 
@@ -45,10 +45,6 @@
     <section class="section">
         <div id="main">
             <h1>皆でお絵描き</h1>
-            <hr>
-            <h2>参加者</h2>
-            <p id="users"></p>
-            <hr>
             <form id="submitpsot">
                 <!-- タイトル -->
                 <div>
@@ -73,14 +69,18 @@
                 <button class="button primary" id="submit-btn">投稿</button>
                 <p id="error"></p>
             </form>
+            
+            <h2>参加者</h2>
+            <p id="users"></p>
+
         </div>
 
 
         <div id="right">
             <!-- tool box -->
             <div class="toolbox">
-                <button id="undo">戻る</button>
-                <button id="redo">進む</button>
+                <button id="undo" disabled>戻る</button>
+                <button id="redo" disabled>進む</button>
                 <br>
                 <br>
                 色

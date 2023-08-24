@@ -234,7 +234,9 @@ serve(async (req) => {
   //web soket
   if (req.method === "GET" && pathname === "/start_web_socket") {
     const { socket, response } = Deno.upgradeWebSocket(req);
-    const username = new URL(req.url).searchParams.get("username");
+    const username = url.searchParams.get("username");
+    const roomid = url.searchParams.get("room");
+    
     //user被りをはじく
     if (connectedClients.has(username)) {
       setTimeout(()=>{socket.close(1008, `Username ${username} is already taken`);}, 500);
@@ -292,6 +294,55 @@ serve(async (req) => {
   });
 });
 
+class Room {
+  constructor(id, ownerdid){
+    this.id = id
+    this.connectedClients = new Map();
+    this.owner = ownerdid;
+
+    this.lines = [];
+    this.BGcolor = "#ffffff";
+    this.title = "";
+    this.text_contents = "";
+  }
+
+  broadcast(message) {
+    for (const client of this.connectedClients.values()) {
+      client.send(message);
+    }
+  }
+  
+  //名前を更新
+  broadcast_usernames() {
+    const usernames = [...connectedClients.keys()];
+    broadcast(
+      JSON.stringify({
+        event: "update-users",
+        usernames: usernames,
+      }),
+    );
+  }
+
+  //linesを更新
+  broadcast_lines() {
+    broadcast(
+      JSON.stringify({
+        event: "update-lines",
+        lines: this.lines,
+      })
+    );
+  }
+
+  //背景色を更新
+  broadcast_BGcolor() {
+    broadcast(
+      JSON.stringify({
+        event: "update-BGcolor",
+        color: BGcolor,
+      })
+    );
+  }
+}
 
 
 //web socket & draw -------------------
