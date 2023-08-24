@@ -145,8 +145,12 @@ class Tool {
             this.width = this.widthrange.value;
         }
     }
-    setBackgroundColor() {
-        this.background_color = this.background_colorpicker.value;
+    setBackgroundColor(color) {
+        if(color){
+            this.background_color = color;
+        }else{
+            this.background_color = this.background_colorpicker.value;
+        }
         this.setColor();
     }
 

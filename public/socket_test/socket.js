@@ -18,8 +18,13 @@ socket.onmessage = (m) => {
     }
     
     if (data.event === "update-lines"){
-        console.log(data.lines);
+        //console.log(data.lines);
         lines = data.lines;
+        return;
+    }
+
+    if (data.event === "update-BGcolor"){
+        tool.setBackgroundColor(data.color);
         return;
     }
 
@@ -29,6 +34,7 @@ socket.onmessage = (m) => {
 
 socket.onclose = (m) => {
     console.log(m)
+    location.href = "/index.html";
 }
 
 function pushLine(line) {

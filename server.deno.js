@@ -237,7 +237,7 @@ serve(async (req) => {
     const username = new URL(req.url).searchParams.get("username");
     //user被りをはじく
     if (connectedClients.has(username)) {
-      socket.close(1008, `Username ${username} is already taken`);
+      setTimeout(()=>{socket.close(1008, `Username ${username} is already taken`);}, 500);
       return response;
     }
     //user追加
@@ -247,12 +247,17 @@ serve(async (req) => {
     socket.onopen = () => {
       broadcast_usernames();
       broadcast_lines();
+      broadcast_BGcolor();
     };
     socket.onmessage = (e) => {
       const json = JSON.parse(e.data)
       console.log('socket event:', json.event);
       if (json.event === "push-line"){
         if(json.line){
+          if(json.line.type === "rect"){
+            BGcolor = json.line.color;
+            broadcast_BGcolor();
+          }
           lines.push(json.line);
         }
         if(lines.length > 100){
@@ -292,6 +297,7 @@ serve(async (req) => {
 //web socket & draw -------------------
 const connectedClients = new Map();
 const lines = [];
+let BGcolor = "#ffffff";
 
 function broadcast(message) {
   for (const client of connectedClients.values()) {
@@ -316,6 +322,16 @@ function broadcast_lines() {
     JSON.stringify({
       event: "update-lines",
       lines: lines,
+    })
+  );
+}
+
+//背景色を更新
+function broadcast_BGcolor() {
+  broadcast(
+    JSON.stringify({
+      event: "update-BGcolor",
+      color: BGcolor,
     })
   );
 }
