@@ -9,12 +9,12 @@ function setup() {
 }
   
 function draw() {
-    background(255);
-
     //draw lines
     for(let l of lines){
-        l.draw();
+        drawObj(l);
     }
+
+    nowline?.draw();
 
     //pointer
     tool.draw();
@@ -69,7 +69,7 @@ function touchStarted() {
     }
     isDrawing = true;
     const l = new Line(tool.type, tool.color, tool.width);
-    lines.push(l);
+    //lines.push(l);
     nowline = l;
 }
 function touchMoved() {
@@ -79,7 +79,11 @@ function touchMoved() {
     nowline.addPoint(mouseX,mouseY);
 }
 function touchEnded() {
+    if(isDrawing){
+        pushLine(nowline);
+    }
     isDrawing = false;
+    nowline = null;
 }
 
 class Tool {
@@ -163,7 +167,7 @@ class Point {
 
 class Line {
     constructor(_tooltype, _color, _width){
-        this.tooltype = _tooltype;
+        this.type = _tooltype;
         this.color = _color;
         this.width = _width;
         this.points = [];
@@ -198,9 +202,43 @@ class Line {
         }
     }
 }
+function addPointLine(l,x,y) {
+    if(y !== undefined) {
+        addPointLine(l,new Point(x,y));
+        return;
+    }
+    l.points.push(x);
+}
+function drawObj(l) {
+    if(l?.type === "rect"){
+        noStroke();
+        fill(l.color);
+        rect(l.point.x, l.point.y, l.width, l.height);
+        return;
+    }
+    //色を設定
+    stroke(l.color);
+    //太さを設定
+    strokeWeight(l.width);
+
+    if(l.points.length === 1){
+        const p1 = l.points[0];
+        line(p1.x, p1.y, p1.x, p1.y);
+        return;
+    }
+
+    //線を描画
+    for(let i = 0; i < l.points.length - 1; i++){
+        const p1 = l.points[i];
+        const p2 = l.points[i+1];
+
+        line(p1.x, p1.y, p2.x, p2.y);
+    }
+}
 
 class Rect {
-    constructor(color, point, width, height){
+    constructor(color, point, width, height) {
+        this.type = "rest"
         this.color = color;
         this.point = point;
         this.width = width;

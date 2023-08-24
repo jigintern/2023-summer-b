@@ -7,26 +7,35 @@ const socket = new WebSocket(
 socket.onmessage = (m) => {
     const data = JSON.parse(m.data);
   
-    switch (data.event) {
-        case "update-users":
-            // refresh displayed user list
-            let userListHtml = "";
-            for (const username of data.usernames) {
-            userListHtml += `<div> ${username} </div>`;
-            }
-            document.getElementById("users").innerHTML = userListHtml;
-            break;
-    
-        case "send-message":
-            // display new chat message
-            addMessage(data.username, data.message);
-            break;
-
-        default:
-            console.log("unexpected event:", data.event);
+    if (data.event === "update-users") {
+        // refresh displayed user list
+        let userListHtml = "";
+        for (const username of data.usernames) {
+        userListHtml += `<div> ${username} </div>`;
+        }
+        document.getElementById("users").innerHTML = userListHtml;
+        return;
     }
+    
+    if (data.event === "update-lines"){
+        console.log(data.lines);
+        lines = data.lines;
+        return;
+    }
+
+
+    console.log("unexpected event:", data.event);
 };
 
 socket.onclose = (m) => {
     console.log(m)
+}
+
+function pushLine(line) {
+    socket.send(
+        JSON.stringify({
+        event: "push-line",
+        line: line,
+      }),
+  )
 }

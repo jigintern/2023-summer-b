@@ -246,9 +246,20 @@ serve(async (req) => {
   
     socket.onopen = () => {
       broadcast_usernames();
+      broadcast_lines();
     };
     socket.onmessage = (e) => {
-      console.log('socket message:', e.data);
+      const json = JSON.parse(e.data)
+      console.log('socket event:', json.event);
+      if (json.event === "push-line"){
+        if(json.line){
+          lines.push(json.line);
+        }
+        if(lines.length > 100){
+          lines.slice(1,1);
+        }
+        broadcast_lines();
+      }
     };
     socket.onerror = (e) => {
       console.log('socket errored:', e)
@@ -278,7 +289,7 @@ serve(async (req) => {
 
 
 
-//web soket -------------------
+//web socket & draw -------------------
 const connectedClients = new Map();
 const lines = [];
 
@@ -296,5 +307,15 @@ function broadcast_usernames() {
       event: "update-users",
       usernames: usernames,
     }),
+  );
+}
+
+//linesを更新
+function broadcast_lines() {
+  broadcast(
+    JSON.stringify({
+      event: "update-lines",
+      lines: lines,
+    })
   );
 }
