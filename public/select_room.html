@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="./css/select_room.css">
     <script src="./js/authDID.js"></script>
     <script src="./js/authlogin.js"></script>
+
+    <script src="./multi/room.js"></script>
 </head>
 
 <body>
@@ -51,11 +53,11 @@
 
     <div class="main-cont">
         <div class="room_buttons">
-            <div class="create_room"><button class="button primary">部屋をつくる！</button></div>
+            <div class="create_room"><button class="button primary" id="create-room">部屋をつくる！</button></div>
             <br>
             <div class="search_room">
-                部屋番号：<input type="number"><br>
-                <button class="button primary">部屋をさがす！</button>
+                部屋番号：<input type="text" id="roomid"><br>
+                <button class="button primary" id="join-room">部屋をさがす！</button>
             </div>
         </div>
     </div>
