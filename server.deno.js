@@ -4,8 +4,34 @@ import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
 import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name, changeprf, getPosts_userid } from './db-controller.js';
 
 
+//web soket -------------------
+const connectedClients = new Map();
+
+// send a message to all connected clients
+function broadcast(message) {
+  for (const client of connectedClients.values()) {
+    client.send(message);
+  }
+}
+
+// send updated users list to all connected clients
+function broadcast_usernames() {
+  const usernames = [...connectedClients.keys()];
+  console.log(
+    "Sending updated username list to all clients: " +
+      JSON.stringify(usernames),
+  );
+  broadcast(
+    JSON.stringify({
+      event: "update-users",
+      usernames: usernames,
+    }),
+  );
+}
+
 serve(async (req) => {
-  const pathname = new URL(req.url).pathname;
+  const url = new URL(req.url)
+  const pathname = url.pathname;
   console.log(pathname);
 
   if (req.method === "GET" && pathname === "/selectall") {
@@ -219,6 +245,53 @@ serve(async (req) => {
     const post_user_id = (await getPost(id)).post_user_id;
     const user_id = (await getUser(did)).rows[0].id;
     return new Response(await JSON.stringify({result: post_user_id === user_id}));
+  }
+
+
+  //web soket
+
+  if (req.method === "GET" && pathname === "/start_web_socket") {
+    console.log("socket");
+    const { socket, response } = Deno.upgradeWebSocket(req);
+    const username = url.searchParams.get("username");
+    if (connectedClients.has(username)) {
+      socket.close(1008, `Username ${username} is already taken`);
+      return;
+    }
+    socket.username = username;
+    connectedClients.set(username, socket);
+    console.log(`New client connected: ${username}`);
+  
+    // broadcast the active users list when a new user logs in
+    socket.onopen = () => {
+      broadcast_usernames();
+    };
+  
+    // when a client disconnects, remove them from the connected clients list
+    // and broadcast the active users list
+    socket.onclose = () => {
+      console.log(`Client ${socket.username} disconnected`);
+      connectedClients.delete(socket.username);
+      broadcast_usernames();
+    };
+  
+    // broadcast new message if someone sent one
+    socket.onmessage = (m) => {
+      const data = JSON.parse(m.data);
+      switch (data.event) {
+        case "send-message":
+          broadcast(
+            JSON.stringify({
+              event: "send-message",
+              username: socket.username,
+              message: data.message,
+            }),
+          );
+          break;
+      }
+    };
+
+    return response;
   }
 
   return serveDir(req, {
