@@ -5,9 +5,7 @@ function canvasToBase64() {
 const submit_btn = document.getElementById("submit-btn");
 
 //新規投稿
-document
-.getElementById("submitpsot")
-.addEventListener("submit", async (event) => {
+document.getElementById("submit-btn").addEventListener("click", async (event) => {
     event.preventDefault();
     submit_btn.disabled = true;
 

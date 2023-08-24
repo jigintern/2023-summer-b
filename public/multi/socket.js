@@ -78,6 +78,10 @@ async function connectSocket(){
             const submitbtn = document.getElementById("submit-btn");
             submitbtn.style.display = "inline-block";
             submitbtn.disabled = false;
+            submitbtn.addEventListener("click", ()=>{
+                socket.send(JSON.stringify({event: "end"}));
+            });
+
             return;
         }
 
