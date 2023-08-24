@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
     margin: 0;
+    font-family: 'Yusei Magic', sans-serif;
 }
 
 body {
@@ -66,7 +67,6 @@ footer p {
     margin: 0;
     padding: 0;
     font-size: 24px;
-    font-family: 'Yusei Magic', sans-serif;
 }
 
 .header-link,
@@ -119,6 +119,7 @@ footer p {
     width: 100%;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 4%;
 }
 
 .sidebar button:hover {
@@ -149,6 +150,10 @@ footer p {
             "header"
             "main"
             "footer";
+    }
+
+    .header-ex {
+        margin-left: 1%;
     }
 
     .main-cont {
@@ -183,7 +188,12 @@ footer p {
 
     header p,
     footer p {
-        font-size: 13px;
+        font-size: medium;
+    }
+
+    .header-button-link {
+        margin-right: auto;
+        padding: 0%;
     }
 
     .hamburger-menu {
