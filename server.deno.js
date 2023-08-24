@@ -2,11 +2,12 @@ import { serveDir } from "https://deno.land/std@0.180.0/http/file_server.ts";
 import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
 import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name, changeprf, getPosts_userid, postusername_byid, getUser_id, getPosts_limit } from './db-controller.js';
-
+import { Md5 } from "https://deno.land/std@0.119.0/hash/md5.ts";
 
 serve(async (req) => {
-  const pathname = new URL(req.url).pathname;
-  console.log(pathname);
+  const url = new URL(req.url)
+  const pathname = url.pathname;
+  //console.log(pathname);
 
   if (req.method === "GET" && pathname === "/selectall") {
     const result = await getPosts_index();
@@ -229,6 +230,92 @@ serve(async (req) => {
     return new Response(await JSON.stringify({result: post_user_id === user_id}));
   }
 
+  //join room
+  //web soket
+  if (req.method === "GET" && pathname === "/start_web_socket") {
+    const { socket, response } = Deno.upgradeWebSocket(req);
+    const username = url.searchParams.get("username");
+    const roomid = url.searchParams.get("room");
+    const did = url.searchParams.get("did");
+
+    //部屋がない
+    if(!rooms.has(roomid)){
+      setTimeout(()=>{socket.close(1008, `no room`);}, 500);
+      return response;
+    }
+
+    const room = rooms.get(roomid);
+    
+    //user被りをはじく
+    /*
+    if (room.connectedClients.has(username)) {
+      setTimeout(()=>{socket.close(1008, `Username ${username} is already taken`);}, 500);
+      return response;
+    }*/
+
+    //user追加
+    const isOwner = did === room.ownerdid;
+    socket.isOwner = isOwner;
+    socket.username = username;
+    room.connectedClients.set(username, socket);
+
+    //socket listener================================
+    socket.onopen = () => {
+      room.sendStates(socket);
+      room.broadcast_usernames();
+      if(isOwner){
+        socket.send(JSON.stringify({event: "isOwner"}));
+      }
+    };
+    socket.onmessage = (e) => {
+      const json = JSON.parse(e.data)
+      console.log('socket event:', json.event);
+      if (json.event === "push-line"){
+        if(json.line){
+          room.pushline(json.line);
+          room.broadcast_lines();
+        }
+      }else if(json.event === "change-text" && isOwner){
+        room.changeText(json.title, json.text_contents);
+        room.broadcast_text();
+      }else if(json.event === "end" && isOwner){
+        console.log("end room")
+        closeRoom(roomid);
+      }
+    };
+    socket.onerror = (e) => {
+      console.log('socket errored:', e)
+    };
+    socket.onclose = () => {
+      room.connectedClients.delete(socket.username);
+      room.broadcast_usernames();
+    };
+
+    return response;
+  }
+
+  //roomを作成
+  if (req.method === "POST" && pathname === "/createroom") {
+    const json = await req.json();
+    const did = json.did;
+
+    //check
+    const roomid = new Md5().update(did).toString();
+    console.log(roomid);
+    //部屋が多い
+    if (rooms.length > 20) {
+      return new Response("部屋を作れません", { status: 400 });
+    }
+
+    //既に部屋を立てている
+    if (rooms.has(roomid)){
+      return new Response(JSON.stringify({roomid}));
+    }
+    const room = createNewRoom(roomid, did);
+
+    return new Response(JSON.stringify({roomid}));
+  }
+
   if (req.method === "POST" && pathname === "/postusername_byid") {
     const json = await req.json();
     const user_id = json.post_user_id;
@@ -251,3 +338,125 @@ serve(async (req) => {
   });
 });
 
+
+
+//web socket & draw -------------------
+const rooms = new Map();
+
+function createNewRoom(id, ownerdid){
+  const room = new Room(ownerdid);
+  rooms.set(id,room);
+  return room;
+}
+function closeRoom(roomid){
+  const room = rooms.get(roomid);
+  if(room){
+    room.close();
+    rooms.delete(roomid);
+  }
+}
+
+class Room {
+  constructor(ownerdid){
+    this.connectedClients = new Map();
+    this.ownerdid = ownerdid;
+
+    this.lines = [];
+    this.BGcolor = "#ffffff";
+    this.title = "";
+    this.text_contents = "";
+  }
+
+  pushline(l){
+    if(l.type === "rect"){
+      this.BGcolor = l.color;
+      this.broadcast_BGcolor();
+    }
+    this.lines.push(l);
+    if(this.lines.length > 100){
+      this.lines.slice(1,1);
+    }
+  }
+
+  changeText(title, text_contents) {
+    this.title = title;
+    this.text_contents = text_contents;
+  }
+
+  //broadcast============================
+  broadcast(message) {
+    for (const client of this.connectedClients.values()) {
+      client.send(message);
+    }
+  }
+  
+  //名前を更新
+  broadcast_usernames() {
+    const usernames = [...this.connectedClients.keys()];
+    this.broadcast(
+      JSON.stringify({
+        event: "update-users",
+        usernames: usernames,
+      }),
+    );
+  }
+
+  //linesを更新
+  broadcast_lines() {
+    this.broadcast(
+      JSON.stringify({
+        event: "update-lines",
+        lines: this.lines,
+      })
+    );
+  }
+
+  //背景色を更新
+  broadcast_BGcolor() {
+    this.broadcast(
+      JSON.stringify({
+        event: "update-BGcolor",
+        color: this.BGcolor,
+      })
+    );
+  }
+
+  //テキストを更新
+  broadcast_text() {
+    this.broadcast(
+      JSON.stringify({
+        event: "update-text",
+        title: this.title,
+        text_contents: this.text_contents,
+      })
+    );
+  }
+
+  //新規参加者に状態を送信
+  sendStates(socket) {
+    socket.send(
+      JSON.stringify({
+        event: "update-states",
+        lines: this.lines,
+        BGcolor: this.BGcolor,
+        title: this.title,
+        text_contents: this.text_contents,
+      })
+    );
+  }
+
+  close() {
+    for (const client of this.connectedClients.values()) {
+      /*if(client.isOwner) {
+        client.send(
+          JSON.stringify({
+            event: "room-end",
+          })
+        );
+      } else {
+        client.close();
+      }*/
+      client.close();
+    }
+  }
+}

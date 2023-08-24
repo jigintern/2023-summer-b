@@ -123,6 +123,7 @@ h1 {
     color: red;
 }
 
+
 @media screen and (max-width: 750px) {
 
     .draw-set {

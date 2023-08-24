@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皆でお絵描き</title>
+    <link>
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/newpost.css" />
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+    <script src="/js/authDID.js"></script>
+    <script src="/js/authlogin.js"></script>
+
+    <script src="/multi/sketch.js"></script>
+    <script src="/multi/socket.js"></script>
+
+    <script type="module" src="./multi/newpost.js"></script>
+    <style>
+        #roomclose,
+        #submit-btn {
+            display: none;
+        }
+        #room_info {
+            margin: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="header-link">
+            <img src="./img/SL_logo.png" alt="Logo">
+            <p>スケッチャラボ</p>
+        </a>
+        <p class="timer">残り時間: <span id="time">--:--</span></p>
+
+        <div class="login"></div>
+    </header>
+
+    <div class="sidebar">
+        <a href="index.html" class="sidebar-button-link">
+            <button>ホーム</button>
+        </a>
+        <a href="newpost.html" class="sidebar-button-link">
+            <button>絵日記を書く</button>
+        </a>
+        <a href="select_room.html" class="sidebar-button-link">
+            <button>みんなで絵日記を書く</button>
+        </a>
+        <a href="prf.html" class="sidebar-button-link">
+            <button>プロフィール</button>
+        </a>
+    </div>
+    <div class="hamburger-menu">
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </label>
+        <div class="menu">
+            <a href="index.html">ホーム</a>
+            <a href="newpost.html">絵日記を書く</a>
+            <a href="select_room.html">みんなで書く</a>
+            <a href="prf.html">プロフィール</a>
+        </div>
+    </div>
+    <!-- ここから内容 -->
+    <div class="main-cont">
+        <div id="main">
+            <h1>皆でお絵描き</h1>
+
+            <div id="room_info">
+                ルームID:<div id="roomid"></div>
+                参加者:<div id="users"></div>
+                <button id="roomclose" disabled>ルームを閉じる</button>
+            </div>
+
+            <form id="submitpsot" onsubmit="return false;">
+                <!-- タイトル -->
+                <div>
+                    <label class="label">タイトル</label><br>
+                    <input class="input" type="text" id="title" disabled required />
+                </div>
+                <!-- お絵かき -->
+                <div class="draw-set">
+                    <div class="draw-area">
+
+                        <div id="canvas-wrap">
+                        </div>
+
+                    </div>
+                    <div id="right">
+                        <!-- tool box -->
+                        <div class="toolbox">
+                            <button id="undo" disabled>戻る</button>
+                            <button id="redo" disabled>進む</button>
+                            <br>
+                            <br>
+                            色
+                            <label><input type="color" name="favorite_color" id="color">
+                            </label><br>
+                            <input type="radio" id="pen" name="tool" value="pen" checked />
+                            <label for="pen">ペン</label><br>
+                            <input type="radio" id="eraser" name="tool" value="eraser" />
+                            <label for="eraser">消しゴム</label><br>
+                            <br>
+                            太さ<br>
+                            <input type="range" id="penWeight" min="1" max="15" value="2" />
+                            <br><br>
+                            背景色
+                            <input type="color" id="background-color" value="#ffffff" />
+                            <button id="clearCanvas">背景色でリセット</button>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 日記textbox -->
+                <div>
+                    <label class="label">日記</label>
+                    <br>
+                    <textarea id="text-contents" disabled></textarea>
+                </div>
+
+                <button class="button primary" id="submit-btn" disabled>投稿</button>
+                <p id="error"></p>
+            </form>
+        </div>
+
+
+
+    </div>
+    <footer>
+        <a href="https://sites.google.com/view/bugbusters-member" class="footer-link">
+            <img src="./img/logo02-tr.png" alt="Logo2">
+            <p>バグバスターズ</p>
+        </a>
+    </footer>
+</body>
+
+</html>
