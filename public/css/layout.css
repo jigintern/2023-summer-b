@@ -195,4 +195,9 @@ footer p {
     #menu-toggle {
         display: none;
     }
+
+    a {
+        width: fit-content;
+        height: fit-content;
+    }
 }
