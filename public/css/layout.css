@@ -101,7 +101,6 @@ footer p {
     background-color: #5c8ac5;
 }
 
-
 .main-cont {
     text-align: center;
     align-items: center;
@@ -129,7 +128,7 @@ footer p {
     }
 
     .main-cont {
-        height: calc(100vh - 50px - 50px);
+        height: calc(100svh - 50px - 50px);
     }
 
     .sidebar {
