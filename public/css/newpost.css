@@ -2,6 +2,10 @@
     margin-left: auto;
 }
 
+h1 {
+    margin-top: 2%;
+}
+
 .timer {
     margin-left: 20%;
 }
@@ -136,8 +140,24 @@
     }
 
     #text-contents {
-        width: 100%;
+        width: 80%;
         font-size: x-large;
         min-height: 3em;
     }
+
+    #posted-img {
+        width: 80%;
+        height: auto;
+    }
+
+    /* inputtextbox */
+    #title {
+        margin: 1%;
+        font-size: large;
+    }
+
+    .title {
+        margin-bottom: 3%;
+    }
+
 }
