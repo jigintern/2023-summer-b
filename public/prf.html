@@ -26,7 +26,11 @@
 
             const prf = await prf_result.json();
             document.getElementById("user_name").innerText += prf[0].user_name;
-            document.getElementById("self-intro").innerText += prf[0].self_intro;
+            if (prf[0].self_intro === null) {
+                document.getElementById("self-intro").innerText += "まだ書かれていないようです...";
+            } else {
+                document.getElementById("self-intro").innerText += prf[0].self_intro;
+            }
             localStorage.setItem("id", prf[0].id);
 
             var id = localStorage.getItem("id");
