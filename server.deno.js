@@ -4,9 +4,35 @@ import { DIDAuth } from 'https://jigintern.github.io/did-login/auth/DIDAuth.js';
 import { addDID, checkIfIdExists, getUser, addPost, getPost, delPost, fixPost, isPostExists, getPosts_index, searchPosts_name, changeprf, getPosts_userid, postusername_byid } from './db-controller.js';
 
 
+const connectedClients = [];
+
+function broadcast(message) {
+  for (const client of connectedClients) {
+    client.send(message);
+  }
+}
+
+
 serve(async (req) => {
   const pathname = new URL(req.url).pathname;
   console.log(pathname);
+
+if (pathname === '/start_web_socket') {
+  const { socket, response } = Deno.upgradeWebSocket(req);
+
+  connectedClients.push(socket);
+
+  socket.onopen = () => console.log('socket opened');
+  socket.onmessage = (e) => {
+    console.log('socket message:', e.data);
+    broadcast(e.data);
+  };
+  socket.onerror = (e) => console.log('socket errored:', e);
+  socket.onclose = () => {
+    connectedClients.splice(connectedClients.indexOf(socket), 1);
+  };
+  return response;
+}
 
   if (req.method === "GET" && pathname === "/selectall") {
     const result = await getPosts_index();
