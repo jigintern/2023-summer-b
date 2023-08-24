@@ -10,7 +10,6 @@
 
 .post-box {
     display: flex;
-    flex-direction: column;
 }
 
 .post_user a {
@@ -24,6 +23,20 @@
 }
 
 .post-img {
-    width: 75%;
+    width: 60%;
     height: auto;
+}
+
+#title {
+    margin-top: 3%;
+}
+
+@media screen and (max-width: 750px) {
+    #title {
+        margin-top: 5%;
+    }
+
+    .post-img {
+        width: 80%;
+    }
 }
