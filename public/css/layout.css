@@ -1,59 +1,75 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
     background-color: #e5e7e9;
     color: #3a3a3a;
-    padding-top: 70px;
-    /* ヘッダーの高さ分のスペースを追加 */
-    padding-bottom: 40px;
-    /* フッターの高さ分のスペースを追加 */
+    display: grid;
+    grid-template-rows: 70px 1fr 70px;
+    grid-template-columns: 200px 1fr;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+    margin: 0;
+    padding: 0;
 }
 
 header {
+    grid-area: header;
     display: flex;
     align-items: center;
-    padding: 10px;
     background-color: #7ba9e0;
-    width: 100vw;
-    position: fixed;
-    /* ヘッダーを固定 */
+    padding: 10px;
+    position: sticky;
     top: 0;
-    left: 0;
-    z-index: 2;
-    box-sizing: border-box;
+    z-index: 100;
 }
 
-header img {
+.sidebar {
+    grid-area: sidebar;
+    background-color: #555;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+}
+
+.hamburger-menu {
+    display: none;
+}
+
+footer {
+    grid-area: footer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #7ba9e0;
+    padding: 10px;
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+}
+
+header img,
+footer img {
     width: 50px;
     height: auto;
     margin-right: 10px;
 }
 
-header p {
+header p,
+footer p {
     margin: 0;
     padding: 0;
     font-size: 24px;
-    flex-grow: 1;
 }
 
-header button {
-    padding: 10px 20px;
-    background-color: #7ba9e0;
-    color: white;
-    border: none;
-    transition: background-color 0.3s;
-    margin-right: 40px;
-}
-
-header button:hover {
-    background-color: #5c8ac5;
-}
-
-.header-link {
+.header-link,
+.footer-link {
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -63,26 +79,6 @@ header button:hover {
 .header-button-link {
     text-decoration: none;
     margin-left: auto;
-}
-
-.hamburger-menu {
-    display: none;
-}
-
-.sidebar {
-    position: fixed;
-    top: 65px;
-    /* ヘッダーの高さ + 10pxの余白 */
-    bottom: 58px;
-    /* フッターの高さ + 10pxの余白 */
-    left: 0;
-    width: 200px;
-    background-color: #555;
-    padding: 10px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    z-index: 1;
 }
 
 .sidebar button {
@@ -99,68 +95,50 @@ header button:hover {
     background-color: #5c8ac5;
 }
 
-footer {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    position: fixed;
-    /* フッターを固定 */
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    /* フッターを画面全体に拡張 */
-    background-color: #7ba9e0;
-    /* フッターの背景色を追加 */
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-footer img {
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
-}
-
-footer p {
-    margin: 0;
-    padding: 0;
-    font-size: 24px;
-}
-
-.footer-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    margin-right: 1%;
-}
-
 @media screen and (max-width: 750px) {
-
-    header,
-    footer {
-        padding: 10px;
-    }
-
-    header img {
-        width: 20px;
-    }
-
-    header button {
-        padding: 10px 20px;
-        background-color: #7ba9e0;
-        color: white;
-        border: none;
-        transition: background-color 0.3s;
-        margin-right: -10px;
-    }
-
-    header button:hover {
-        background-color: #5c8ac5;
+    body {
+        display: grid;
+        grid-template-rows: 60px 1fr 60px;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
     }
 
     .sidebar {
         display: none;
+    }
+
+    header {
+        grid-area: header;
+        width: 100%;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    main {
+        grid-area: main;
+        overflow-y: auto;
+    }
+
+    footer {
+        grid-area: footer;
+        width: 100%;
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
+    }
+
+    header img,
+    footer img {
+        width: 20px;
+    }
+
+    header p,
+    footer p {
+        font-size: 13px;
     }
 
     .hamburger-menu {
@@ -216,17 +194,5 @@ footer p {
 
     #menu-toggle {
         display: none;
-    }
-
-    header p {
-        font-size: 13px;
-    }
-
-    footer img {
-        width: 20px;
-    }
-
-    footer p {
-        font-size: 13px;
     }
 }
