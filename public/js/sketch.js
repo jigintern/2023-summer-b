@@ -31,26 +31,46 @@ window.addEventListener("load", ()=>{
         event.preventDefault();
     };
 
+    document.getElementById("submitpost").onsubmit = (event)=> {
+        event.preventDefault();
+        event.preventDefault();
+        return false;
+    }
+    //誤submit防止
+    document.getElementById("title").oninput = (event)=>{
+        event.stopPropagation();
+        event.preventDefault();
+        return false;
+    };
+
     //tool
     tool = new Tool();
 
 
     // undo redu
-    document.getElementById("undo").addEventListener("click", ()=>{
+    document.getElementById("undo").addEventListener("click", (event)=>{
+        console.log(event);
+        event.stopPropagation();
+        event.preventDefault();
         if(lines.length <= 0) {
             return;
         }
         delline.push(lines.pop())
+        return;
     });
-    document.getElementById("redo").addEventListener("click", ()=>{
+    document.getElementById("redo").addEventListener("click", (event)=>{
+        event.stopPropagation();
+        event.preventDefault();
         if(delline.length <= 0) {
             return;
         }
-        lines.push(delline.pop());        
+        lines.push(delline.pop());  
+        return;      
     });
 
     //clear
-    document.getElementById("clearCanvas").addEventListener("click", ()=>{
+    document.getElementById("clearCanvas").addEventListener("click", (event)=>{
+        event.preventDefault();
         lines.push(new Rect(tool.background_color ,new Point(), width, height));
     });
 });
@@ -61,10 +81,53 @@ let delline = [];
 let isDrawing = false;
 let nowline = null;
 let tool = null;
+let started = false;
+let timeover = false;
+let totalSeconds;
+let interval; 
+
+function startCountdown(seconds) {
+    started = true;
+    totalSeconds = seconds * 60;
+    interval = setInterval(updateCountdown, 1000);
+}
+
+function updateCountdown() {
+    if (totalSeconds <= 0) {
+        stopCountdown();
+        return;
+    }
+
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const formattedTime = pad(minutes) + ":" + pad(seconds);
+    document.getElementById("time").textContent = formattedTime;
+
+    totalSeconds--;
+}
+
+function pad(num) {
+    return (num < 10) ? "0" + num : num;
+}
+
+function stopCountdown() {
+    timeover = true;
+    clearInterval(interval);
+    document.getElementById("time").textContent = "00:00";
+}
+
 
 function touchStarted() {
     if(mouseX < 0 || mouseY < 0 || mouseX > width || mouseY > height){
         //console.log("out of canvs");
+        return;
+    }
+    if(started === false) {
+        startCountdown(3);
+        started = true;
+    }
+    if(timeover === true) {
         return;
     }
     isDrawing = true;
