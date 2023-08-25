@@ -13,7 +13,19 @@
     <script src="./js/authDID.js"></script>
     <script>
         window.onload = async (event) => {
-            authDID(event);
+            event.preventDefault();
+            const did = localStorage.getItem("did");
+            const res = await fetch("/getprf_did", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    did,
+                }),
+            })
+            const result = await res.json();
+            console.log(result)
+            document.getElementById("nickname").value = result[0].user_name;
+            document.getElementById("introduction").value = result[0].self_intro;
         };
     </script>
 </head>
@@ -86,7 +98,7 @@
     <script type="module">
         document.getElementById("submit").onclick = async (event) => {
             event.preventDefault();
-            if (document.getElementById("nickname") === "" || document.getElementById("introduction") === "") {
+            if (document.getElementById("nickname").value === "" || document.getElementById("introduction").value === "") {
                 alert("入力されていない項目があります。");
                 return;
             }
