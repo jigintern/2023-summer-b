@@ -237,6 +237,7 @@ serve(async (req) => {
     const username = url.searchParams.get("username");
     const roomid = url.searchParams.get("room");
     const did = url.searchParams.get("did");
+    console.log(rooms);
 
     //部屋がない
     if(!rooms.has(roomid)){
@@ -288,6 +289,12 @@ serve(async (req) => {
     };
     socket.onclose = () => {
       room.connectedClients.delete(socket.username);
+
+      //auto del room
+      if(room.connectedClients.size === 0){
+        closeRoom(roomid);
+      }
+
       room.broadcast_usernames();
     };
 
@@ -351,6 +358,7 @@ function createNewRoom(id, ownerdid){
 function closeRoom(roomid){
   const room = rooms.get(roomid);
   if(room){
+    console.log("room close",room);
     room.close();
     rooms.delete(roomid);
   }

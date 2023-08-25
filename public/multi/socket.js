@@ -95,7 +95,7 @@ async function connectSocket(){
 
     socket.onclose = (m) => {
         console.log(m)
-        location.href = "/index.html";
+        location.href = "/select_room.html";
     }
 }
 function pushLine(line) {
