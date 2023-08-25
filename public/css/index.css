@@ -24,6 +24,10 @@
     justify-items: center;
 }
 
+.search_box form {
+    display: inline-flex;
+}
+
 .search_box input {
     padding: 5px;
     margin-right: 10px;
@@ -61,7 +65,7 @@
 
 @media screen and (max-width: 750px) {
 
-    .search_box button {
+    .search-btn {
         background-color: #007bff;
         color: white;
         border: none;
