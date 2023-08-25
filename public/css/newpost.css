@@ -133,7 +133,7 @@ h1 {
 
     .toolbox {
         box-sizing: border-box;
-        height: 250px;
+        height: fit-content;
         border: solid 1px #000;
         padding: 10px;
         text-align: center;
@@ -161,4 +161,10 @@ h1 {
         margin-bottom: 3%;
     }
 
+    #canvas-wrap {
+        padding: 0.5em;
+        aspect-ratio: 3/2;
+        width: 100vw;
+        height: auto;
+    }
 }
