@@ -156,6 +156,7 @@
       const page_number = url.searchParams.get("page_number");
       const targetDiv = document.querySelector('.posts');
       targetDiv.innerHTML = "";
+      document.getElementById("search_value").value = ""
       Create_index(page_number);
     };
   </script>
