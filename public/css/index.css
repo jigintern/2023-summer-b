@@ -66,7 +66,7 @@
         color: white;
         border: none;
         cursor: pointer;
-        margin: auto;
+        margin-right: 1%;
     }
 
     a {
@@ -81,7 +81,7 @@
     }
 
     .search_box {
-        width: 90%;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
