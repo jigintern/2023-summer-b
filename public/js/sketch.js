@@ -4,6 +4,10 @@ function setup() {
     let canvas = createCanvas(600, 400);
     const canvas_wrap = document.getElementById("canvas-wrap");
     canvas.parent(canvas_wrap);
+    const canvas_elm = document.getElementById('canvas-wrap').firstElementChild;
+    canvas_elm.style.width = "100%";
+    canvas_elm.style.height = "auto";
+    console.log(canvas_elm);
     frameRate(30);
     canvas.position(0, 0);
 }
