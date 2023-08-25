@@ -6,8 +6,9 @@ const submit_btn = document.getElementById("submit-btn");
 
 //新規投稿
 document
-.getElementById("submitpsot")
+.getElementById("submitpost")
 .addEventListener("submit", async (event) => {
+    event.stopPropagation();
     event.preventDefault();
     submit_btn.disabled = true;
 
@@ -49,4 +50,6 @@ document
     } catch (err) {
         document.getElementById("error").innerText = err.message;
     }
+
+    return;
 });

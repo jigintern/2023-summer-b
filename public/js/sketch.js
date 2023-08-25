@@ -30,9 +30,17 @@ window.addEventListener("load", ()=>{
     canvas.ontouchmove = (event)=> {
         event.preventDefault();
     };
+
+    document.getElementById("submitpost").onsubmit = (event)=> {
+        event.preventDefault();
+        event.preventDefault();
+        return false;
+    }
     //誤submit防止
     document.getElementById("title").oninput = (event)=>{
+        event.stopPropagation();
         event.preventDefault();
+        return false;
     };
 
     //tool
@@ -40,17 +48,24 @@ window.addEventListener("load", ()=>{
 
 
     // undo redu
-    document.getElementById("undo").addEventListener("click", ()=>{
+    document.getElementById("undo").addEventListener("click", (event)=>{
+        console.log(event);
+        event.stopPropagation();
+        event.preventDefault();
         if(lines.length <= 0) {
             return;
         }
         delline.push(lines.pop())
+        return;
     });
-    document.getElementById("redo").addEventListener("click", ()=>{
+    document.getElementById("redo").addEventListener("click", (event)=>{
+        event.stopPropagation();
+        event.preventDefault();
         if(delline.length <= 0) {
             return;
         }
-        lines.push(delline.pop());        
+        lines.push(delline.pop());  
+        return;      
     });
 
     //clear
