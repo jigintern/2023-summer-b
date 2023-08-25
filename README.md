@@ -1,3 +1,11 @@
+# スケッチャラボ
+
+## 開発環境
+・HTML
+・CSS
+・JavaScript
+・Deno 1.36.1
+
 ## API構成
 
 GET: /selectall postsテーブルからすべてのidを取ってくる。
