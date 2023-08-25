@@ -17,6 +17,7 @@ document
     if (title.length <= 0){title = "no title";}
     const imgpath = canvasToBase64();
     const text_contents = document.getElementById("text-contents").value;
+    const post_time = Date.now();
 
     // サーバーに送信
     const path = "/submitpost";
@@ -31,6 +32,7 @@ document
                 title,
                 imgpath,
                 text_contents,
+                post_time,
             }),
         });
 

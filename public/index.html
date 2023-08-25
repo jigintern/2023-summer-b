@@ -101,8 +101,10 @@
 
   <div class="main-cont">
     <div class="search_box">
-      <input type="text" placeholder="検索..." id="search_value">
-      <button id="search">検索</button>
+      <form id="search_form">
+        <input type="text" placeholder="検索..." id="search_value">
+        <button id="search">検索</button>
+      </form>
       <button id="search_reset">リセット</button>
     </div>
     <div class="posts">
@@ -117,7 +119,8 @@
     </a>
   </footer>
   <script type="module">
-    document.getElementById("search").onclick = async () => {
+    document.getElementById("search_form").onsubmit = async (event) => {
+      event.preventDefault();
       const search_value = document.getElementById("search_value").value;
       if (search_value === "") {
         return
@@ -148,6 +151,7 @@
       } catch (err) {
         console.log(err.message);
       }
+      return false;
 
     };
 
@@ -158,6 +162,7 @@
       targetDiv.innerHTML = "";
       document.getElementById("search_value").value = ""
       Create_index(page_number);
+      return false;
     };
   </script>
 </body>
