@@ -9,6 +9,7 @@ body {
     background-color: #e5e7e9;
     color: #3a3a3a;
     display: grid;
+    overflow-y: hidden;
     grid-template-rows: 70px 1fr 70px;
     grid-template-areas:
         "header"
@@ -78,6 +79,7 @@ footer p {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
 }
 
 .header-button {
@@ -102,7 +104,7 @@ footer p {
 @media screen and (max-width: 750px) {
     body {
         display: grid;
-        grid-template-rows: 60px 1fr 60px;
+        grid-template-rows: 50px 1fr 50px;
         grid-template-columns: 1fr;
         grid-template-areas:
             "header"
@@ -112,8 +114,6 @@ footer p {
 
     .main-cont {
         height: calc(100vh - 50px - 50px);
-        grid-area: main;
-        overflow-y: auto;
     }
 
     header {
@@ -132,14 +132,22 @@ footer p {
         z-index: 100;
     }
 
+    header img {
+        width: 5vh;
+    }
+
+    footer img {
+        width: 6vh;
+    }
+
     header img,
     footer img {
-        width: 20px;
+        margin-right: 0vh;
     }
 
     header p,
     footer p {
-        font-size: 13px;
+        font-size: medium;
     }
 
 }
