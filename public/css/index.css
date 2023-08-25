@@ -1,7 +1,6 @@
 .posts {
     align-content: start;
     flex-grow: 1;
-    margin: 10px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -13,7 +12,7 @@
 
 .post_box {
     width: calc(35vw - 15px);
-    height: 30vh;
+    height: auto;
     box-sizing: border-box;
 }
 
@@ -22,7 +21,7 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-items: center;
 }
 
 .search_box input {
@@ -37,23 +36,28 @@
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 .posts,
 .search_box {
-    width: 75vw;
-    margin-left: auto;
-    margin-right: 0;
+    justify-content: center;
 }
 
 .pagination {
     text-align: center;
-    /* 子要素を中央に寄せる */
 }
 
 .pagination-button {
     margin: 5px;
 }
+
+.post-img {
+    width: 90%;
+    height: auto;
+}
+
+
 
 @media screen and (max-width: 750px) {
 
