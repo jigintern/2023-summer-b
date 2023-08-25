@@ -81,10 +81,16 @@ let lines = [];
 let isDrawing = false;
 let nowline = null;
 let tool = null;
+let timeover = false;
 
 function touchStarted() {
     if(mouseX < 0 || mouseY < 0 || mouseX > width || mouseY > height){
         //console.log("out of canvs");
+        return;
+    }
+    if(timeover === true) {
+        isDrawing = false;
+        nowline = null;    
         return;
     }
     isDrawing = true;
