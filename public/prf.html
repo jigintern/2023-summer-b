@@ -81,6 +81,16 @@
                 buttonElement.classList.add("primary");
                 buttonElement.onclick = () => location.href = 'prf-input.html';
                 buttonDiv.appendChild(buttonElement);
+                const logoutDiv = document.querySelector(".login");
+                const linkElement = document.createElement("a");
+                linkElement.href = "./index.html";
+                linkElement.classList.add("header-button-link");
+                const logoutElement = document.createElement("button");
+                logoutElement.classList.add("header-button");
+                logoutElement.textContent = "ログアウト";
+                logoutElement.onclick = () => localStorage.clear()
+                linkElement.appendChild(logoutElement);
+                logoutDiv.appendChild(linkElement);
             }
 
 
@@ -131,7 +141,7 @@
     <div class="main-cont">
         <!-- ここから内容 -->
         <h1>プロフィール</h1>
-        <section class="section">
+        <div class="section">
             <!-- アイコンはここ -->
             <div id="user_name">
                 <p>ユーザ名：
@@ -143,7 +153,7 @@
             </div>
             <div class="posts"></div>
 
-        </section>
+        </div>
         <div class="button_area"></div>
 
     </div>
