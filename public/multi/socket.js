@@ -90,6 +90,11 @@ async function connectSocket(){
             return;
         }
 
+        if (data.event === "update-time"){
+            document.getElementById("time").textContent = data.time_text;
+            timeover = data.timeover;
+        }
+
         console.log("unexpected event:", data.event);
     };
 

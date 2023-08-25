@@ -373,9 +373,20 @@ class Room {
     this.BGcolor = "#ffffff";
     this.title = "";
     this.text_contents = "";
+
+    //timer ==============================
+    this.started = false;
+    this.timeover = false;
+    this.totalSeconds;
+    this.interval; 
   }
 
   pushline(l){
+    if(this.started === false) {
+      this.startCountdown(5);
+      this.started = true;
+    }
+
     if(l.type === "rect"){
       this.BGcolor = l.color;
       this.broadcast_BGcolor();
@@ -394,6 +405,10 @@ class Room {
   //broadcast============================
   broadcast(message) {
     for (const client of this.connectedClients.values()) {
+      console.log(client);
+      if(client.readyState !== 1){
+        return;
+      }
       client.send(message);
     }
   }
@@ -453,6 +468,17 @@ class Room {
     );
   }
 
+  //timer
+  broadcast_time(time_text) {
+    this.broadcast(
+      JSON.stringify({
+        event: "update-time",
+        timeover: this.timeover,
+        time_text: time_text,
+      })
+    );
+  }
+
   close() {
     for (const client of this.connectedClients.values()) {
       /*if(client.isOwner) {
@@ -467,4 +493,41 @@ class Room {
       client.close();
     }
   }
+
+
+
+  //timer ==============================
+  startCountdown(seconds) {
+      this.started = true;
+      this.totalSeconds = seconds * 60;
+      this.interval = setInterval(()=>{this.updateCountdown();}, 1000);
+  }
+
+  updateCountdown() {
+      if (this.totalSeconds <= 0) {
+        this.stopCountdown();
+          return;
+      }
+
+      const minutes = Math.floor(this.totalSeconds / 60);
+      const seconds = this.totalSeconds % 60;
+
+      const formattedTime = this.pad(minutes) + ":" + this.pad(seconds);
+      this.broadcast_time(formattedTime);
+
+      this.totalSeconds--;
+  }
+
+  pad(num) {
+      return (num < 10) ? "0" + num : num;
+  }
+
+  stopCountdown() {
+    this.timeover = true;
+    clearInterval(this.interval);
+    this.broadcast_time("00:00");
+
+  }
+
+
 }
