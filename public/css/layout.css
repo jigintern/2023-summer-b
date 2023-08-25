@@ -85,7 +85,7 @@ footer p {
     color: white;
     border: none;
     transition: background-color 0.3s;
-    margin-right: 40px;
+    margin-right: 8vh;
 }
 
 .login {
@@ -181,19 +181,22 @@ footer p {
         z-index: 100;
     }
 
+    header img {
+        width: 5vh;
+    }
+
+    footer img {
+        width: 6vh;
+    }
+
     header img,
     footer img {
-        width: 20px;
+        margin-right: 0vh;
     }
 
     header p,
     footer p {
         font-size: medium;
-    }
-
-    .header-button-link {
-        margin-right: auto;
-        padding: 0%;
     }
 
     .hamburger-menu {
