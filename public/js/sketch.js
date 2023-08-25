@@ -81,10 +81,53 @@ let delline = [];
 let isDrawing = false;
 let nowline = null;
 let tool = null;
+let started = false;
+let timeover = false;
+let totalSeconds;
+let interval; 
+
+function startCountdown(seconds) {
+    started = true;
+    totalSeconds = seconds * 60;
+    interval = setInterval(updateCountdown, 1000);
+}
+
+function updateCountdown() {
+    if (totalSeconds <= 0) {
+        stopCountdown();
+        return;
+    }
+
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const formattedTime = pad(minutes) + ":" + pad(seconds);
+    document.getElementById("time").textContent = formattedTime;
+
+    totalSeconds--;
+}
+
+function pad(num) {
+    return (num < 10) ? "0" + num : num;
+}
+
+function stopCountdown() {
+    timeover = true;
+    clearInterval(interval);
+    document.getElementById("time").textContent = "00:00";
+}
+
 
 function touchStarted() {
     if(mouseX < 0 || mouseY < 0 || mouseX > width || mouseY > height){
         //console.log("out of canvs");
+        return;
+    }
+    if(started === false) {
+        startCountdown(3);
+        started = true;
+    }
+    if(timeover === true) {
         return;
     }
     isDrawing = true;
