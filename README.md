@@ -23,10 +23,10 @@ POST: /delpost
 作品のid、didをjsonでPOST。idと一致する作品があり、その投稿者のdidが一致すればその作品を削除する。成功した場合「del
 post ok」を返す。
 
-GET /getpost
+GET: /getpost
 ユーザーのidをクエリパラメータに載せてGET。そのidによる投稿があれば作品すべてのレコードを返す。作品がなかった場合、「投稿がありません」と返す。
 
-POST /fixpost
+POST: /fixpost
 did、作品のid、title、text_contentsをjsonでPOST。idと一致する作品があり、その投稿者のdidが一致すれば作品のtitleとtext_contentsを更新する。
 
 GET: /search
