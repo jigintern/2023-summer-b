@@ -112,8 +112,9 @@ serve(async (req) => {
     const title = json.title;
     const imgpath = json.imgpath;
     const text_contents = json.text_contents;
-    //const post_date = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
-    const post_date = new Date(json.post_time);
+    const post_date = new Date(Date.now() + ((new Date().getTimezoneOffset() + (0 * 60)) * 60 * 1000));
+    //const post_date = new Date(json.post_time);
+    //const post_date = new Date();
     await addPost(
       posts_user_id.rows[0].id,
       title,
